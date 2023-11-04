@@ -1,0 +1,71 @@
+﻿using QuanLiKhachSan.Class;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace QuanLiKhachSan
+{
+    /// <summary>
+    /// Interaction logic for fDangNhap.xaml
+    /// </summary>
+    public partial class fDangNhap : Window
+    {
+        TaiKhoan taiKhoan = new TaiKhoan();
+        public fDangNhap()
+        {
+            InitializeComponent();
+            DataContext = taiKhoan;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
+        private void btnTat_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnAnManHinh_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void btnDangNhap_Click(object sender, RoutedEventArgs e)
+        {
+            DangNhap();
+        }
+
+        private void pswMatKhau_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                DangNhap();
+        }
+
+        private void txtTenTaiKhoan_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                DangNhap();
+        }
+        
+        //Hàm đăng nhập từ việc kiểm tra tài khoản
+        private void DangNhap()
+        {
+
+        }
+
+        private void pswMatKhau_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            taiKhoan.MatKhau = pswMatKhau.Password;
+        }
+
+        private void txtMatKhau_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtMatKhau.Visibility == Visibility.Visible)
+                pswMatKhau.Password = taiKhoan.MatKhau;
+        }
+    }
+}
