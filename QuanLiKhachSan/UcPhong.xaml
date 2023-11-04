@@ -40,20 +40,22 @@
                         <Label Content="Trạng thái"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaDatPhong"
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaDatPhong" Style="{StaticResource lbNoiDung}" />
                         <TextBox x:Name="txtTienCoc" Grid.Column="1" 
                                  Style="{StaticResource tbxNoiDung}" />
                         <TextBox x:Name="txtPhuPhi" Grid.Column="1" 
                                  Style="{StaticResource tbxNoiDung}" />
-                        <TextBox x:Name="txtTrangThaiDatPhong" Grid.Column="1" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <ComboBox Style="{StaticResource cbLuaChon}" SelectedValuePath="Content">
+                            <ComboBoxItem Content="Chờ xác nhận"/>
+                            <ComboBoxItem Content="Đã xác nhận"/>
+                            <ComboBoxItem Content="Đã hủy"/>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Checkin dự kiến"/>
                         <Label Content="Checkin thực tế"/>
                         <Label Content="Ghi chú"/>
-                        <Label Content="Mã người đại diện"/>
+                        <Label Content="Người đại diện"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
@@ -67,13 +69,13 @@
                                 Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
                         </Border>
                         <TextBox x:Name="txtGhiChu" Style="{StaticResource tbxNoiDung}"/>
-                        <TextBox x:Name="txtMaNguoiDaiDienDatPhong" Style="{StaticResource tbxNoiDung}"/>
+                        <ComboBox x:Name="cbNguoiDaiDienDatPhong" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="4">
                         <Label Content="Checkout dự kiến"/>
                         <Label Content="Checkout thực tế"/>
                         <Label Content="Ngày đặt phòng"/>
-                        <Label Content="Mã phòng"/>
+                        <Label Content="Phòng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="5">
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
@@ -91,7 +93,7 @@
                             <DatePicker x:Name="dtpNgayDatPhong"
                                 Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
                         </Border>
-                        <TextBox x:Name="txtMaPhongDatPhong" Style="{StaticResource tbxNoiDung}"/>
+                        <ComboBox x:Name="cbPhongCuaDatPhong" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -173,8 +175,8 @@
                         <Label Content="Sức chứa"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaPhong" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaPhong" 
+                                 Style="{StaticResource lbNoiDung}"/>
                         <TextBox x:Name="txtTenPhong" 
                                  Style="{StaticResource tbxNoiDung}" />
                         <TextBox x:Name="txtSucChua" Style="{StaticResource tbxNoiDung}"/>
@@ -182,13 +184,16 @@
                     <StackPanel Grid.Column="2">
                         <Label Content="Trạng thái"/>
                         <Label Content="Mô tả"/>
-                        <Label Content="Mã loại phòng"/>
+                        <Label Content="Loại phòng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
-                        <TextBox x:Name="txtTrangThaiPhong" Style="{StaticResource tbxNoiDung}" />
+                        <ComboBox x:Name="cbTrangThaiPhong" SelectedValuePath="Content" Style="{StaticResource cbLuaChon}">
+                            <ComboBoxItem Content="Đang cho thuê"/>
+                            <ComboBoxItem Content="Trống"/>
+                            <ComboBoxItem Content="Đang sửa"/>
+                        </ComboBox>
                         <TextBox x:Name="txtMoTaPhong" Style="{StaticResource tbxNoiDung}" />
-                        
-                        <TextBox x:Name="txtMaLoaiPhongCuaPhong" Style="{StaticResource tbxNoiDung}"/>
+                        <ComboBox x:Name="cbLoaiPhongCuaPhong" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="4">
                         <Label Content="Ngày cập nhật"/>
@@ -297,7 +302,7 @@
                              ToolTip="Tìm kiếm theo" />
                     <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
-                <DataGrid x:Name="dtgDanhSachPhong" 
+                <DataGrid x:Name="dtgDanhSachPhong"
                           ItemsSource="{Binding dsPhong}" Grid.Row="4">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Xử lí">
@@ -362,7 +367,7 @@
                         <DataGridTemplateColumn Header="Ngày cập nhật">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding room_update,StringFormat=dd/MM/yyyy}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding room_update,StringFormat={}{0:dd/MM/yyyy}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -400,8 +405,8 @@
                         <Label Content="Giảm giá"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaLoaiPhong" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaLoaiPhong" 
+                                 Style="{StaticResource lbNoiDung}" />
                         <TextBox x:Name="txtGiamGiaLoaiPhong" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
@@ -490,11 +495,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Label Content="Mã khách hàng"/>
+                        <Label Content="Khách hàng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaKhachHang" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <ComboBox x:Name="cbKhachHangCuaKhachDatPhong" Style="{StaticResource cbLuaChon}" />
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Mã đặt phòng"/>
@@ -550,7 +554,7 @@
                                             Binding="{Binding booking_record_id}"/>
                         <DataGridTextColumn Header="Tên phòng" 
                                             Binding="{Binding room_name}"/>
-                        <DataGridTextColumn Header="Giá" 
+                        <DataGridTextColumn Header="Tên nhân viên" 
                                             Binding="{Binding customer_name}"/>
                     </DataGrid.Columns>
                 </DataGrid>

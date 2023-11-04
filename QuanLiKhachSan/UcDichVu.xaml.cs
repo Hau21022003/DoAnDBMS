@@ -1,6 +1,7 @@
 ﻿using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,10 @@ namespace QuanLiKhachSan
         {
             dtgDanhSachDatDichVu.ItemsSource = serviceUsageInfoDao.LayDanhSach().DefaultView;
             dtgDanhSachDichVu.ItemsSource = serviceRoomDao.LayDanhSach().DefaultView;
+            List<string> listNameService = serviceRoomDao.LayDanhSachTenDichVu().AsEnumerable()
+                .Select(x => x.Field<int>("service_room_id").ToString() + "|" + x.Field<string>("service_room_name"))
+                .ToList<string>();
+            cbDichVuCuaDatDichVu.ItemsSource = listNameService;
         }
 
         private void btnThemDaDichVu_Click(object sender, RoutedEventArgs e)

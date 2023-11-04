@@ -33,8 +33,7 @@
                         <Label Content="Số lượng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaSuDungDichVu" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="tbMaSuDungDichVu" Style="{StaticResource lbNoiDung}"/>
                         <TextBox x:Name="txtSoLuong" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
@@ -52,11 +51,11 @@
                     </StackPanel>
                     <StackPanel Grid.Column="4">
                         <Label Content="Tổng phí"/>
-                        <Label Content="Mã dịch vụ"/>
+                        <Label Content="Dịch vụ"/>
                     </StackPanel>
                     <StackPanel Grid.Column="5">
                         <TextBox x:Name="txtTongPhi" Style="{StaticResource tbxNoiDung}"/>
-                        <TextBox x:Name="txtMaDichVuDuocDat" Style="{StaticResource tbxNoiDung}"/>
+                        <ComboBox x:Name="cbDichVuCuaDatDichVu" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -139,8 +138,7 @@
                         <Label Content="Giá"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaDichVu" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaDichVu" Style="{StaticResource lbNoiDung}"/>
                         <TextBox x:Name="txtGia" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
@@ -158,7 +156,7 @@
                         <Label Content="Trạng thái"/>
                     </StackPanel>
                     <StackPanel Grid.Column="5">
-                        <TextBox x:Name="txtTrangThai" Style="{StaticResource tbxNoiDung}"/>
+                        <CheckBox x:Name="chbTrangThaiDichVu" Style="{StaticResource MyCheckBox}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -206,8 +204,8 @@
                                             Binding="{Binding service_room_id}"/>
                         <DataGridTextColumn Header="Tên dịch vụ" 
                                             Binding="{Binding service_room_name}"/>
-                        <DataGridTextColumn Header="Trạng thái" 
-                                            Binding="{Binding service_room_status}"/>
+                        <DataGridCheckBoxColumn Header="Trạng thái" 
+                                                Binding="{Binding service_room_status}"/>
                         <DataGridTextColumn Header="Giá" 
                                             Binding="{Binding service_room_price}"/>
                         <DataGridTextColumn Header="Giảm giá" 

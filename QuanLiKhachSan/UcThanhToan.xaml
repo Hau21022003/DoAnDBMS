@@ -32,7 +32,7 @@
                 <Label Content="Mã đặt phòng"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBox x:Name="txtMaBill" Style="{StaticResource tbxNoiDung}" />
+                <Label x:Name="lbMaBill" Style="{StaticResource lbNoiDung}" />
                 <Border Grid.Column="1" Background="White" BorderThickness="1" 
                                 BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
                     <DatePicker x:Name="dtpNgayTao"

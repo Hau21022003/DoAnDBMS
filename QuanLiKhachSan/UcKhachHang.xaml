@@ -34,8 +34,8 @@
                         <Label Content="Email"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaKhachHang" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaKhachHang" 
+                                 Style="{StaticResource lbNoiDung}" />
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
                                 BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
                             <DatePicker x:Name="dtpNgaySinh"
@@ -146,11 +146,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Label Content="Mã khách hàng"/>
+                        <Label Content="Khách hàng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaKhachHangCuaSDT" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <ComboBox x:Name="cbKhachHangCuaSDT" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Số điện thoại"/>

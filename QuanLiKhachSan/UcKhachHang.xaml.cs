@@ -1,6 +1,7 @@
 ﻿using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,9 @@ namespace QuanLiKhachSan
         {
             dtgDanhSachKhachHang.ItemsSource = customerDao.LayDanhSach().DefaultView;
             dtgDanhSachSdtCuaKhach.ItemsSource = phoneDao.LayDanhSach().DefaultView;
+            cbKhachHangCuaSDT.ItemsSource = customerDao.LayDanhSachTenKhach().AsEnumerable()
+                .Select(x => x.Field<int>("customer_id").ToString() + "|" + x.Field<string>("customer_name"))
+                .ToList<string>();
         }
 
         private void btnThemKhachHang_Click(object sender, RoutedEventArgs e)

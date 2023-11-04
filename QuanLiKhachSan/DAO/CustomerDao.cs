@@ -29,5 +29,23 @@ namespace QuanLiKhachSan.DAO
             finally { conn.Close(); }
             return dt;
         }
+        public DataTable LayDanhSachTenKhach()
+        {
+            DataTable dt = new DataTable();
+            string sql = "select* from View_Name_Customer";
+            SqlConnection conn = DbConnection.conn;
+            try
+            {
+                conn.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { conn.Close(); }
+            return dt;
+        }
     }
 }

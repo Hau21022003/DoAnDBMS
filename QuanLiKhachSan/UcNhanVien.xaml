@@ -33,8 +33,8 @@
                         <Label Content="Email"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaNhanVien" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaNhanVien" 
+                                 Style="{StaticResource lbNoiDung}" />
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
                                 BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
                             <DatePicker x:Name="dtpNgaySinh"
@@ -145,13 +145,12 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <Label Content="Mã tài khoản"/>
-                        <Label Content="Mã nhân viên"/>
+                        <Label Content="Nhân viên"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaTaiKhoan" 
-                                 Style="{StaticResource tbxNoiDung}" />
-                        <TextBox x:Name="txtMaNhanVienTaiKhoan" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <Label x:Name="lbMaTaiKhoan" 
+                                 Style="{StaticResource lbNoiDung}" />
+                        <ComboBox x:Name="cbNhanVienCuaTaiKhoan" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Tên tài khoản"/>
@@ -237,11 +236,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Label Content="Mã khách hàng"/>
+                        <Label Content="Nhân viên"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtMaNhanVienCuaSDT" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                        <ComboBox x:Name="cbNhanVienCuaSDT" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Số điện thoại"/>

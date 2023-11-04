@@ -1,6 +1,7 @@
 ﻿using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,12 @@ namespace QuanLiKhachSan
             dtgDanhSachNhanVien.ItemsSource = employeeDao.LayDanhSach().DefaultView;
             dtgDanhSachTaiKhoan.ItemsSource = accountDao.LayDanhSach().DefaultView;
             dtgDanhSachSdtCuaNhanVien.ItemsSource = phoneDao.LayDanhSach().DefaultView;
+            DataTable tb = employeeDao.LayDanhSachTenNhanVien();
+            List<string> list = tb.AsEnumerable()
+                                  .Select(x => x.Field<int>("employee_id").ToString() + "|" + x.Field<string>("employee_name"))
+                                  .ToList<string>();
+            cbNhanVienCuaSDT.ItemsSource = list;
+            cbNhanVienCuaTaiKhoan.ItemsSource = list;
         }
 
         private void btnThongTinNhanVien_Click(object sender, RoutedEventArgs e)
