@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\QuanLiKhachSan.csproj": {}
+    "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj": {}
   },
   "projects": {
-    "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\QuanLiKhachSan.csproj": {
+    "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+        "projectUniqueName": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
         "projectName": "QuanLiKhachSan",
-        "projectPath": "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+        "projectPath": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
         "packagesPath": "C:\\Users\\GAGIBYTE\\.nuget\\packages\\",
-        "outputPath": "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\obj\\",
+        "outputPath": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\GAGIBYTE\\AppData\\Roaming\\NuGet\\NuGet.Config",

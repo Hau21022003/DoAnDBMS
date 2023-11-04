@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V7o/Nxft3DOChMSdBe8z9dUf7KWLGhYsFMT/MjH73X2gDBpGO22RZuvUXlfbGr42M9TWJ2lMhg/CkP9fH1R2FA==",
+  "dgSpecHash": "iz3K/dd4xile03vt7jmY8Xw+val+pik8nBpd6vb+OmceNRHEp52W5cYdBJRX5OMp13anDaUVBUVBvNEPchQGXw==",
   "success": true,
-  "projectFilePath": "D:\\Hê quản trị cơ sở dữ liệu\\QuanLiKhachSan\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+  "projectFilePath": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\GAGIBYTE\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
     "C:\\Users\\GAGIBYTE\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
