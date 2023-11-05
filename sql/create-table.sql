@@ -88,7 +88,7 @@ CREATE TABLE ROOM_TYPE (
 
 CREATE TABLE ROOM (
     room_id INT IDENTITY(1,1) CONSTRAINT PK_ROOM PRIMARY KEY,
-    room_name NVARCHAR(25) NOT NULL,
+    room_name NVARCHAR(25) UNIQUE NOT NULL,
     room_capacity INT NOT NULL,
     room_status NVARCHAR(20) CONSTRAINT CK_ROOM_STATUS CHECK (room_status IN(N'Đang cho thuê', N'Trống', N'Đang sửa')) NOT NULL,
     room_description NVARCHAR(255),
@@ -100,7 +100,7 @@ CREATE TABLE ROOM (
 
 CREATE TABLE SERVICE_ROOM (
     service_room_id INT IDENTITY(1, 1) CONSTRAINT PK_SERVICE_ROOM PRIMARY KEY,
-    service_room_name NVARCHAR(50) NOT NULL,
+    service_room_name NVARCHAR(50) UNIQUE NOT NULL,
     service_room_status BIT DEFAULT 1 NOT NULL, -- 1: AVAILABLE; 0: UNAVAILABLE;
     service_room_price FLOAT NOT NULL,
     discount_service FLOAT

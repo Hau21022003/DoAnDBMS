@@ -3,7 +3,7 @@ USE HotelManagementSystem;
 
 -- 2.5.1. View khách hàng
 -- View 1: Xem thông tin danh sách khách hàng
-
+-- Sửa lại view khách hàng (có join với bảng số điên thoại)
 CREATE VIEW View_Customer AS
 SELECT * 
 FROM CUSTOMER;
@@ -243,14 +243,15 @@ SELECT
     SERVICE_USAGE_INFOR.number_of_service,
     SERVICE_USAGE_INFOR.date_used,
     SERVICE_USAGE_INFOR.total_fee,
-    SERVICE_USAGE_INFOR.booking_record_id,
     CUSTOMER.customer_name,
+	ROOM.room_name,
     SERVICE_ROOM.service_room_name
 FROM
     SERVICE_USAGE_INFOR
     JOIN SERVICE_ROOM ON SERVICE_ROOM.service_room_id = SERVICE_USAGE_INFOR.service_room_id
     JOIN BOOKING_RECORD ON BOOKING_RECORD.booking_record_id = SERVICE_USAGE_INFOR.booking_record_id 
-    JOIN CUSTOMER ON BOOKING_RECORD.representative_id = CUSTOMER.customer_id;
+    JOIN CUSTOMER ON BOOKING_RECORD.representative_id = CUSTOMER.customer_id
+	JOIN ROOM ON BOOKING_RECORD.room_id = ROOM.room_id;
 
 -- 2.5.6. View nhân viên
 -- View 21: Xem danh sách nhân viên lễ tân

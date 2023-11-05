@@ -1,4 +1,28 @@
-﻿-- 2.6.1. Trigger when adding a new booking record to update room status to 'Onrent'
+﻿--CREATE TRIGGER TG_TrungTenSP
+--ON dbo.SanPham
+--AFTER INSERT, UPDATE
+--AS
+--BEGIN
+-- -- Kiểm tra tên sản phẩm vừa thêm có bị trùng lặp
+-- IF EXISTS (
+-- SELECT *
+-- FROM inserted i
+-- WHERE EXISTS (
+-- SELECT *
+-- FROM dbo.SanPham sp
+-- WHERE sp.TenSP = i.TenSP AND sp.MaSP <> i.MaSP
+-- )
+-- )
+-- BEGIN
+-- -- Nếu trùng thì rollback
+-- RAISERROR ('Tên sản phẩm bị trùng', 16, 1)
+-- ROLLBACK;
+-- END
+--END
+
+--Trigger trùng tên phòng roll back
+
+-- 2.6.1. Trigger when adding a new booking record to update room status to 'Onrent'
 CREATE OR ALTER TRIGGER Update_status_room_reserved
 ON BOOKING_RECORD
 AFTER INSERT
@@ -31,12 +55,10 @@ BEGIN
         SELECT *
         FROM ROOM
         INNER JOIN inserted I ON ROOM.room_id = I.room_id
-        WHERE ROOM.room_status = 'Available'
+        WHERE ROOM.room_status LIKE 'Tr%'
     )
     BEGIN
         INSERT INTO BOOKING_RECORD (
-            booking_record_id,
-            booking_time,
             expected_checkin_date,
             expected_checkout_date,
             deposit,
@@ -49,8 +71,6 @@ BEGIN
             representative_id
         )
         SELECT 
-            I.booking_record_id,
-            I.booking_time,
             I.expected_checkin_date,
             I.expected_checkout_date,
             I.deposit,
