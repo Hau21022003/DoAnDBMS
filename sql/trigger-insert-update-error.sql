@@ -1,5 +1,5 @@
 ﻿------------Khách Hàng-----------
---	CREATE TRIGGER trg_InsertNewCustomer
+--	CREATE TRIGGER Trg_Insert_New_Customer
 --ON CUSTOMER
 --FOR INSERT, UPDATE
 --AS
@@ -46,7 +46,7 @@
 --END;
 
 --------------Hóa Đơn-------------
---CREATE TRIGGER trg_InsertNewBill
+--CREATE TRIGGER Trg_Insert_New_Bill
 --ON BILL
 --FOR INSERT, UPDATE
 --AS
@@ -87,7 +87,7 @@
 --END;
 
 --------------Phòng------------
---CREATE TRIGGER trg_InsertNewRoom
+--CREATE TRIGGER Trg_Insert_New_Room
 --ON ROOM
 --FOR INSERT, UPDATE
 --AS
@@ -135,7 +135,7 @@
 --	END
 --END;
 -----------------Loại Phòng-------------
---CREATE TRIGGER trg_InsertNewRoomType
+--CREATE TRIGGER Trg_Insert_New_Room_Type
 --ON Room_TYPE
 --FOR INSERT, UPDATE
 --AS
@@ -176,7 +176,7 @@
 --END;
 
 -------------Đặt phòng-------------
---CREATE TRIGGER trg_InsertNewBookingRecord
+--CREATE TRIGGER Trg_Insert_New_Booking_Record
 --ON BOOKING_RECORD
 --FOR INSERT, UPDATE
 --AS
@@ -235,7 +235,7 @@
 
 
 ----------------Dịch vụ----------
---CREATE TRIGGER trg_InsertNewServiceRoom
+--CREATE TRIGGER Trg_Insert_New_Service_Room
 --ON SERVICE_ROOM
 --FOR INSERT, UPDATE
 --AS
@@ -276,7 +276,7 @@
 --END;
 
 ----------------Nhân viên-------------
---CREATE TRIGGER trg_InsertNewEmplyee
+--CREATE TRIGGER Trg_Insert_New_Emplyee
 --ON EMPLOYEE
 --FOR INSERT, UPDATE
 --AS
@@ -334,7 +334,7 @@
 
 
 --------------Tài khoản--------------
---	CREATE TRIGGER trg_InsertNewAccount
+--	CREATE TRIGGER Trg_Insert_New_Account
 --ON ACCOUNT
 --FOR INSERT, UPDATE
 --AS

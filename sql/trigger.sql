@@ -1,41 +1,102 @@
-﻿--CREATE TRIGGER TG_TrungTenSP
---ON dbo.SanPham
---AFTER INSERT, UPDATE
---AS
---BEGIN
--- -- Kiểm tra tên sản phẩm vừa thêm có bị trùng lặp
--- IF EXISTS (
--- SELECT *
--- FROM inserted i
--- WHERE EXISTS (
--- SELECT *
--- FROM dbo.SanPham sp
--- WHERE sp.TenSP = i.TenSP AND sp.MaSP <> i.MaSP
--- )
--- )
--- BEGIN
--- -- Nếu trùng thì rollback
--- RAISERROR ('Tên sản phẩm bị trùng', 16, 1)
--- ROLLBACK;
--- END
---END
+﻿--- nhập số điện thoại của khác hàng?
 
---Trigger trùng tên phòng roll back
+ --2.6.1. Trigger when customer come to checkin then (adding a new booking record: đối với khách đặt trực tiếp + checkin liền luôn
+ --or update a new booking record: đối với khách đặt online)
+ --to update room status to 'Đang cho thuê'
 
--- 2.6.1. Trigger when adding a new booking record to update room status to 'Onrent'
-CREATE OR ALTER TRIGGER Update_status_room_reserved
+CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_1
+ON BOOKING_RECORD
+AFTER UPDATE
+AS
+BEGIN
+IF UPDATE(status)
+BEGIN
+  DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+  IF @status = N'Đã xác nhận'
+	BEGIN
+		UPDATE ROOM
+		SET room_status = N'Đang cho thuê'
+		FROM ROOM
+		WHERE ROOM.room_id = (SELECT room_id FROM inserted);
+
+		UPDATE CUSTOMER
+		SET status = 1
+		FROM CUSTOMER
+		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
+	END
+END
+END;
+
+CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_2
 ON BOOKING_RECORD
 AFTER INSERT
 AS
 BEGIN
-    UPDATE ROOM
-    SET room_status = 'Onrent'
-    FROM ROOM
-    WHERE ROOM.room_id = (SELECT room_id FROM inserted);
+  DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+  IF @status = N'Đã xác nhận'
+	BEGIN
+		UPDATE ROOM
+		SET room_status = N'Đang cho thuê'
+		FROM ROOM
+		WHERE ROOM.room_id = (SELECT room_id FROM inserted);
+
+		UPDATE CUSTOMER
+		SET status = 1
+		FROM CUSTOMER
+		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
+	END
 END;
 
+--- trigger insert vô bảng customer_of_booking_record
+
+CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_1
+ON BOOKING_RECORD
+AFTER INSERT
+AS
+BEGIN
+IF EXISTS (SELECT 1 FROM inserted WHERE status = N'Đã xác nhận')
+BEGIN
+    DECLARE @customer_id INT = (SELECT c.customer_id FROM CUSTOMER c JOIN inserted i ON c.customer_id = i.representative_id);
+	DECLARE @booking_record_id INT = (SELECT booking_record_id FROM  inserted);
+	INSERT INTO CUSTOMER_OF_BOOKING_RECORD(customer_id, booking_record_id) VALUES (@customer_id, @booking_record_id)
+END
+END;
+
+CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_2
+ON BOOKING_RECORD
+AFTER UPDATE
+AS
+IF (UPDATE(status))
+BEGIN
+IF EXISTS (SELECT 1 FROM inserted WHERE status = N'Đã xác nhận')
+BEGIN
+    DECLARE @customer_id INT = (SELECT c.customer_id FROM CUSTOMER c JOIN inserted i ON c.customer_id = i.representative_id);
+	DECLARE @booking_record_id INT = (SELECT booking_record_id FROM  inserted);
+	INSERT INTO CUSTOMER_OF_BOOKING_RECORD(customer_id, booking_record_id) VALUES (@customer_id, @booking_record_id)
+END;
+END
+
+-- chưa hoàn thành 
+--- này là trigger insert vô customer_of_booking_record
+-- khi mà thêm khách hàng đi kèm á
+--- mà t chưa biết viết sao
+
+select * from CUSTOMER
+CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_3
+ON CUSTOMER
+AFTER INSERT
+AS
+BEGIN
+IF EXISTS (SELECT 1 FROM inserted WHERE status = 1)
+BEGIN
+    DECLARE @booking_record_id INT = (SELECT b.booking_record_id FROM BOOKING_RECORD b JOIN inserted i ON b.booking_record_id = i.);
+	DECLARE @customer_id INT = (SELECT customer_id FROM inserted);
+	INSERT INTO CUSTOMER_OF_BOOKING_RECORD(customer_id, booking_record_id) VALUES (@customer_id, @booking_record_id)
+END;
+END
+
 -- 2.6.2. Trigger when adding a new booking record to insert a new bill
-CREATE OR ALTER TRIGGER Insert_bill_on_booking_record
+CREATE OR ALTER TRIGGER Trg_Create_Bill_When_Create_Booking_Record
 ON BOOKING_RECORD
 AFTER INSERT
 AS
@@ -45,17 +106,18 @@ BEGIN
     FROM inserted;
 END;
 
--- 2.6.3. Trigger when adding a new booking record to check room availability and roll back if not available
-CREATE OR ALTER TRIGGER Check_room_to_insert_booking
+ --2.6.3. Trigger when adding a new booking record to check room availability and roll back if not available
+
+CREATE OR ALTER TRIGGER Trg_Check_Room_Status_To_Insert_Booking
 ON BOOKING_RECORD
-INSTEAD OF INSERT
+INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
     IF EXISTS (
         SELECT *
         FROM ROOM
         INNER JOIN inserted I ON ROOM.room_id = I.room_id
-        WHERE ROOM.room_status LIKE 'Tr%'
+        WHERE ROOM.room_status LIKE N'Trống'
     )
     BEGIN
         INSERT INTO BOOKING_RECORD (
@@ -86,12 +148,13 @@ BEGIN
     ELSE
     BEGIN
         ROLLBACK;
-        PRINT 'No suitable room available, the transaction has been rolled back.';
+        PRINT N'Phòng hiện không trống. Không thể lập hợp đồng';
     END;
 END;
 
--- 2.6.4. Trigger to delete a booking record if the deposit is not paid after 30 minutes
-CREATE OR ALTER TRIGGER Delete_booking_record_not_deposited
+ --2.6.4. Trigger to delete a booking record if the deposit is not paid after 30 minutes
+
+CREATE OR ALTER TRIGGER Trg_Delete_Booking_Record_Not_Paid_Deposit_After_30_min
 ON BOOKING_RECORD
 AFTER INSERT
 AS
@@ -103,20 +166,10 @@ BEGIN
     AND booking_time <> actual_checkin_date;
 END;
 
--- 2.6.5. Trigger to update room status to 'Available' after 30 minutes if deposit is not paid
-CREATE OR ALTER TRIGGER Update_status_room
-ON BOOKING_RECORD
-AFTER DELETE
-AS
-BEGIN
-    UPDATE ROOM
-    SET room_status = 'Available'
-    FROM ROOM
-    JOIN deleted ON ROOM.room_id = deleted.room_id
-    WHERE ROOM.room_id = deleted.room_id;
-END;
--- 2.6.6. Trigger to update actual checkout date in the booking record after payment
-CREATE OR ALTER TRIGGER UpdateActualCheckoutDate
+
+ --2.6.6. Trigger to update actual checkout date in the booking record after payment
+
+CREATE OR ALTER TRIGGER Trg_Update_Actual_Checkout_Date_If_Pay_Bill
 ON BILL
 AFTER UPDATE
 AS
@@ -130,12 +183,14 @@ BEGIN
     END
 END;
 
--- 2.6.7. Trigger to update incurred cost based on late check-out in the booking record
--- Additional charges for late check-out:
--- - From 12:00 PM to 3:00 PM: 30% room price.
--- - From 3:00 PM to 6:00 PM: 50% room price.
--- - After 6:00 PM: 100% room price.
-CREATE OR ALTER TRIGGER UpdateActualIncurredCost
+ --2.6.7. Trigger to update incurred cost (phí phụ thu) based on late check-out in the booking record
+ --Additional charges for late check-out:
+ --- From 12:00 PM to 3:00 PM: 30% room price.
+ --- From 3:00 PM to 6:00 PM: 50% room price.
+ --- After 6:00 PM: 100% room price.
+
+
+CREATE OR ALTER TRIGGER Trg_Update_Incurred_Cost_If_Checkout_Late
 ON BILL
 AFTER UPDATE
 AS
@@ -161,8 +216,10 @@ BEGIN
     END
 END;
 
--- 2.6.8. Trigger to update customer status to unofficial after payment
-CREATE OR ALTER TRIGGER UpdateCustomerStatusToUnofficial
+ --2.6.8. Trigger to update customer status to unofficial and room status to N'Trống' after payment
+
+
+CREATE OR ALTER TRIGGER Trg_Update_Customer_Status_To_Unofficial_After_Payment
 ON BILL
 AFTER UPDATE
 AS
@@ -171,33 +228,24 @@ BEGIN
     BEGIN
         UPDATE CUSTOMER
         SET status = 0
+		UPDATE ROOM
+        SET room_status = N'Trống'
         FROM inserted i
         JOIN CUSTOMER_OF_BOOKING_RECORD cbr ON i.booking_record_id = cbr.booking_record_id
         JOIN CUSTOMER c ON cbr.customer_id = c.customer_id;
     END
 END;
 
--- 2.6.9. Trigger to update room status to available after payment
-CREATE OR ALTER TRIGGER UpdateRoomStatusToAvailable
-ON BILL
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(paytime)
-    BEGIN
-        UPDATE ROOM
-        SET room_status = 'Available'
-        FROM inserted i
-        JOIN BOOKING_RECORD br ON i.booking_record_id = br.booking_record_id
-        JOIN ROOM r ON br.room_id = r.room_id;
-    END
-END;
 
--- 2.6.10. Trigger to update room, booking record, and bill when changing rooms or updating a booking record
-CREATE OR ALTER TRIGGER Update_room_booking_record_bill_when_update_booking_record
+
+ --2.6.10. Trigger to update room, booking record, and bill when changing rooms (updating a booking record)
+
+CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Change_Room
 ON BOOKING_RECORD
 AFTER UPDATE
 AS
+BEGIN
+IF (UPDATE(room_id))
 BEGIN
     DECLARE @room_old VARCHAR(25);
     SET @room_old = (SELECT room_id FROM deleted);
@@ -212,11 +260,11 @@ BEGIN
     SET @number_of_days = DATEDIFF(DAY, (SELECT actual_checkin_date FROM inserted), (SELECT actual_checkout_date FROM inserted)) + 1;
 
     UPDATE ROOM
-    SET room_status = 'Available'
+    SET room_status = N'Trống'
     WHERE room_id = @room_old;
 
     UPDATE ROOM
-    SET room_status = 'Onrent'
+    SET room_status = N'Đang cho thuê'
     WHERE room_id = @room_new;
 
     UPDATE BILL
@@ -235,12 +283,15 @@ BEGIN
         )
     WHERE booking_record_id = @booking_record_id_new;
 END;
+END;
 
 
--- 2.6.11. Trigger to handle when a customer has made a deposit but didn't check-in (the hotel holds the reservation until 12 PM the next day).
--- This deposit will be added to the revenue as described in the previous triggers. 
--- This trigger executes after an INSERT operation and updates room status (available), booking record status (canceled), and bill status (paid).
-CREATE OR ALTER TRIGGER UpdateRoomBookingRecordBillWhenCustomerNotCheckin
+ --2.6.11. Trigger to handle when a customer has made a deposit but didn't check-in (the hotel holds the reservation until 12 PM the next day).
+ --This deposit will be added to the revenue as described in the previous triggers. 
+ --This trigger executes after an INSERT operation and updates room status (available), booking record status (canceled), and bill status (paid).
+
+
+CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin
 ON BOOKING_RECORD
 AFTER INSERT
 AS
@@ -276,12 +327,12 @@ BEGIN
   BEGIN
     -- Update room status to 'Available'
     UPDATE ROOM
-    SET room_status = 'Available'
+    SET room_status = N'Trống'
     WHERE room_id = @room_id;
 
     -- Update booking record status to 'Canceled'
     UPDATE BOOKING_RECORD
-    SET status = 'Canceled'
+    SET status = N'Đã hủy'
     WHERE booking_record_id = @booking_record_id;
 
     -- Update bill status to 'Paid' and set total cost as the deposit
@@ -292,16 +343,21 @@ BEGIN
   END;
 END;
 
--- 2.6.12. Trigger to update customer status to official and apply surcharge for early check-in and exceeding room capacity.
--- This trigger executes after an UPDATE operation on booking record status.
-CREATE OR ALTER TRIGGER UpdateBookingRecordStatusIsOfficial
+ --2.6.12. Trigger to update customer status to official and apply surcharge (phụ phí) for early check-in and exceeding room capacity (vượt quá số người quy định)
+ --This trigger executes after an UPDATE operation on booking record status.
+
+
+ --update customer ở trên cái đều tiên có rroofi nên tui xóa cái đoạn đó ở dưới đây r nha
+
+
+CREATE OR ALTER TRIGGER Trg_Update_Booking_Record_Status_TOfficial
 ON BOOKING_RECORD
 AFTER UPDATE
 AS 
 IF UPDATE(status) 
 BEGIN
   DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
-  IF @status = 'official'
+  IF @status = N'Đã xác nhận'
   BEGIN
     DECLARE @booking_record_id VARCHAR(25);
     DECLARE @actual_checkin_date DATETIME;
@@ -310,13 +366,6 @@ BEGIN
            @room_id = room_id,
            @actual_checkin_date = actual_checkin_date
     FROM inserted;
-
-    -- Update customer status to 'official'
-    UPDATE CUSTOMER
-    SET status = 'official'
-    WHERE customer_id IN (SELECT customer_id 
-      FROM CUSTOMER_OF_BOOKING_RECORD
-      WHERE booking_record_id = @booking_record_id);
 
     -- Calculate room price
     DECLARE @room_price MONEY;

@@ -156,7 +156,6 @@ SELECT
     sui.*,
     c.customer_name,
 	r.room_name,
-	sr.service_room_id,
     sr.service_room_name
 FROM
     SERVICE_USAGE_INFOR sui
@@ -180,6 +179,7 @@ CREATE VIEW View_Employee_Phone AS
 SELECT EMPLOYEE.employee_name, phone_number
 FROM EMPLOYEE
 JOIN PHONE_NUMBER_OF_EMPLOYEE ON EMPLOYEE.employee_id = PHONE_NUMBER_OF_EMPLOYEE.employee_id;
+
 -- 2.5.7. View tài khoản
 -- View 23: Xem danh sách thông tin tài khoản của nhân viên lễ tân
 CREATE VIEW View_Front_Desk_Account AS
@@ -191,9 +191,3 @@ SELECT
 FROM
     (ACCOUNT INNER JOIN EMPLOYEE
     ON ACCOUNT.employee_id = EMPLOYEE.employee_id);
-
--- View 24: Tạo view cho tên và số điện thoại của khách hàng
-CREATE VIEW View_Customer_Phone AS
-SELECT CUSTOMER.customer_name, phone_number
-FROM CUSTOMER
-JOIN PHONE_NUMBER_OF_CUSTOMER ON CUSTOMER.customer_id = PHONE_NUMBER_OF_CUSTOMER.customer_id;
