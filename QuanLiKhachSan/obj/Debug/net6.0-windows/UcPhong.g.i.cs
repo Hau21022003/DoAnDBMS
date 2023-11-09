@@ -430,7 +430,7 @@ namespace QuanLiKhachSan {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLiKhachSan;component/ucphong.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLiKhachSan;V1.0.0.0;component/ucphong.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\UcPhong.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
