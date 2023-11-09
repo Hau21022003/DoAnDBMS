@@ -3,7 +3,6 @@
  --2.6.1. Trigger when customer come to checkin then (adding a new booking record: đối với khách đặt trực tiếp + checkin liền luôn
  --or update a new booking record: đối với khách đặt online)
  --to update room status to 'Đang cho thuê'
-
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_1
 ON BOOKING_RECORD
 AFTER UPDATE
@@ -11,7 +10,7 @@ AS
 BEGIN
 IF UPDATE(status)
 BEGIN
-  DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+  DECLARE @status NVARCHAR(25) = (SELECT status FROM inserted);
   IF @status = N'Đã xác nhận'
 	BEGIN
 		UPDATE ROOM
@@ -22,7 +21,7 @@ BEGIN
 		UPDATE CUSTOMER
 		SET status = 1
 		FROM CUSTOMER
-		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
+		WHERE CUSTOMER.customer_id = (SELECT representative_id FROM inserted);
 	END
 END
 END;
@@ -32,7 +31,7 @@ ON BOOKING_RECORD
 AFTER INSERT
 AS
 BEGIN
-  DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+  DECLARE @status VARCHAR(25) = (SELECT status FROM inserted);
   IF @status = N'Đã xác nhận'
 	BEGIN
 		UPDATE ROOM
@@ -43,11 +42,12 @@ BEGIN
 		UPDATE CUSTOMER
 		SET status = 1
 		FROM CUSTOMER
-		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
+		WHERE CUSTOMER.customer_id = (SELECT representative_id FROM inserted);
 	END
 END;
 
 --- trigger insert vô bảng customer_of_booking_record
+--thêm khách hàng đại diện vào bảng customer_of_booking_record??
 
 CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_1
 ON BOOKING_RECORD
@@ -79,7 +79,9 @@ END
 -- chưa hoàn thành 
 --- này là trigger insert vô customer_of_booking_record
 -- khi mà thêm khách hàng đi kèm á
---- mà t chưa biết viết sao
+--- mà t chưa biết viết sao 
+--không được á, tại insert customer thì cũng không biết đang ở hồ sơ nào để trigger insert được, 
+--chắc lúc bấm button thì truyền 2 id đó rồi dùng proc insert customer_of_booking_record
 
 select * from CUSTOMER
 CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_3
@@ -96,6 +98,7 @@ END;
 END
 
 -- 2.6.2. Trigger when adding a new booking record to insert a new bill
+--đã bỏ not null paymethod và employid ở bảng BILL để insert được
 CREATE OR ALTER TRIGGER Trg_Create_Bill_When_Create_Booking_Record
 ON BOOKING_RECORD
 AFTER INSERT
@@ -110,7 +113,7 @@ END;
 
 CREATE OR ALTER TRIGGER Trg_Check_Room_Status_To_Insert_Booking
 ON BOOKING_RECORD
-INSTEAD OF INSERT, UPDATE
+INSTEAD OF INSERT
 AS
 BEGIN
     IF EXISTS (
@@ -148,22 +151,59 @@ BEGIN
     ELSE
     BEGIN
         ROLLBACK;
-        PRINT N'Phòng hiện không trống. Không thể lập hợp đồng';
+		RAISERROR(N'Phòng hiện không trống. Không thể lập hợp đồng', 16, 1)
     END;
 END;
+
+--Dùng instead of after này thì cái 30p bị sai!!!
+
+--CREATE OR ALTER TRIGGER Trg_Check_Room_Status_To_Update_Booking
+--ON BOOKING_RECORD
+--INSTEAD OF UPDATE
+--AS
+--BEGIN
+--IF (UPDATE(room_id))
+--BEGIN
+--    IF EXISTS (
+--        SELECT *
+--        FROM ROOM
+--        INNER JOIN inserted I ON ROOM.room_id = I.room_id
+--        WHERE ROOM.room_status LIKE N'Trống'
+--    )
+--    BEGIN
+--        UPDATE BOOKING_RECORD SET
+--            expected_checkin_date = I.expected_checkin_date ,
+--            expected_checkout_date = I.expected_checkout_date,
+--            deposit = I.deposit,
+--            surcharge = I.surcharge ,
+--            note = I.note,
+--            status = I.status,
+--            actual_checkin_date = I.actual_checkin_date,
+--            actual_checkout_date = I.actual_checkout_date,
+--            room_id = I.room_id,
+--            representative_id = I.representative_id
+--        FROM inserted I;
+--    END
+--    ELSE
+--    BEGIN
+--        ROLLBACK;
+--		RAISERROR(N'Phòng hiện không trống. Không thể lập hợp đồng', 16, 1)
+--    END;
+--END;
+--END;
 
  --2.6.4. Trigger to delete a booking record if the deposit is not paid after 30 minutes
 
 CREATE OR ALTER TRIGGER Trg_Delete_Booking_Record_Not_Paid_Deposit_After_30_min
 ON BOOKING_RECORD
-AFTER INSERT
+AFTER UPDATE
 AS
 BEGIN
     -- Delete from the BOOKING_RECORD table
     DELETE FROM BOOKING_RECORD
     WHERE GETDATE() > DATEADD(MINUTE, 30, booking_time)
     AND deposit = 0 
-    AND booking_time <> actual_checkin_date;
+    AND booking_time <> expected_checkin_date;
 END;
 
 
@@ -228,11 +268,15 @@ BEGIN
     BEGIN
         UPDATE CUSTOMER
         SET status = 0
+		FROM inserted i
+        JOIN CUSTOMER_OF_BOOKING_RECORD cbr ON i.booking_record_id = cbr.booking_record_id
+        JOIN CUSTOMER c ON cbr.customer_id = c.customer_id;
+
 		UPDATE ROOM
         SET room_status = N'Trống'
         FROM inserted i
-        JOIN CUSTOMER_OF_BOOKING_RECORD cbr ON i.booking_record_id = cbr.booking_record_id
-        JOIN CUSTOMER c ON cbr.customer_id = c.customer_id;
+        JOIN BOOKING_RECORD br ON i.booking_record_id = br.booking_record_id
+		JOIN ROOM r ON br.room_id = r.room_id
     END
 END;
 
@@ -269,7 +313,7 @@ BEGIN
 
     UPDATE BILL
     SET total_cost = (
-        SELECT
+	SELECT
             (
                 (SELECT price FROM ROOM_TYPE WHERE room_type_id = (SELECT room_type_id FROM ROOM WHERE room_id = @room_new)) * @number_of_days
                 + (SELECT SUM(number_of_service * service_room_price) FROM
@@ -308,7 +352,7 @@ BEGIN
   DECLARE @expected_checkin_date DATETIME;
   SET @expected_checkin_date = (SELECT expected_checkin_date FROM inserted);
 
-  DECLARE @deposit MONEY;
+  DECLARE @deposit float;
   SET @deposit = (SELECT deposit FROM inserted);
 
   DECLARE @interval_time_hour INT;

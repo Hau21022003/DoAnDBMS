@@ -136,10 +136,10 @@ CREATE TABLE BILL (
     content_incurred NVARCHAR(255),
     total_cost float,
     created_date DATETIME DEFAULT (GETDATE()),
-    payment_method NVARCHAR(15) CONSTRAINT CK_PAYMENT_METHOD CHECK (payment_method IN(N'Tiền mặt', N'Chuyển khoản')) NOT NULL,
+    payment_method NVARCHAR(15) CONSTRAINT CK_PAYMENT_METHOD CHECK (payment_method IN(N'Tiền mặt', N'Chuyển khoản')),
 	paytime DATETIME,
     booking_record_id INT UNIQUE NOT NULL CONSTRAINT FK_BOOKING_RECORD_BILL REFERENCES BOOKING_RECORD(booking_record_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    employee_id INT NOT NULL CONSTRAINT FK_EMPLOYEE_BILL REFERENCES EMPLOYEE(employee_id)
+    employee_id INT CONSTRAINT FK_EMPLOYEE_BILL REFERENCES EMPLOYEE(employee_id)
 );
 
 CREATE TABLE CUSTOMER_OF_BOOKING_RECORD (
