@@ -12,7 +12,7 @@ namespace QuanLiKhachSan.DAO
     {
         public DataTable LayDanhSach()
         {
-            String sql = "Select* from View_Account";
+            String sql = "Select* from View_Front_Desk_Account";
             DataTable dt = new DataTable();
             SqlConnection conn = DbConnection.conn;
             try

@@ -15,7 +15,7 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable();
             SqlConnection conn = DbConnection.conn;
-            string sql = "select* from View_Phone_Number_Of_Customer";
+            string sql = "select* from View_Customer_Phone";
             try
             {
                 conn.Open();

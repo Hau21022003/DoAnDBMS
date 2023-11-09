@@ -75,6 +75,12 @@ FROM
     (ROOM INNER JOIN ROOM_TYPE
     ON ROOM.room_type_id = ROOM_TYPE.room_type_id);
 
+
+CREATE VIEW View_Room_Type AS
+SELECT room_type_id, room_type_name
+FROM ROOM_TYPE;
+
+
 -- View 10: Tạo view cho tên và ID của phòng
 CREATE VIEW View_Room_Name AS
 SELECT room_id, room_name
@@ -236,6 +242,12 @@ SELECT CUSTOMER.customer_name, phone_number
 FROM CUSTOMER
 JOIN PHONE_NUMBER_OF_CUSTOMER ON CUSTOMER.customer_id = PHONE_NUMBER_OF_CUSTOMER.customer_id;
 
+
+create view View_Name_Service_Room
+AS
+SELECT service_room_id, service_room_name
+FROM SERVICE_ROOM
+
 -- View 20: Xem danh sách mẫu thông tin sử dụng dịch vụ
 CREATE VIEW View_Service_Usage_Info AS   
 SELECT
@@ -264,6 +276,10 @@ CREATE VIEW View_Employee_Name AS
 SELECT employee_id, employee_name
 FROM EMPLOYEE;
 
+CREATE VIEW View_Employee_Phone AS
+SELECT EMPLOYEE.employee_name, phone_number
+FROM EMPLOYEE
+JOIN PHONE_NUMBER_OF_EMPLOYEE ON EMPLOYEE.employee_id = PHONE_NUMBER_OF_EMPLOYEE.employee_id;
 -- 2.5.7. View tài khoản
 -- View 23: Xem danh sách thông tin tài khoản của nhân viên lễ tân
 CREATE VIEW View_Front_Desk_Account AS

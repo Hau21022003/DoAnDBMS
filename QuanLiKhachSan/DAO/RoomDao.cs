@@ -56,7 +56,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSachTenPhong()
         {
             DataTable dt = new DataTable() ;
-            string sql = "select* from View_Name_Room";
+            string sql = "select* from View_Room_Name";
             SqlConnection conn = DbConnection.conn;
             try
             {

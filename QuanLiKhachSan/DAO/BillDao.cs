@@ -14,7 +14,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             DataTable dt = new DataTable();
-            string sql = "select* from view_BILL";
+            string sql = "select* from View_Bill";
             SqlConnection conn = DbConnection.conn;
             try
             {

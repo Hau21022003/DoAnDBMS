@@ -13,7 +13,7 @@ namespace QuanLiKhachSan.DAO
     {
         public DataTable LayDanhSach()
         {
-            string sql = "select* from View_Phone_Number_Of_Employee";
+            string sql = "select* from View_Employee_Phone";
             SqlConnection conn = DbConnection.conn;
             DataTable dt = new DataTable();
             try

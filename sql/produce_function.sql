@@ -414,11 +414,11 @@
 
 --5.Doanh thu:
 
---CREATE FUNCTION f_Calculate_Revenue
---(@StartDay DATETIME, @EndDay DATETIME)
---RETURNS TABLE
---AS
---RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Year, SUM(BILL.total_cost) AS ToTal 
---		FROM BILL 
---		WHERE BILL.created_date IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay
---		GROUP BY MONTH(BILL.created_date), YEAR(BILL.created_date));
+CREATE OR ALTER FUNCTION f_Calculate_Revenue
+(@StartDay DATETIME, @EndDay DATETIME)
+RETURNS TABLE
+AS
+RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Year, SUM(BILL.total_cost) AS ToTal 
+		FROM BILL 
+		WHERE BILL.created_date IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay
+		GROUP BY MONTH(BILL.created_date), YEAR(BILL.created_date));

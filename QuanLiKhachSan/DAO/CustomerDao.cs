@@ -14,7 +14,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             DataTable dt = new DataTable();
-            string sql = "select* from view_CUSTOMER";
+            string sql = "select* from View_Customer";
             SqlConnection conn = DbConnection.conn;
             try
             {
@@ -32,7 +32,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSachTenKhach()
         {
             DataTable dt = new DataTable();
-            string sql = "select* from View_Name_Customer";
+            string sql = "select* from View_Customer_Name";
             SqlConnection conn = DbConnection.conn;
             try
             {
