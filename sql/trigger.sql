@@ -1,4 +1,4 @@
-﻿--- nhập số điện thoại của khác hàng?
+--- nhập số điện thoại của khác hàng?
 
  --2.6.1. Trigger when customer come to checkin then (adding a new booking record: đối với khách đặt trực tiếp + checkin liền luôn
  --or update a new booking record: đối với khách đặt online)
@@ -22,6 +22,29 @@ BEGIN
 		SET status = 1
 		FROM CUSTOMER
 		WHERE CUSTOMER.customer_id = (SELECT representative_id FROM inserted);
+	END
+END
+END;
+
+CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_2
+ON BOOKING_RECORD
+AFTER UPDATE
+AS
+BEGIN
+IF UPDATE(status)
+BEGIN
+  DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+  IF @status = N'Đã xác nhận'
+	BEGIN
+		UPDATE ROOM
+		SET room_status = N'Đang cho thuê'
+		FROM ROOM
+		WHERE ROOM.room_id = (SELECT room_id FROM inserted);
+
+		UPDATE CUSTOMER
+		SET status = 1
+		FROM CUSTOMER
+		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
 	END
 END
 END;
@@ -104,16 +127,17 @@ ON BOOKING_RECORD
 AFTER INSERT
 AS
 BEGIN
-    INSERT INTO BILL (booking_record_id)
-    SELECT booking_record_id
-    FROM inserted;
+	DECLARE @booking_record_id INT = (SELECT booking_record_id
+    FROM inserted);
+    INSERT INTO BILL (booking_record_id, payment_method)
+    VALUES (@booking_record_id, N'Tiền mặt');
 END;
 
  --2.6.3. Trigger when adding a new booking record to check room availability and roll back if not available
 
 CREATE OR ALTER TRIGGER Trg_Check_Room_Status_To_Insert_Booking
 ON BOOKING_RECORD
-INSTEAD OF INSERT
+INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
     IF EXISTS (
@@ -166,7 +190,6 @@ END;
 --BEGIN
 --    IF EXISTS (
 --        SELECT *
---        FROM ROOM
 --        INNER JOIN inserted I ON ROOM.room_id = I.room_id
 --        WHERE ROOM.room_status LIKE N'Trống'
 --    )

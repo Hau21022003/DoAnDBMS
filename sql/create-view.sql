@@ -77,12 +77,11 @@ FROM ROOM;
 
 -- 2.5.4. View hồ sơ đặt phòng
 -- View 11: Xem danh sách hồ sơ đặt phòng
-
 CREATE VIEW View_Booking_Record AS
 SELECT
     br.*,
-	c.customer_id,
-    c.customer_name,
+    c.customer_name as representative_name,
+	c.gender, c.email, c.birthday, c.identify_card, c.address,
     r.room_name
 FROM
     (BOOKING_RECORD br INNER JOIN CUSTOMER c
