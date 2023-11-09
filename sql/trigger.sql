@@ -45,6 +45,27 @@ BEGIN
 		SET status = 1
 		FROM CUSTOMER
 		WHERE CUSTOMER.customer_id = (SELECT customer_id FROM inserted);
+=======
+CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_1
+ON BOOKING_RECORD
+AFTER UPDATE
+AS
+BEGIN
+IF UPDATE(status)
+BEGIN
+  DECLARE @status NVARCHAR(25) = (SELECT status FROM inserted);
+  IF @status = N'Đã xác nhận'
+	BEGIN
+		UPDATE ROOM
+		SET room_status = N'Đang cho thuê'
+		FROM ROOM
+		WHERE ROOM.room_id = (SELECT room_id FROM inserted);
+
+		UPDATE CUSTOMER
+		SET status = 1
+		FROM CUSTOMER
+		WHERE CUSTOMER.customer_id = (SELECT representative_id FROM inserted);
+>>>>>>> 5fcc37a31c17041b7ddc1ef35694d59e45185255
 	END
 END
 END;
@@ -305,6 +326,7 @@ END;
 
 
 
+>>>>>>> 5fcc37a31c17041b7ddc1ef35694d59e45185255
  --2.6.10. Trigger to update room, booking record, and bill when changing rooms (updating a booking record)
 
 CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Change_Room
