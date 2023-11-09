@@ -5,7 +5,7 @@
  --to update room status to 'Đang cho thuê'
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_1
 ON BOOKING_RECORD
-AFTER UPDATE
+AFTER UPDATE -- đối với khách hàng đặt online thì hồ sơ đã có nên mình chỉ cần update
 AS
 BEGIN
 IF UPDATE(status)
@@ -68,13 +68,28 @@ BEGIN
 >>>>>>> 5fcc37a31c17041b7ddc1ef35694d59e45185255
 	END
 END
+print('not null')
 END;
 
+USE HotelManagementSystem;
+SELECT * FROM BOOKING_RECORD;
+select * from room;
+SELECT * FROM ROOM WHERE room_id=4;
+select * from CUSTOMER where customer_id = 4;
+update CUSTOMER set status = 0 where customer_id = 4;
+UPDATE ROOM SET room_status = N'Trống' where room_id=4;
+UPDATE BOOKING_RECORD SET status = N'Đã xác nhận' WHERE booking_record_id = 4;
+select * from BOOKING_RECORD where booking_record_id = 4;
+
+  --2.6.1. Trigger when customer come to checkin then 
+ -- Nếu mình adding a new booking record đối với khách đặt trực tiếp thì update room status to 'Đang cho thuê'
+ --or update a new booking record: đối với khách đặt online thì update room status to 'Đang cho thuê'
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_2
 ON BOOKING_RECORD
 AFTER INSERT
 AS
 BEGIN
+  DECLARE @status NVARCHAR(10) = (SELECT status FROM inserted);
   DECLARE @status VARCHAR(25) = (SELECT status FROM inserted);
   IF @status = N'Đã xác nhận'
 	BEGIN
@@ -128,6 +143,7 @@ END
 --chắc lúc bấm button thì truyền 2 id đó rồi dùng proc insert customer_of_booking_record
 
 select * from CUSTOMER
+
 CREATE OR ALTER TRIGGER Trg_Insert_Customer_Of_Booking_Record_3
 ON CUSTOMER
 AFTER INSERT
@@ -379,7 +395,7 @@ END;
  --This deposit will be added to the revenue as described in the previous triggers. 
  --This trigger executes after an INSERT operation and updates room status (available), booking record status (canceled), and bill status (paid).
 
-
+DROP TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin;
 CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin
 ON BOOKING_RECORD
 AFTER INSERT

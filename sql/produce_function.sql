@@ -286,83 +286,78 @@
 
 ----1. **Đặt phòng**
 ----Phần này chưa xong
-
-
-
 ----Thêm hồ sơ đặt phòng
+select * from BOOKING_RECORD;
+select * from View_Booking_Record
+CREATE or ALTER PROCEDURE proc_insertBookingRecord
+    @expected_checkin_date DATETIME,
+    @expected_checkout_date DATETIME,
+    @actual_checkin_date DATETIME,
+    @actual_checkout_date DATETIME,
+    @deposit FLOAT,
+    @surcharge FLOAT,
+    @note NVARCHAR(255),
+    @status NVARCHAR(25),
+    @representative_name NVARCHAR(50),
+    @gender NVARCHAR(10),
+    @email VARCHAR(255),
+    @birthday DATE,
+    @identify_card VARCHAR(25),
+    @address NVARCHAR(255),
+    @room_id INT
+AS
+BEGIN
+	DECLARE @representative_id INT
+    BEGIN TRANSACTION;
+    BEGIN TRY
+		-- Khi thêm hồ sơ đặt phòng vào thì không có mã người đại diện mà chỉ có tên khách hàng thôi nên phải insert vô bảng customer
+		-- để có được mã người đại diện
+		-- Nếu khách hàng đã tồn tại trong danh sách khách hàng thì không insert
+		IF NOT EXISTS (SELECT 1 FROM CUSTOMER WHERE identify_card = @identify_card)
+		BEGIN
+			INSERT INTO CUSTOMER (customer_name, gender, email, birthday, identify_card, address) 
+			values (@representative_name, @gender, @email, @birthday, @identify_card, @address);
+			SELECT  TOP 1 @representative_id = customer_id FROM CUSTOMER ORDER BY customer_id DESC;
+		END
+		ELSE 
+		BEGIN
+			SELECT @representative_id = customer_id FROM CUSTOMER WHERE identify_card = @identify_card;
+		END
 
---CREATE or ALTER PROCEDURE proc_insertBookingRecord
---    @expected_checkin_date DATETIME,
---    @expected_checkout_date DATETIME,
---    @actual_checkin_date DATETIME,
---    @actual_checkout_date DATETIME,
---    @deposit FLOAT,
---    @surcharge FLOAT,
---    @note NVARCHAR(255),
---    @status NVARCHAR(25),
---    @customer_name NVARCHAR(50),
---    @gender NVARCHAR(10),
---    @email VARCHAR(255),
---    @birthday DATE,
---    @identify_card VARCHAR(25),
---    @address NVARCHAR(255),
---    @room_name NVARCHAR(25)
---AS
---BEGIN
---	DECLARE @room_id INT, @representative_id INT
---    BEGIN TRANSACTION;
---    BEGIN TRY
---		--Tìm room_id dựa vào room_name đã cung cấp
---		SELECT @room_id = room_id
---		FROM ROOM WHERE room_name = @room_name
-
---		--Khi thêm hồ sơ đặt phòng vào thì không có mã người đại diện mà chỉ có tên khách hàng thôi nên phải insert vô bảng customer
---		-- Nếu khách hàng đã tồn tại trong danh sách khách hàng thì không insert
---		IF NOT EXISTS (SELECT 1 FROM CUSTOMER WHERE identify_card = @identify_card)
---		BEGIN
---			INSERT INTO CUSTOMER (customer_name, gender, email, birthday, identify_card, address) 
---			values (@customer_name, @gender, @email, @birthday, @identify_card, @address);
---			SELECT  TOP 1 @representative_id = customer_id FROM CUSTOMER ORDER BY customer_id DESC;
---		END
---		ELSE 
---		BEGIN
---			SELECT @representative_id = customer_id FROM CUSTOMER WHERE identify_card = @identify_card;
---		END
-
---        INSERT INTO BOOKING_RECORD(expected_checkin_date, expected_checkout_date, deposit,
---		surcharge, note, status, actual_checkin_date, actual_checkout_date, room_id, representative_id)
---        VALUES (@expected_checkin_date, @expected_checkout_date, @deposit,
---		@surcharge, @note, @status, @actual_checkin_date, @actual_checkout_date, @room_id, @representative_id);
---        COMMIT;
---    END TRY
---   	BEGIN CATCH
---		DECLARE @err NVARCHAR(MAX)
---		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
---		RAISERROR(@err, 16, 1)
---	END CATCH
---END;
+        INSERT INTO BOOKING_RECORD(expected_checkin_date, expected_checkout_date, deposit,
+		surcharge, note, status, actual_checkin_date, actual_checkout_date, room_id, representative_id)
+        VALUES (@expected_checkin_date, @expected_checkout_date, @deposit,
+		@surcharge, @note, @status, @actual_checkin_date, @actual_checkout_date, @room_id, @representative_id);
+        COMMIT;
+    END TRY
+   	BEGIN CATCH
+		DECLARE @err NVARCHAR(MAX)
+		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+		RAISERROR(@err, 16, 1)
+	END CATCH
+END;
 	
---EXEC proc_insertBookingRecord
---    @expected_checkin_date = '2023-11-05',
---    @expected_checkout_date = '2023-11-10',
---    @actual_checkin_date = '2023-11-06',
---    @actual_checkout_date = '2023-11-09',
---    @deposit = 1000000,
---    @surcharge = 20000,
---    @note = N'Additional notes',
---    @status = N'Chờ xác nhận',
---    @customer_name = N'Nguyen Van T',
---    @gender = N'Nam',
---    @email = 'johndoe@gmail.com',
---    @birthday = '1990-01-01',
---    @identify_card = '012345678911',
---    @address = N'123 Main St',
---    @room_name = '105';
+EXEC proc_insertBookingRecord
+    @expected_checkin_date = '2023-11-05',
+    @expected_checkout_date = '2023-11-10',
+    @actual_checkin_date = '2023-11-06',
+    @actual_checkout_date = '2023-11-09',
+    @deposit = 1000000,
+    @surcharge = 20000,
+    @note = N'Additional notes',
+    @status = N'Chờ xác nhận',
+    @representative_name = N'Nguyen Van Be Bas',
+    @gender = N'Nam',
+    @email = 'johndoe@gmail.com',
+    @birthday = '1990-01-01',
+    @identify_card = '012345678001',
+    @address = N'123 Main St',
+    @room_id = 5;
 
-----select * from ROOM
+select * from ROOM
 
---select * from CUSTOMER
---select * from BOOKING_RECORD
+select * from CUSTOMER
+select * from BOOKING_RECORD
 
 ------Xóa hồ sơ đặt phòng (hủy đặt phòng) 
 
