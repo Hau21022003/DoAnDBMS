@@ -1,4 +1,5 @@
-﻿------------Khách Hàng-----------
+﻿----Khách Hàng-
+----DROP TRIGGER Trg_Insert_New_Customer
 --	CREATE TRIGGER Trg_Insert_New_Customer
 --ON CUSTOMER
 --FOR INSERT, UPDATE
@@ -45,7 +46,8 @@
 --	END
 --END;
 
---------------Hóa Đơn-------------
+----Hóa Đơn-
+----DROP TRIGGER Trg_Insert_New_Bill
 --CREATE TRIGGER Trg_Insert_New_Bill
 --ON BILL
 --FOR INSERT, UPDATE
@@ -54,7 +56,7 @@
 --	--Check Id of Bill
 --	DECLARE @bill_id INT 
 --	SET @bill_id = (SELECT bill_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@customer_id))
+--	IF NOT EXISTS (SELECT * FROM BILL WHERE bill_id IN (@bill_id))
 --	BEGIN
 --		RAISERROR(N'Mã hóa đơn không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -86,7 +88,8 @@
 --	END
 --END;
 
---------------Phòng------------
+----Phòng
+----DROP TRIGGER Trg_Insert_New_Room
 --CREATE TRIGGER Trg_Insert_New_Room
 --ON ROOM
 --FOR INSERT, UPDATE
@@ -95,7 +98,7 @@
 --	--Check Id of Room
 --	DECLARE @room_id INT 
 --	SET @room_id = (SELECT room_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@room_id))
+--	IF NOT EXISTS (SELECT * FROM ROOM WHERE room_id IN (@room_id))
 --	BEGIN
 --		RAISERROR(N'Mã phòng không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -134,7 +137,8 @@
 --		RETURN
 --	END
 --END;
------------------Loại Phòng-------------
+-----Loại Phòng
+----DROP TRIGGER Trg_Insert_New_Room_Type
 --CREATE TRIGGER Trg_Insert_New_Room_Type
 --ON Room_TYPE
 --FOR INSERT, UPDATE
@@ -143,7 +147,7 @@
 --	--Check Id of Room Type
 --	DECLARE @room_type_id INT 
 --	SET @room_type_id = (SELECT room_type_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@room_type_id))
+--	IF NOT EXISTS (SELECT * FROM Room_TYPE WHERE room_type_id IN (@room_type_id))
 --	BEGIN
 --		RAISERROR(N'Mã loại phòng không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -175,7 +179,8 @@
 --	END
 --END;
 
--------------Đặt phòng-------------
+-----Đặt phòng-
+----DROP TRIGGER Trg_Insert_New_Booking_Record
 --CREATE TRIGGER Trg_Insert_New_Booking_Record
 --ON BOOKING_RECORD
 --FOR INSERT, UPDATE
@@ -184,7 +189,7 @@
 --	--Check Id of Booking Record
 --	DECLARE @booking_record_id INT 
 --	SET @booking_record_id = (SELECT booking_record_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@booking_record_id))
+--	IF NOT EXISTS (SELECT * FROM BOOKING_RECORD WHERE booking_record_id IN (@booking_record_id))
 --	BEGIN
 --		RAISERROR(N'Mã hồ sơ đặt phòng không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -234,7 +239,8 @@
 --END;
 
 
-----------------Dịch vụ----------
+----Dịch vụ
+----DROP TRIGGER Trg_Insert_New_Service_Room
 --CREATE TRIGGER Trg_Insert_New_Service_Room
 --ON SERVICE_ROOM
 --FOR INSERT, UPDATE
@@ -243,7 +249,7 @@
 --	--Check Id of Service
 --	DECLARE @service_room_id INT 
 --	SET @service_room_id = (SELECT service_room_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@service_room_id))
+--	IF NOT EXISTS (SELECT * FROM SERVICE_ROOM WHERE service_room_id IN (@service_room_id))
 --	BEGIN
 --		RAISERROR(N'Mã dịch vụ không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -275,7 +281,8 @@
 --	END
 --END;
 
-----------------Nhân viên-------------
+----Nhân viên-
+----DROP TRIGGER Trg_Insert_New_Emplyee
 --CREATE TRIGGER Trg_Insert_New_Emplyee
 --ON EMPLOYEE
 --FOR INSERT, UPDATE
@@ -284,7 +291,7 @@
 --	--Check Id of Employee
 --	DECLARE @employee_id INT 
 --	SET @employee_id = (SELECT employee_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@employee_id))
+--	IF NOT EXISTS (SELECT * FROM EMPLOYEE WHERE employee_id IN (@employee_id))
 --	BEGIN
 --		RAISERROR(N'Mã nhân viên không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
@@ -323,7 +330,7 @@
 --		RETURN
 --	END
 
-----Check Identify Card of Employee
+--	--Check Identify Card of Employee
 --	IF EXISTS (SELECT * FROM inserted WHERE TRIM(identify_card) = ' ')
 --	BEGIN
 --		RAISERROR(N'Chứng minh thư không được để trống', 16, 1)
@@ -333,7 +340,8 @@
 --END;
 
 
---------------Tài khoản--------------
+----Tài khoản
+----DROP TRIGGER Trg_Insert_New_Account
 --	CREATE TRIGGER Trg_Insert_New_Account
 --ON ACCOUNT
 --FOR INSERT, UPDATE
@@ -342,7 +350,7 @@
 --	--Check Id of Account
 --	DECLARE @account_id INT 
 --	SET @account_id = (SELECT account_id FROM inserted)
---	IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@account_id))
+--	IF NOT EXISTS (SELECT * FROM ACCOUNT WHERE account_id IN (@account_id))
 --	BEGIN
 --		RAISERROR(N'Mã tài khoản không tồn tại', 16, 1)
 --		ROLLBACK TRANSACTION
