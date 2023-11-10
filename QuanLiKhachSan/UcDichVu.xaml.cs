@@ -1,4 +1,4 @@
-using QuanLiKhachSan.DAO;
+﻿using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -162,6 +162,39 @@ namespace QuanLiKhachSan
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnTimKiemTheoThangSuDung_Click(object sender, RoutedEventArgs e)
+        {
+            string monthUse = txtLocThangSuDungDV.Text;
+            dtgDanhSachDatDichVu.ItemsSource = serviceUsageInfoDao.TimKiemThangSuDung(monthUse).DefaultView;
+        }
+
+        private void btnTimKiemTheoTenKH_Click(object sender, RoutedEventArgs e)
+        {
+            string nameCus = txtLocTenKH.Text;
+            dtgDanhSachDatDichVu.ItemsSource = serviceUsageInfoDao.TimKiemTenKH(nameCus).DefaultView;
+        }
+
+        private void btnTimKiemTheoTenDV_Click(object sender, RoutedEventArgs e)
+        {
+            string nameService = txtLocTenDV.Text;
+            dtgDanhSachDichVu.ItemsSource = serviceRoomDao.TimKiemTenDV(nameService).DefaultView;
+        }
+
+        private void btnTimKiemTheoKhoangGia_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                float fromPrice = float.Parse(txtLocGiaThap.Text);
+                float toPrice = float.Parse(txtLocGiaCao.Text);
+                dtgDanhSachDichVu.ItemsSource = serviceRoomDao.TimKiemTheoKhoangGia(fromPrice, toPrice).DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Giá trị không hợp lệ");
+            }
+            
         }
     }
 }

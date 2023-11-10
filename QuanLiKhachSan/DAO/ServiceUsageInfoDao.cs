@@ -112,5 +112,59 @@ namespace QuanLiKhachSan.DAO
                 conn.Close();
             }
         }
+        public DataTable TimKiemThangSuDung(string monthUse)
+        {
+            if (monthUse == null || monthUse == "")
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_searchServiceUsageInforByMonth(@month)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@month", monthUse);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }
+        }
+        public DataTable TimKiemTenKH(string nameUse)
+        {
+            string sql = "SELECT * FROM func_searchServiceUsageInforByCustomerName(@customer_name)";
+            if (nameUse == null || nameUse == "")
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@customer_name", nameUse);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }      
+        }
     }
 }

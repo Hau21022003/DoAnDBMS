@@ -74,18 +74,22 @@
                 <Grid Grid.Row="3" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="txtLocThangSuDungDV"
+                        Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
+                             Tag="Tìm kiếm theo tháng sử dụng dịch vụ"/>
+                    <Button x:Name="btnTimKiemTheoThangSuDung" Click="btnTimKiemTheoThangSuDung_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="txtLocTenKH"
+                        Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
+                             Tag="Tìm kiếm theo tên khách hàng sử dụng" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <Button x:Name="btnTimKiemTheoTenKH" Click="btnTimKiemTheoTenKH_Click" Style="{StaticResource btnTimKiem}" Grid.Column="3" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachDatDichVu" Grid.Row="4" Grid.ColumnSpan="2" Margin="20,10,20,10">
                     <DataGrid.Columns>
@@ -179,18 +183,29 @@
                 <Grid Grid.Row="3" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="txtLocTenDV"
+                        Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
+                             Tag="Tìm kiếm theo tên dịch vụ"/>
+                    <Button x:Name="btnTimKiemTheoTenDV" Click="btnTimKiemTheoTenDV_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+
+                    <TextBox x:Name="txtLocGiaThap"
+                        Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
+                             Tag="Từ giá thấp nhất" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <TextBox x:Name="txtLocGiaCao"
+                         Grid.Column="3" 
+                         Style="{StaticResource tbxNoiDungMacDinh}"
+                         Tag="Đến giá cao nhất" 
+                         ToolTip="Tìm kiếm theo"/>
+                    <Button x:Name="btnTimKiemTheoKhoangGia" Click="btnTimKiemTheoKhoangGia_Click" Style="{StaticResource btnTimKiem}" Grid.Column="4" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachDichVu" Grid.Row="4" Grid.ColumnSpan="2" Margin="20,10,20,10">
                     <DataGrid.Columns>

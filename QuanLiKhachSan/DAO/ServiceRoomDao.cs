@@ -129,5 +129,60 @@ namespace QuanLiKhachSan.DAO
                 conn.Close();
             }
         }
+        public DataTable TimKiemTenDV(string nameService)
+        {
+            if (nameService == null || nameService == "")
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_searchByServiceName (@service_room_name)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@service_room_name", nameService);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }    
+        }
+        public DataTable TimKiemTheoKhoangGia(float fromPrice,float toPrice)
+        {
+            if (fromPrice == null || toPrice == null)
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_searchInPriceRange(@service_room_price1, @service_room_price2)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@service_room_price1", fromPrice);
+                    cmd.Parameters.AddWithValue("@service_room_price2", toPrice);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }
+        }
     }
 }

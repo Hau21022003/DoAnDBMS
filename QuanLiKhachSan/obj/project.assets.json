@@ -540,19 +540,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\GAGIBYTE\\.nuget\\packages\\": {}
+    "C:\\Users\\Ngoc Anh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+      "projectUniqueName": "D:\\SEM1-Y3\\DBMS\\Project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
       "projectName": "QuanLiKhachSan",
-      "projectPath": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
-      "packagesPath": "C:\\Users\\GAGIBYTE\\.nuget\\packages\\",
-      "outputPath": "D:\\DoAnDBMS\\DoAnDBMS\\QuanLiKhachSan\\obj\\",
+      "projectPath": "D:\\SEM1-Y3\\DBMS\\Project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+      "packagesPath": "C:\\Users\\Ngoc Anh\\.nuget\\packages\\",
+      "outputPath": "D:\\SEM1-Y3\\DBMS\\Project\\DoAnDBMS\\QuanLiKhachSan\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\GAGIBYTE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ngoc Anh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -606,7 +606,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   },
