@@ -57,12 +57,51 @@ namespace QuanLiKhachSan
 
         private void btnThemDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
+                DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
+                DateTime? actualCheckinDate = dtpNgayCheckinThucTe.SelectedDate;
+                DateTime? actualCheckoutDate = dtpNgayCheckoutThucTe.SelectedDate;
+                float deposit = float.Parse(txtTienCoc.Text);
+                float surcharge = float.Parse(txtPhuPhi.Text);
+                string note = txtGhiChu.Text;
+                string status = cbTrangThaiDatPhong.Text;
+                int representativeId = int.Parse(cbNguoiDaiDienDatPhong.Text.Split("|")[0]);
+                int roomId = int.Parse(cbPhongCuaDatPhong.Text.Split("|")[0]);
+                bookingDao.Insert(expectedCheckinDate, expectedCheckoutDate, actualCheckinDate, actualCheckoutDate, deposit, surcharge,
+                    note, status, representativeId, roomId);
+                LayDanhSach();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSuaDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                int bookingRecordId = int.Parse(lbMaDatPhong.Content.ToString());
+                DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
+                DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
+                DateTime? actualCheckinDate = dtpNgayCheckinThucTe.SelectedDate;
+                DateTime? actualCheckoutDate = dtpNgayCheckoutThucTe.SelectedDate;
+                float deposit = float.Parse(txtTienCoc.Text);
+                float surcharge = float.Parse(txtPhuPhi.Text);
+                string note = txtGhiChu.Text;
+                string status = cbTrangThaiDatPhong.Text;
+                int representativeId = int.Parse(cbNguoiDaiDienDatPhong.Text.Split("|")[0]);
+                int roomId = int.Parse(cbPhongCuaDatPhong.Text.Split("|")[0]);
+                bookingDao.Update(bookingRecordId,expectedCheckinDate, expectedCheckoutDate, actualCheckinDate, actualCheckoutDate, deposit, surcharge,
+                    note, status, representativeId, roomId);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnThongTinDatPhong_Click(object sender, RoutedEventArgs e)
@@ -106,7 +145,7 @@ namespace QuanLiKhachSan
         {
             DataRowView drv = (DataRowView)dtgDanhSachDatPhong.SelectedValue;
             int bookingId =  (int)drv["booking_record_id"];
-            bookingDao.Xoa(bookingId);
+            bookingDao.Delete(bookingId);
             LayDanhSach();
         }
 
