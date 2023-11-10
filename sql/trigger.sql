@@ -474,6 +474,7 @@ BEGIN
             + (SELECT surcharge FROM inserted)
         )
     WHERE booking_record_id = @booking_record_id_new;
+	END;
 END;
 
 
@@ -482,7 +483,6 @@ END;
  --This deposit will be added to the revenue as described in the previous triggers. 
  --This trigger executes after an INSERT operation and updates room status (available), booking record status (canceled), and bill status (paid).
 
-DROP TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin;
 CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin
 ON BOOKING_RECORD
 AFTER INSERT
