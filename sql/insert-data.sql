@@ -114,6 +114,15 @@ VALUES
     ('2023-12-12 11:00:00', '2023-12-17 15:00:00', '2023-12-22 13:00:00', 400000, 0, 'None', N'Đã xác nhận', 19, 2),
     ('2023-12-14 12:00:00', '2023-12-16 16:00:00', '2023-12-24 14:00:00', 300000, 0, 'Late check-in',  N'Đã xác nhận', 20, 3);
 
+INSERT INTO SERVICE_USAGE_INFOR (number_of_service, date_used, total_fee, booking_record_id, service_room_id)
+VALUES
+    (3, '2023-01-10 14:30:00', 150000, 1, 1),
+    (2, '2023-02-15 12:45:00', 100000, 2, 2),
+	    (3, '2023-01-10 14:30:00', 150000, 1, 3),
+    (2, '2023-02-15 12:45:00', 100000, 2, 4),
+	    (3, '2023-01-10 14:30:00', 150000, 1, 5),
+    (2, '2023-02-15 12:45:00', 100000, 2, 1);
+
 
 INSERT INTO BILL (costs_incurred, content_incurred, total_cost, created_date, payment_method, paytime, booking_record_id, employee_id)
 VALUES
