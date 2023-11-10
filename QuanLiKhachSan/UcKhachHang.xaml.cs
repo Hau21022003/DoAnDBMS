@@ -77,5 +77,22 @@ namespace QuanLiKhachSan
         {
 
         }
+
+        private void cbLocTrangThaiKhachHang_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string trangThai = (string)cbLocTrangThaiKhachHang.SelectedValue;
+            if(trangThai == "Chính thức")
+            {
+                dtgDanhSachKhachHang.ItemsSource = customerDao.LayDsKhachHangChinhThuc().DefaultView;
+            }
+            else if(trangThai == "Không chính thức")
+            {
+                dtgDanhSachKhachHang.ItemsSource = customerDao.LayDsKhachHangKhongChinhThuc().DefaultView;
+            }
+            else
+            {
+                dtgDanhSachKhachHang.ItemsSource = customerDao.LayDanhSach().DefaultView;
+            }
+        }
     }
 }

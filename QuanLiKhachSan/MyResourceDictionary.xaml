@@ -82,6 +82,22 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="btnTimKiem" TargetType="Button" BasedOn="{StaticResource btnHinhAnh}">
+        <Setter Property="Margin" Value="0 0 20 0"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Background" Value="#FF79A3FF"/>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="/HinhAnh/TimKiemTrang.png"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF415AFF"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="btnInWord" TargetType="Button" BasedOn="{StaticResource btnHinhAnh}">
         <Setter Property="Margin" Value="1"/>
         <Setter Property="Background" Value="#FF7DC4F3"/>

@@ -33,7 +33,7 @@ namespace QuanLiKhachSan.DAO
         {
             SqlConnection conn = DbConnection.conn;
             string sql = $"insert into Room(room_name, room_capacity, room_status, room_description, room_image, room_type_id) " +
-                $"values('{tenPhong}', {sucChua},'{trangThai}',N'{moTa}',{anh},{loaiPhong})";
+                $"values('{tenPhong}', {sucChua},N'{trangThai}',N'{moTa}',{anh},{loaiPhong})";
             MessageBox.Show("OK");
             try
             {

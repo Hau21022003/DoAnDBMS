@@ -80,7 +80,8 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <ComboBox Style="{StaticResource cbLuaChon}" SelectedValuePath="Content"
-                      Tag="Lọc theo trạng thái của bill">
+                      Tag="Lọc theo trạng thái của bill" x:Name="cbLocTrangThaiBill" 
+                      SelectionChanged="cbLocTrangThaiBill_SelectionChanged">
                 <ComboBoxItem Content="Tất cả"/>
                 <ComboBoxItem Content="Đã thanh toán"/>
                 <ComboBoxItem Content="Chưa thanh toán"/>

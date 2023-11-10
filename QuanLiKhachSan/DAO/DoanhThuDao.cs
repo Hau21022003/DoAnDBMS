@@ -17,14 +17,11 @@ namespace QuanLiKhachSan.DAO
     {
         public void LayDoanhThu(ThongKe thongKe)
         {
-            string sql = "select* from f_Calculate_Revenue(@StartDay, @EndDay)";
+            string sql = "select* from dbo.f_Calculate_Revenue(@StartDay, @EndDay)";
             SqlConnection conn = DbConnection.conn;
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
+                conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@StartDay", thongKe.NgayBatDau);
                 cmd.Parameters.AddWithValue("@EndDay", thongKe.NgayKetThuc);
@@ -64,11 +61,7 @@ namespace QuanLiKhachSan.DAO
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
-            }
+            finally { conn.Close(); }
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿----Khách Hàng-
-----DROP TRIGGER Trg_Insert_New_Customer
---	CREATE TRIGGER Trg_Insert_New_Customer
+------------Khách Hàng-----------
+--	CREATE TRIGGER trg_InsertNewCustomer
 --ON CUSTOMER
 --FOR INSERT, UPDATE
 --AS
@@ -46,9 +45,8 @@
 --	END
 --END;
 
-----Hóa Đơn-
-----DROP TRIGGER Trg_Insert_New_Bill
---CREATE TRIGGER Trg_Insert_New_Bill
+--------------Hóa Đơn-------------
+--CREATE TRIGGER trg_InsertNewBill
 --ON BILL
 --FOR INSERT, UPDATE
 --AS
@@ -88,9 +86,8 @@
 --	END
 --END;
 
-----Phòng
-----DROP TRIGGER Trg_Insert_New_Room
---CREATE TRIGGER Trg_Insert_New_Room
+--------------Phòng------------
+--CREATE TRIGGER trg_InsertNewRoom
 --ON ROOM
 --FOR INSERT, UPDATE
 --AS
@@ -137,9 +134,8 @@
 --		RETURN
 --	END
 --END;
------Loại Phòng
-----DROP TRIGGER Trg_Insert_New_Room_Type
---CREATE TRIGGER Trg_Insert_New_Room_Type
+-----------------Loại Phòng-------------
+--CREATE TRIGGER trg_InsertNewRoomType
 --ON Room_TYPE
 --FOR INSERT, UPDATE
 --AS
@@ -179,9 +175,8 @@
 --	END
 --END;
 
------Đặt phòng-
-----DROP TRIGGER Trg_Insert_New_Booking_Record
---CREATE TRIGGER Trg_Insert_New_Booking_Record
+-------------Đặt phòng-------------
+--CREATE TRIGGER trg_InsertNewBookingRecord
 --ON BOOKING_RECORD
 --FOR INSERT, UPDATE
 --AS
@@ -239,9 +234,8 @@
 --END;
 
 
-----Dịch vụ
-----DROP TRIGGER Trg_Insert_New_Service_Room
---CREATE TRIGGER Trg_Insert_New_Service_Room
+----------------Dịch vụ----------
+--CREATE TRIGGER trg_InsertNewServiceRoom
 --ON SERVICE_ROOM
 --FOR INSERT, UPDATE
 --AS
@@ -281,9 +275,8 @@
 --	END
 --END;
 
-----Nhân viên-
-----DROP TRIGGER Trg_Insert_New_Emplyee
---CREATE TRIGGER Trg_Insert_New_Emplyee
+----------------Nhân viên-------------
+--CREATE TRIGGER trg_InsertNewEmplyee
 --ON EMPLOYEE
 --FOR INSERT, UPDATE
 --AS
@@ -340,9 +333,8 @@
 --END;
 
 
-----Tài khoản
-----DROP TRIGGER Trg_Insert_New_Account
---	CREATE TRIGGER Trg_Insert_New_Account
+--------------Tài khoản--------------
+--	CREATE TRIGGER trg_InsertNewAccount
 --ON ACCOUNT
 --FOR INSERT, UPDATE
 --AS

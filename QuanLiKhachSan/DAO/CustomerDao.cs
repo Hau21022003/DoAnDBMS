@@ -14,7 +14,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             DataTable dt = new DataTable();
-            string sql = "select* from View_Customer";
+            string sql = "select* from view_CUSTOMER";
             SqlConnection conn = DbConnection.conn;
             try
             {
@@ -33,6 +33,43 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable();
             string sql = "select* from View_Customer_Name";
+            SqlConnection conn = DbConnection.conn;
+            try
+            {
+                conn.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { conn.Close(); }
+            return dt;
+        }
+        public DataTable LayDsKhachHangChinhThuc()
+        {
+            DataTable dt = new DataTable();
+            string sql = "select* from View_Official_Customer";
+            SqlConnection conn = DbConnection.conn;
+            try
+            {
+                conn.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { conn.Close(); }
+            return dt;
+        }
+
+        public DataTable LayDsKhachHangKhongChinhThuc()
+        {
+            DataTable dt = new DataTable();
+            string sql = "select* from View_Non_Official_Customer";
             SqlConnection conn = DbConnection.conn;
             try
             {
