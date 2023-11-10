@@ -16,7 +16,7 @@ FROM CUSTOMER;
 
 -- View 3: Tạo view cho số điện thoại của khách hàng
 CREATE VIEW View_Customer_Phone AS
-SELECT CUSTOMER.customer_name, phone_number
+SELECT CUSTOMER.customer_name, PHONE_NUMBER_OF_CUSTOMER.*
 FROM CUSTOMER
 JOIN PHONE_NUMBER_OF_CUSTOMER ON CUSTOMER.customer_id = PHONE_NUMBER_OF_CUSTOMER.customer_id;
 

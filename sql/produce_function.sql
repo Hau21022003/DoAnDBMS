@@ -604,9 +604,6 @@ SELECT * FROM ACCOUNT;
 
 ----4. **Tài khoản**
 
-
-
-
 ----1. **Đặt phòng**
 ----Phần này chưa xong
 ----Thêm hồ sơ đặt phòng
@@ -1227,3 +1224,54 @@ SELECT * FROM ACCOUNT;
 -- )
 
 -- SELECT * FROM func_search_room_type_by_price(1, 400000)
+
+
+----**6.SỐ ĐIỆN THOẠI KHÁCH HÀNG**-------
+----6.1. **PROCEDURE**
+---6.1.1. Add new phone number of customer
+-- CREATE PROCEDURE proc_add_phone_of_customer
+-- @phone_number varchar(15),
+-- @customer_id int
+-- AS
+-- BEGIN
+-- 	BEGIN TRAN
+-- 	BEGIN TRY
+--        	INSERT INTO PHONE_NUMBER_OF_CUSTOMER(phone_number, customer_id)
+--        	VALUES (@phone_number, @customer_id)
+--        	COMMIT TRAN
+-- 	END TRY
+-- 	BEGIN CATCH
+--        	ROLLBACK
+--        	RAISERROR('KHÔNG THỂ THÊM SỐ ĐIỆN THOẠI CỦA KHÁCH HÀNG HOẶC KHÁCH HÀNG KHÔNG TỒN TẠIP!', 18, 1)
+-- 	END CATCH
+-- END
+
+----6.1.2. Delete phone number of customer
+-- CREATE PROCEDURE proc_delete_phone_of_customer
+-- @phone_number varchar(15),
+-- @customer_id int
+-- AS
+-- BEGIN
+-- 	BEGIN TRAN
+-- 	BEGIN TRY
+--        	DELETE FROM PHONE_NUMBER_OF_CUSTOMER
+--        	WHERE phone_number = @phone_number AND customer_id = @customer_id
+--        	COMMIT TRAN
+-- 	END TRY
+-- 	BEGIN CATCH
+--        	ROLLBACK
+--        	RAISERROR('KHÔNG THỂ XÓA SỐ ĐIỆN THOẠI CỦA KHÁCH HÀNG!', 18, 1)
+-- 	END CATCH
+-- END
+
+----6.2. **FUNCTION**
+---6.2.1. Search phone number of customer
+-- CREATE FUNCTION func_search_phone_of_customer(@string nvarchar(50))
+-- RETURNS TABLE
+-- AS
+-- RETURN
+-- (
+-- SELECT *
+-- FROM View_Customer_Phone
+-- WHERE CONCAT(customer_name, customer_id, phone_number) LIKE '%' + @string + '%'
+-- )
