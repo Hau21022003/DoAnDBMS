@@ -5,10 +5,6 @@
  --to update room status to 'Đang cho thuê'
 
 
- ---- hình như cái trên đây nó không đi vô được cái update(stauts)
-
- --- cái ở dưới insert thì nó work rồi
-
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_Vs_Online
 ON BOOKING_RECORD
 AFTER UPDATE
@@ -32,18 +28,24 @@ END
 END;
 
 -- BEFORE UPDATE
+UPDATE ROOM SET room_status = N'Trống' WHERE room_id = 4;
+UPDATE CUSTOMER SET status = 0 WHERE customer_id = 4;
+DELETE FROM BOOKING_RECORD WHERE booking_record_id = 4;
 
-SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 4;
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
 SELECT * FROM ROOM WHERE room_id = 4;
 SELECT * FROM CUSTOMER WHERE customer_id = 4;
+
 -- AFTER UPDATE
 
 UPDATE BOOKING_RECORD SET status = N'Đã xác nhận' WHERE booking_record_id = 4;
-SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 4;
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
 SELECT * FROM ROOM WHERE room_id = 4;
 SELECT * FROM CUSTOMER WHERE customer_id = 4;
 
-
+-- OK 
 
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_Vs_Offline
 ON BOOKING_RECORD
@@ -66,18 +68,27 @@ END;
 
 -- BEFORE INSERT
 
-SELECT * FROM BOOKING_RECORD;
-SELECT * FROM ROOM WHERE room_id = 5;
-SELECT * FROM CUSTOMER WHERE customer_id = 8;
+UPDATE ROOM SET room_status = N'Trống' WHERE room_id = 4;
+UPDATE CUSTOMER SET status = 0 WHERE customer_id = 4;
+DELETE FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4 AND booking_record_id = 4;
+DELETE FROM BOOKING_RECORD WHERE booking_record_id = 4;
+
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
+
 -- AFTER INSERT
 
 INSERT INTO BOOKING_RECORD (booking_time, expected_checkin_date, expected_checkout_date, deposit, surcharge, note, status, room_id, representative_id)
 VALUES
-    ('2023-01-10 10:00:00', '2023-01-15 14:00:00', '2023-01-20 12:00:00', 500000, 100000, 'Special request: Early check-in', N'Đã xác nhận', 5, 8);
+    ('2023-01-10 10:00:00', '2023-01-15 14:00:00', '2023-01-20 12:00:00', 500000, 100000, 'Special request: Early check-in', N'Đã xác nhận', 4, 4);
 
-SELECT * FROM BOOKING_RECORD;
-SELECT * FROM ROOM WHERE room_id = 5;
-SELECT * FROM CUSTOMER WHERE customer_id = 8;
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
+
 -- OK
 
 --- trigger insert vô bảng customer_of_booking_record
@@ -100,20 +111,28 @@ END;
 
 -- BEFORE INSERT
 
-SELECT * FROM BOOKING_RECORD;
-SELECT * FROM ROOM;
-SELECT * FROM CUSTOMER;
-SELECT * FROM CUSTOMER_OF_BOOKING_RECORD;
+UPDATE ROOM SET room_status = N'Trống' WHERE room_id = 4;
+UPDATE CUSTOMER SET status = 0 WHERE customer_id = 4;
+DELETE FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4 AND booking_record_id = 4;
+DELETE FROM BOOKING_RECORD WHERE booking_record_id = 4;
+
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
 
 -- AFTER INSERT
 
 INSERT INTO BOOKING_RECORD (booking_time, expected_checkin_date, expected_checkout_date, deposit, surcharge, note, status, room_id, representative_id)
 VALUES
-    ('2023-01-10 10:00:00', '2023-01-15 14:00:00', '2023-01-20 12:00:00', 500000, 100000, 'Special request: Early check-in', N'Đã xác nhận', 8, 4);
+    ('2023-01-10 10:00:00', '2023-01-15 14:00:00', '2023-01-20 12:00:00', 500000, 100000, 'Special request: Early check-in', N'Đã xác nhận', 4, 4);
 
-SELECT * FROM BOOKING_RECORD;
-SELECT * FROM CUSTOMER_OF_BOOKING_RECORD;
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
 
+--- OK
 
 CREATE OR ALTER TRIGGER Trg_Insert_Representative_Into_Customer_Of_Booking_Record_After_Update_Booking
 ON BOOKING_RECORD
@@ -129,29 +148,39 @@ BEGIN
 END;
 END
 
-DELETE FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+-- BEFORE UPDATE
+UPDATE ROOM SET room_status = N'Trống' WHERE room_id = 4;
+UPDATE CUSTOMER SET status = 0 WHERE customer_id = 4;
+
+SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 21;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
+
+-- AFTER UPDATE
+
+UPDATE BOOKING_RECORD SET status = N'Đã xác nhận' WHERE booking_record_id = 21;
+SELECT * FROM BOOKING_RECORD WHERE room_id = 4;
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD WHERE customer_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
 
 -- BEFORE UPDATE
+UPDATE ROOM SET room_status = N'Trống' WHERE room_id = 4;
+UPDATE CUSTOMER SET status = 0 WHERE customer_id = 4;
 
 SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
 SELECT * FROM CUSTOMER WHERE customer_id = 4;
-SELECT * FROM CUSTOMER_OF_BOOKING_RECORD;
 
 -- AFTER UPDATE
 
 UPDATE BOOKING_RECORD SET status = N'Đã xác nhận' WHERE booking_record_id = 4;
 
-SELECT * FROM BOOKING_RECORD;
-SELECT * FROM CUSTOMER_OF_BOOKING_RECORD;
-
-
--- chưa hoàn thành 
---- này là trigger insert vô customer_of_booking_record
--- khi mà thêm khách hàng đi kèm á
---- mà t chưa biết viết sao 
---không được á, tại insert customer thì cũng không biết đang ở hồ sơ nào để trigger insert được, 
---chắc lúc bấm button thì truyền 2 id đó rồi dùng proc insert customer_of_booking_record
--- đã xóa
+SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 4;
+SELECT * FROM ROOM WHERE room_id = 4;
+SELECT * FROM CUSTOMER WHERE customer_id = 4;
+-- OK 
 
 -- 2.6.2. Trigger when adding a new booking record to insert a new bill
 --đã bỏ not null paymethod và employid ở bảng BILL để insert được
@@ -182,6 +211,7 @@ VALUES
 SELECT * FROM BOOKING_RECORD;
 SELECT * FROM BILL;
 
+--- OK
 
  --2.6.3. Trigger when adding a new booking record to check room availability and roll back if not available
  --- CÁI NÀY PHẢI CÓ UPDATE NỮA: TRƯỜNG HỢP KHÁCH ĐỔI PHÒNG Á.
@@ -243,8 +273,6 @@ INSERT INTO BOOKING_RECORD (booking_time, expected_checkin_date, expected_checko
 VALUES
     ('2023-01-10 10:00:00', '2023-01-15 14:00:00', '2023-01-20 12:00:00', 500000, 100000, 'Special request: Early check-in', N'Đã xác nhận', 1, 8);
 
-SELECT * FROM CUSTOMER WHERE customer_id = 1;
-SELECT * FROM BOOKING_RECORD;
 
 --- TEST TRƯỜNG HỢP INSERT ĐƯỢC
 -- BEFORE INSERT
@@ -260,6 +288,8 @@ VALUES
 SELECT * FROM ROOM WHERE room_id = 18;
 SELECT * FROM BOOKING_RECORD;
 
+--OK
+
  --2.6.4. Trigger to delete a booking record if the deposit is not paid after 30 minutes
 
 CREATE OR ALTER TRIGGER Trg_Delete_Booking_Record_Not_Paid_Deposit_After_30_min
@@ -273,7 +303,6 @@ BEGIN
     AND deposit = 0 
     AND booking_time <> expected_checkin_date;
 END;
-
 
  --2.6.6. Trigger to update actual checkout date in the booking record after payment
 
@@ -293,12 +322,12 @@ END;
 
 -- BEFORE UPDATE
 
-SELECT * FROM BILL WHERE booking_record_id = 6;
+SELECT * FROM BILL WHERE bill_id = 6;
 SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
 
 -- AFTER UPDATE
 
-UPDATE BILL SET paytime = GETDATE() WHERE booking_record_id = 6;
+UPDATE BILL SET paytime = GETDATE() WHERE bill_id = 6;
 
 SELECT * FROM BILL WHERE booking_record_id = 6;
 SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
@@ -311,48 +340,45 @@ SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
  --- From 3:00 PM to 6:00 PM: 50% room price.
  --- After 6:00 PM: 100% room price.
 
---CREATE OR ALTER TRIGGER Trg_Update_Incurred_Cost_If_Checkout_Late
---ON BILL
---AFTER UPDATE
---AS
---BEGIN
---    IF UPDATE(paytime)
---		SELECT costs_incurred FROM BILL;
---    BEGIN
---        UPDATE b
---        SET costs_incurred =
---            CASE
---                WHEN i.paytime > br.expected_checkout_date THEN
---                    CASE
---                        WHEN i.paytime <= DATEADD(HOUR, 3, br.expected_checkout_date) THEN (rt.price * 0.3)
---                        WHEN i.paytime <= DATEADD(HOUR, 6, br.expected_checkout_date) THEN (rt.price * 0.5)
---                        ELSE (rt.price)
---                    END
---                ELSE 0
---            END
---        FROM BILL b
---        JOIN inserted i ON b.bill_id = i.bill_id
---        JOIN BOOKING_RECORD br ON br.booking_record_id = i.booking_record_id
---        JOIN ROOM r ON br.room_id = r.room_id
---        JOIN ROOM_TYPE rt ON rt.room_type_id = r.room_type_id;
---		SELECT costs_incurred FROM BILL;
---    END
---END;
+CREATE OR ALTER TRIGGER Trg_Update_Incurred_Cost_If_Checkout_Late
+ON BILL
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(paytime)
+    BEGIN
+        UPDATE b
+        SET costs_incurred =
+            CASE
+                WHEN i.paytime > br.expected_checkout_date THEN
+                    CASE
+                        WHEN i.paytime <= DATEADD(HOUR, 3, br.expected_checkout_date) THEN (rt.price * 0.3)
+                        WHEN i.paytime <= DATEADD(HOUR, 6, br.expected_checkout_date) THEN (rt.price * 0.5)
+                        ELSE (rt.price)
+                    END
+                ELSE 0
+            END
+        FROM BILL b
+        JOIN inserted i ON b.bill_id = i.bill_id
+        JOIN BOOKING_RECORD br ON br.booking_record_id = i.booking_record_id
+        JOIN ROOM r ON br.room_id = r.room_id
+        JOIN ROOM_TYPE rt ON rt.room_type_id = r.room_type_id;
+    END
+END;
 
 
 ---- BEFORE UPDATE
---UPDATE BILL SET costs_incurred = 0 WHERE booking_record_id = 6;
---SELECT * FROM BILL WHERE booking_record_id = 6;
---SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
+UPDATE BILL SET costs_incurred = 0 WHERE bill_id = 6;
+SELECT * FROM BILL WHERE bill_id = 6;
+SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
 
 ---- AFTER UPDATE
 
---UPDATE BILL SET paytime = GETDATE() WHERE booking_record_id = 6;
+UPDATE BILL SET paytime = GETDATE() WHERE bill_id = 6;
 
---SELECT * FROM BILL WHERE booking_record_id = 6;
---SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
+SELECT * FROM BILL WHERE bill_id = 6;
+SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
 -- OK
-
 
 
  --2.6.8. Trigger to update customer status to unofficial, room status to N'Trống', booking_record status to N'Đã hoàn tất' after payment
@@ -365,12 +391,10 @@ AS
 BEGIN
     IF UPDATE(paytime)
     BEGIN
-	
 		UPDATE BOOKING_RECORD
         SET status = N'Đã hoàn tất'
         FROM inserted i
         JOIN BOOKING_RECORD br ON i.booking_record_id = br.booking_record_id;
-
 		
 		UPDATE ROOM
         SET room_status = N'Trống'
@@ -390,6 +414,7 @@ END;
 
 -- BEFORE UPDATE
 
+UPDATE BILL SET costs_incurred = 0 WHERE bill_id = 6;
 SELECT * FROM BILL WHERE booking_record_id = 6;
 SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
 SELECT * FROM ROOM WHERE room_id = 6;
@@ -397,15 +422,14 @@ SELECT * FROM CUSTOMER WHERE customer_id = 5;
 
 -- AFTER UPDATE
 
-UPDATE BILL SET paytime = GETDATE() WHERE booking_record_id = 6;
+UPDATE BILL SET paytime = GETDATE() WHERE bill_id = 6;
 
-SELECT * FROM BILL WHERE booking_record_id = 6;
+SELECT * FROM BILL WHERE bill_id = 6;
 SELECT * FROM BOOKING_RECORD WHERE booking_record_id = 6;
 SELECT * FROM ROOM WHERE room_id = 6;
 SELECT * FROM CUSTOMER WHERE customer_id = 5;
 
 -- OK (TẠM THỜI LÀ V)
-
 
 
  --2.6.10. Trigger to update room, booking record, and bill when changing rooms (updating a booking record)
