@@ -34,7 +34,7 @@ WHERE status = 0;
 -- 2.5.2. View hóa đơn
 -- View 6: Xem danh sách hóa đơn
 CREATE VIEW View_Bill AS 
-SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_name  
+SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, paytime, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_id,EMPLOYEE.employee_name  
 FROM BILL
 JOIN EMPLOYEE ON BILL.employee_id = EMPLOYEE.employee_id
 JOIN BOOKING_RECORD ON BILL.booking_record_id = BOOKING_RECORD.booking_record_id
@@ -42,7 +42,7 @@ JOIN CUSTOMER ON BOOKING_RECORD.representative_id = CUSTOMER.customer_id
 
 -- View 7: Xem danh sách hóa đơn chưa thanh toán
 CREATE VIEW View_Unpaid_Bill AS
-SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_name  
+SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, paytime, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_id, EMPLOYEE.employee_name  
 FROM BILL
 JOIN EMPLOYEE ON BILL.employee_id = EMPLOYEE.employee_id
 JOIN BOOKING_RECORD ON BILL.booking_record_id = BOOKING_RECORD.booking_record_id
@@ -51,7 +51,7 @@ WHERE paytime IS NULL;
 
 -- View 8: Xem danh sách hóa đơn đã thanh toán
 CREATE VIEW View_Paid_Bill AS
-SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_name  
+SELECT bill_id, costs_incurred, content_incurred, total_cost, created_date, payment_method, paytime, BILL.booking_record_id, CUSTOMER.customer_name, EMPLOYEE.employee_id, EMPLOYEE.employee_name  
 FROM BILL
 JOIN EMPLOYEE ON BILL.employee_id = EMPLOYEE.employee_id
 JOIN BOOKING_RECORD ON BILL.booking_record_id = BOOKING_RECORD.booking_record_id
@@ -270,6 +270,7 @@ SELECT
     SERVICE_USAGE_INFOR.number_of_service,
     SERVICE_USAGE_INFOR.date_used,
     SERVICE_USAGE_INFOR.total_fee,
+	SERVICE_USAGE_INFOR.booking_record_id,
 	CUSTOMER.customer_id,
     CUSTOMER.customer_name,
 	ROOM.room_id,

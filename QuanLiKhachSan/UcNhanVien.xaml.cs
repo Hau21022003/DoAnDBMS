@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,7 +46,21 @@ namespace QuanLiKhachSan
 
         private void btnThongTinNhanVien_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachNhanVien.SelectedValue;
+            try
+            {
+                lbMaNhanVien.Content = drv["employee_id"].ToString();
+                txtTenNhanVien.Text = drv["employee_name"].ToString();
+                cbGioiTinh.SelectedValue = drv["gender"].ToString();
+                dtpNgaySinh.SelectedDate = DateTime.Parse(drv["birthday"].ToString());
+                txtIdentifyCard.Text = drv["identify_card"].ToString();
+                txtDiaChi.Text = drv["address"].ToString();
+                txtEmail.Text = drv["email"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaNhanVien_Click(object sender, RoutedEventArgs e)
@@ -75,7 +90,18 @@ namespace QuanLiKhachSan
 
         private void btnThongTinTaiKhoan_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachTaiKhoan.SelectedValue;
+            try
+            {
+                lbMaTaiKhoan.Content = drv["account_id"].ToString();
+                txtTenTaiKhoan.Text = drv["username"].ToString();
+                txtMatKhau.Text = drv["password"].ToString();
+                cbNhanVienCuaTaiKhoan.SelectedValue = drv["employee_id"] + "|" + drv["employee_name"];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaTaiKhoan_Click(object sender, RoutedEventArgs e)
@@ -95,7 +121,16 @@ namespace QuanLiKhachSan
 
         private void btnThongTinSdtNhanVien_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachSdtCuaNhanVien.SelectedValue;
+            try
+            {
+                cbNhanVienCuaSDT.SelectedValue = drv["employee_id"].ToString() + "|" + drv["employee_name"].ToString();
+                txtSDT.Text = drv["phone_number"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaSdtNhanVien_Click(object sender, RoutedEventArgs e)

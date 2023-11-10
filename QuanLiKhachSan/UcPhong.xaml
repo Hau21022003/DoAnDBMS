@@ -514,7 +514,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <TextBox x:Name="txtMaDatPhongKhachHang" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                                 Style="{StaticResource tbxNoiDung}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">

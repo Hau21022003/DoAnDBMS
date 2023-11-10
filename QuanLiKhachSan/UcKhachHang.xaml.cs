@@ -50,7 +50,22 @@ namespace QuanLiKhachSan
 
         private void btnThongTinKhachHang_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachKhachHang.SelectedValue;
+            try
+            {
+                lbMaKhachHang.Content = drv["customer_id"].ToString();
+                txtTenKhachHang.Text = drv["customer_name"].ToString();
+                cbGioiTinh.SelectedValue = drv["gender"].ToString();
+                txtEmail.Text = drv["email"].ToString();
+                dtpNgaySinh.SelectedDate = DateTime.Parse(drv["birthday"].ToString());
+                txtIdentifyCard.Text = drv["identify_card"].ToString();
+                txtDiaChi.Text = drv["address"].ToString();
+                chbTrangThai.IsChecked = (bool)drv["status"];
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaKhachHang_Click(object sender, RoutedEventArgs e)
@@ -70,7 +85,16 @@ namespace QuanLiKhachSan
 
         private void btnThongTinSdtKhach_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachSdtCuaKhach.SelectedValue;
+            try
+            {
+                cbKhachHangCuaSDT.SelectedValue = drv["customer_id"].ToString() + "|" + drv["customer_name"].ToString();
+                txtSDT.Text = drv["phone_number"].ToString();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);    
+            }
         }
 
         private void btnXoaSdtKhach_Click(object sender, RoutedEventArgs e)

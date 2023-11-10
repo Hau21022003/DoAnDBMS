@@ -33,7 +33,7 @@
                         <Label Content="Số lượng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Label x:Name="tbMaSuDungDichVu" Style="{StaticResource lbNoiDung}"/>
+                        <Label x:Name="lbMaSuDungDichVu" Style="{StaticResource lbNoiDung}"/>
                         <TextBox x:Name="txtSoLuong" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>

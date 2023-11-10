@@ -1,6 +1,7 @@
 ﻿using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,37 @@ namespace QuanLiKhachSan
 
         private void btnThongTinBill_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSach.SelectedValue;
+            try
+            {
+                lbMaBill.Content = drv["bill_id"].ToString();
+                txtChiPhiPhatSinh.Text = drv["costs_incurred"].ToString();
+                txtNoiDungPhatSinh.Text = drv["content_incurred"].ToString();
+                txtTongPhi.Text = drv["total_cost"].ToString();
+                if (drv["created_date"] != DBNull.Value)
+                {
+                    dtpNgayTao.SelectedDate = DateTime.Parse(drv["created_date"].ToString());
+                }
+                else
+                {
+                    dtpNgayTao.SelectedDate = null;
+                }
+                cbHinhThucThanhToan.SelectedValue = drv["payment_method"].ToString();
+                if (drv["paytime"] != DBNull.Value)
+                {
+                    dtpNgayThanhToan.SelectedDate = DateTime.Parse(drv["paytime"].ToString());
+                }
+                else
+                {
+                    dtpNgayThanhToan.SelectedDate = null;
+                }
+                txtMaDatPhong.Text = drv["booking_record_id"].ToString();
+                txtMaNhanVien.Text = drv["employee_id"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaBill_Click(object sender, RoutedEventArgs e)
