@@ -181,7 +181,6 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --    @service_room_price = 100000,
 --    @discount_service = 0.1;
 
-
 --SELECT * FROM SERVICE_ROOM;
 
 ------Xóa dịch vụ phòng
@@ -202,7 +201,7 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --	END CATCH
 --END;
  
--- exec proc_deleteServiceRoom @service_room_id = 1004;
+-- exec proc_deleteServiceRoom @service_room_id = 6;
 
 -- SELECT * FROM SERVICE_ROOM;
 
@@ -243,7 +242,7 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --Select * from SERVICE_ROOM;
 
 ------Tìm kiếm theo tên dịch vụ 
---Function trả về table không cần định dạng
+----Function trả về table không custom đầu ra
 
 --CREATE or ALTER FUNCTION func_searchByServiceName (@service_room_name NVARCHAR(50)) 
 --RETURNS table
@@ -260,33 +259,20 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 
 --SELECT * FROM func_searchInPriceRange(10000, 15000);
 
---Mẫu thông tin sử dụng dịch vụ
+----Mẫu thông tin sử dụng dịch vụ
 
---Thêm mẫu thông tin sử dụng dịch vụ
+----Thêm mẫu thông tin sử dụng dịch vụ
+
 
 --CREATE or ALTER PROCEDURE proc_insertServiceUsageInfor
 --	@number_of_service INT,
 --	@total_fee FLOAT,
---	@customer_name NVARCHAR(50),
---	@room_name NVARCHAR(25),
---	@service_room_name NVARCHAR(50)
+--	@booking_record_id INT,
+--	@service_room_id INT
 --AS
 --BEGIN
---	DECLARE @booking_record_id INT, @service_room_id INT
-
 --    BEGIN TRANSACTION;
 --    BEGIN TRY
---		--Khi thêm mẫu thông tin sử dụng dịch vụ vào thì không có booking_record_id nên ta phải tìm
---		--dựa vào tên khách hàng và tên phòng
---		SELECT @booking_record_id = br.booking_record_id
---		FROM BOOKING_RECORD br JOIN CUSTOMER c ON br.representative_id = c.customer_id
---		JOIN ROOM r ON br.room_id = r.room_id
---		WHERE c.customer_name = @customer_name AND r.room_name = @room_name
-
---		--Tìm service_id dựa vào service_name cung cấp
---		SELECT @service_room_id = service_room_id
---		FROM SERVICE_ROOM WHERE service_room_name = @service_room_name
-
 --        INSERT INTO SERVICE_USAGE_INFOR (number_of_service, total_fee, booking_record_id, service_room_id)
 --        VALUES (@number_of_service, @total_fee, @booking_record_id, @service_room_id);
 --        COMMIT;
@@ -298,12 +284,13 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --	END CATCH
 --END;
 	
---EXEC proc_insertServiceUsageInfor
+--exec proc_insertServiceUsageInfor
 --	@number_of_service = 2,
 --	@total_fee = 23241,
---	@customer_name = 'Nguyen Van A',
---	@room_name = '101',
---	@service_room_name = N'Giặt ủi, là'
+--	@booking_record_id = 1,
+--	@service_room_id = 2
+
+--select * from View_Service_Usage_Info;
 
 ------Xóa mẫu thông tin sử dụng dịch vụ
 --select *from SERVICE_USAGE_INFOR
@@ -331,24 +318,12 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --	@service_usage_infor_id INT,
 --	@number_of_service INT,
 --	@total_fee FLOAT,
---	@customer_name NVARCHAR(50),
---	@room_name NVARCHAR(25),
---	@service_room_name NVARCHAR(50)
+--	@booking_record_id INT,
+--	@service_room_id INT
 --AS
 --BEGIN
---	DECLARE @booking_record_id INT, @service_room_id INT
 --	BEGIN TRANSACTION;
 --	BEGIN TRY
---		--Khi thêm mẫu thông tin sử dụng dịch vụ vào thì không có booking_record_id nên ta phải tìm
---		--dựa vào tên khách hàng và tên phòng
---		SELECT @booking_record_id = br.booking_record_id
---		FROM BOOKING_RECORD br JOIN CUSTOMER c ON br.representative_id = c.customer_id
---		JOIN ROOM r ON br.room_id = r.room_id
---		WHERE c.customer_name = @customer_name AND r.room_name = @room_name
-
---		--Tìm service_id dựa vào service_name cung cấp
---		SELECT @service_room_id = service_room_id
---		FROM SERVICE_ROOM WHERE service_room_name = @service_room_name
 --		UPDATE SERVICE_USAGE_INFOR
 --		SET
 --			number_of_service = @number_of_service,
@@ -370,17 +345,17 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 --	@service_usage_infor_id = 2,
 --	@number_of_service = 2,
 --	@total_fee = 23241,
---	@customer_name = 'Nguyen Van A',
---	@room_name = '101',
---	@service_room_name = N'Giặt ủi, là'
+--	@booking_record_id = 1,
+--	@service_room_id = 2
 
 
 --Select * from SERVICE_USAGE_INFOR;
 
 ------Tìm kiếm mẫu thông tin sử dụng dịch vụ 
 
---Function trả về table không cần định dạng
---1. Tìm kiếm những mẫu thông tin dịch vụ sử dụng trong tháng (1,2,..)
+----Function trả về table không có custom đầu ra
+----1. Tìm kiếm những mẫu thông tin dịch vụ sử dụng trong tháng (1,2,..)
+
 --CREATE or ALTER FUNCTION func_searchServiceUsageInforByMonth(@month INT)
 --RETURNS table
 --AS

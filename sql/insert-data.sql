@@ -90,6 +90,8 @@ VALUES
     (N'Mì tôm', 1, 25000, 0),
     (N'Nước uống', 1, 20000, 0);
 
+
+
 -- Insert data into BOOKING_RECORD table
 INSERT INTO BOOKING_RECORD (booking_time, expected_checkin_date, expected_checkout_date, deposit, surcharge, note, status, room_id, representative_id)
 VALUES
@@ -114,6 +116,14 @@ VALUES
     ('2023-12-12 11:00:00', '2023-12-17 15:00:00', '2023-12-22 13:00:00', 400000, 0, 'None', N'Đã xác nhận', 19, 2),
     ('2023-12-14 12:00:00', '2023-12-16 16:00:00', '2023-12-24 14:00:00', 300000, 0, 'Late check-in',  N'Đã xác nhận', 20, 3);
 
+INSERT INTO SERVICE_USAGE_INFOR (number_of_service, date_used, total_fee, booking_record_id, service_room_id)
+VALUES
+    (3, '2023-01-10 14:30:00', 150000, 1, 1),
+    (2, '2023-02-15 12:45:00', 100000, 2, 2),
+	    (3, '2023-01-10 14:30:00', 150000, 1, 3),
+    (2, '2023-02-15 12:45:00', 100000, 2, 4),
+	    (3, '2023-01-10 14:30:00', 150000, 1, 5),
+    (2, '2023-02-15 12:45:00', 100000, 2, 1);
 
 INSERT INTO BILL (costs_incurred, content_incurred, total_cost, created_date, payment_method, paytime, booking_record_id, employee_id)
 VALUES
@@ -150,8 +160,12 @@ VALUES
 
 INSERT INTO PHONE_NUMBER_OF_CUSTOMER (customer_id, phone_number)
 VALUES
-    (1, '0836245127'),
-    (2, '0836245128'),
+    (1, '0636245127'),
+	(1, '0436245128'),
+	(1, '0336245129'),
+    (2, '0936245121'),
+	(2, '0936245192'),
+	(2, '0936245122'),
     (3, '0836245129'),
     (4, '0836245126'),
     (5, '0836245125'),

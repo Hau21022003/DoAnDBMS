@@ -85,7 +85,6 @@
     <None Remove="HinhAnh\ThuNho.png" />
     <None Remove="HinhAnh\ThuNhoCam.png" />
     <None Remove="HinhAnh\TimKiem.png" />
-    <None Remove="HinhAnh\TimKiemTrang.png" />
     <None Remove="HinhAnh\VaoSo.png" />
   </ItemGroup>
 
@@ -193,7 +192,6 @@
     <Resource Include="HinhAnh\ThungRac.png" />
     <Resource Include="HinhAnh\ThuNho.png" />
     <Resource Include="HinhAnh\ThuNhoCam.png" />
-    <Resource Include="HinhAnh\TimKiemTrang.png" />
     <Resource Include="HinhAnh\VaoSo.png" />
   </ItemGroup>
 

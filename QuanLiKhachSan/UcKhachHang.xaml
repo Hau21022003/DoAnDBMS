@@ -83,18 +83,15 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="cbLocTrangThaiKhachHang" Style="{StaticResource cbLuaChon}"
-                              Tag="Lọc theo trạng thái khách hàng" SelectedValuePath="Content"
-                              SelectionChanged="cbLocTrangThaiKhachHang_SelectionChanged">
-                        <ComboBoxItem Content="Tất cả"/>
-                        <ComboBoxItem Content="Không chính thức"/>
-                        <ComboBoxItem Content="Chính thức"/>
-                    </ComboBox>
+                    <TextBox Grid.Column="0"
+                             Style="{StaticResource tbxNoiDungMacDinh}"
+                             ToolTip="Tìm kiếm theo" 
+                             Tag="Tìm kiếm theo g"/>
                     <TextBox Grid.Column="1" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              Tag="Tìm kiếm theo" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnTimKiem}" Content="Tìm kiếm" Grid.Column="2"/>
+                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachKhachHang" Grid.Row="4">
                     <DataGrid.Columns>
