@@ -709,6 +709,7 @@ SELECT * FROM ACCOUNT;
 ---- --Cập nhật hồ sơ đặt phòng
 
 
+<<<<<<< nhanhHau
 ----2. **Khách hàng**
 
 --2.1. **PROCEDURE**
@@ -859,6 +860,149 @@ SELECT * FROM ACCOUNT;
 -- WHERE birthday BETWEEN @fromdate AND @todate)
 
 -- SELECT * FROM func_search_customer_by_dob('1990-01-15', '2003-12-10')
+=======
+--2. **Khách hàng**
+use HotelManagementSystem
+2.1. **PROCEDURE**
+-2.1.1. Add new customer information
+ CREATE PROCEDURE proc_add_customer
+    	@customer_name nvarchar(50),
+    	@gender nvarchar(10),
+    	@birthday date,
+    	@identify_card varchar(25),
+    	@phone_number varchar(15),
+    	@email varchar(255),
+    	@address nvarchar(255),
+    	@status bit
+ AS
+ BEGIN
+    	BEGIN TRANSACTION
+    	BEGIN TRY
+           	INSERT INTO
+    	 CUSTOMER(customer_name,gender,birthday,identify_card,email,address,status)
+           	VALUES
+    	 (@customer_name,@gender,@birthday,@identify_card,@email,@address,@status)
+           	DECLARE @id int
+           	SET @id = (SELECT TOP 1 CUSTOMER.customer_id FROM CUSTOMER ORDER BY CUSTOMER.customer_id DESC)
+           	INSERT INTO
+           	PHONE_NUMBER_OF_CUSTOMER(customer_id, phone_number)
+           	VALUES
+           	(@id, @phone_number)
+           	COMMIT TRAN
+    	END TRY
+    	BEGIN CATCH
+           	ROLLBACK TRAN
+           	RAISERROR('KHÁCH HÀNG ĐÃ TỒN TẠI', 16, 1)
+    	END CATCH
+ END
+
+ EXEC proc_add_customer
+     @customer_name = 'Test name',
+    	@gender = N'Nữ',
+    	@birthday =  '2003-12-10',
+    	@identify_card = '723546235875',
+    	@phone_number = '0123456781',
+    	@email = 'test234@gmail.com',
+    	@address = 'aaaa',
+    	@status = 0
+
+-2.1.2. Remove customer information
+ CREATE PROCEDURE proc_delete_customer
+    	@customer_id int
+ AS
+ BEGIN
+    	BEGIN TRANSACTION
+    	BEGIN TRY
+           	DELETE FROM PHONE_NUMBER_OF_CUSTOMER WHERE customer_id=@customer_id --Xoa tat ca sdt cua khach hang do--
+           	DELETE FROM CUSTOMER WHERE customer_id=@customer_id
+           	COMMIT TRAN
+    	END TRY
+    	BEGIN CATCH
+           	ROLLBACK TRAN
+           	RAISERROR('KHÔNG XÓA ĐƯỢC KHÁCH HÀNG', 16, 1)
+    	END CATCH
+ END
+
+ exec proc_delete_customer @customer_id = 24
+
+-2.1.3. Update customer information (If update phone number of customer, then update in PHONE_NUMBER_OF_CUSTOMER table too)
+ CREATE PROCEDURE proc_update_customer
+    	@customer_id int,
+    	@customer_name nvarchar(50),
+    	@gender nvarchar(10),
+    	@birthday date,
+    	@identify_card varchar(25),
+    	@phone_number varchar(15),
+    	@email varchar(255),
+    	@address nvarchar(255),
+    	@status bit
+ AS
+ BEGIN
+    	BEGIN TRANSACTION
+    	BEGIN TRY
+           	-- Cập nhật thông tin khách hàng trong bảng CUSTOMER --
+           	UPDATE CUSTOMER
+           	SET
+                   	customer_name = @customer_name,
+                   	gender = @gender,
+                   	birthday = @birthday,
+                   	identify_card = @identify_card,
+                   	email = @email,
+                   	address = @address,
+                   	status = @status
+           	WHERE CUSTOMER.customer_id = @customer_id
+ 
+           	COMMIT TRAN  -- Hoàn thành giao dịch cho cả hai lệnh UPDATE
+    	END TRY
+    	BEGIN CATCH
+           	ROLLBACK TRAN
+         c
+    	END CATCH
+ END
+
+ EXEC proc_update_customer
+    	@customer_id = 1,
+    	@customer_name = 'heheaaa',
+    	@gender = N'Nam',
+    	@birthday =  '2003-12-11',
+    	@identify_card = '723546235875',
+    	@phone_number = '0123456123',
+    	@email = 'test1.2.3@gmail.com',
+    	@address = 'update ne',
+    	@status = 1
+
+2.2. **FUNCTION**
+-2.2.1. Search customer information (NOT AVAILABLE)
+ CREATE FUNCTION func_search_customer(@string nvarchar(50))
+ RETURNS TABLE
+ AS
+ RETURN(
+ SELECT *
+ FROM CUSTOMER
+ WHERE CONCAT(customer_name,
+ 			gender,
+ 			identify_card,
+ 			email,
+ 			address,
+ 			(SELECT STRING_AGG(phone_number, ',') AS phone_numbers
+ 				FROM PHONE_NUMBER_OF_CUSTOMER 
+ 				WHERE customer_id = customer_id)
+ 			) LIKE '%' + @string + '%')
+
+ SELECT * FROM SEARCH_CUSTOMER('hehe')
+
+2.2.2. Search customer information by range of birthday
+ CREATE FUNCTION func_search_customer_by_dob
+ (@fromdate DateTime , @todate DateTime)
+ RETURNS TABLE
+ AS RETURN
+ (
+ SELECT *
+ FROM CUSTOMER
+ WHERE birthday BETWEEN @fromdate AND @todate)
+
+ SELECT * FROM func_search_customer_by_dob('1990-01-15', '2003-12-10')
+>>>>>>> Anh-01 | CRUD + filter CUSTOMER
 
 --3. **HÓA ĐƠN**
 ---3.1. **PROCEDURE**
