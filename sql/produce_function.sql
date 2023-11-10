@@ -437,8 +437,6 @@ BEGIN
     END CATCH
 END;
 
-
-
 EXEC proc_insertEmployee
     @employee_name = N'Nguyen Văn A',
     @gender = N'Nam',        
@@ -447,92 +445,169 @@ EXEC proc_insertEmployee
     @address = N'Some Address', 
     @email = 'email@gmail.com'; 
 
-
 SELECT * FROM EMPLOYEE;
 
-------Xóa dịch vụ phòng
+------Xóa NHÂN VIÊN
 
---CREATE or ALTER PROCEDURE proc_deleteServiceRoom
---    @service_room_id INT
---AS
---BEGIN
---    BEGIN TRANSACTION;
---    BEGIN TRY
---        DELETE FROM SERVICE_ROOM where SERVICE_ROOM.service_room_id = @service_room_id
---        COMMIT;
---    END TRY
---   	BEGIN CATCH
---		DECLARE @err NVARCHAR(MAX)
---		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
---		RAISERROR(@err, 16, 1)
---	END CATCH
---END;
+CREATE or ALTER PROCEDURE proc_deleteEmployee
+    @employee_id INT
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        DELETE FROM EMPLOYEE where employee_id = @employee_id
+        COMMIT;
+    END TRY
+   	BEGIN CATCH
+		DECLARE @err NVARCHAR(MAX)
+		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+		RAISERROR(@err, 16, 1)
+	END CATCH
+END;
  
--- exec proc_deleteServiceRoom @service_room_id = 1004;
+ exec proc_deleteEmployee @employee_id = 7;
 
--- SELECT * FROM SERVICE_ROOM;
+ SELECT * FROM EMPLOYEE;
 
----- --Cập nhật dịch vụ phòng
---CREATE or ALTER PROCEDURE proc_updateServiceRoom
---	@service_room_id INT,
---	@service_room_name NVARCHAR(50),
---	@service_room_status BIT,
---	@service_room_price FLOAT,
---	@discount_service FLOAT
---AS
---BEGIN
---BEGIN TRANSACTION;
---	BEGIN TRY
---		UPDATE SERVICE_ROOM
---		SET
---			service_room_name = @service_room_name,
---			service_room_status = @service_room_status,
---			service_room_price = @service_room_price,
---			discount_service = @discount_service
---		WHERE service_room_id = @service_room_id;
---		COMMIT;
---	END TRY
---   	BEGIN CATCH
---		DECLARE @err NVARCHAR(MAX)
---		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
---		RAISERROR(@err, 16, 1)
---	END CATCH
---END;
+---- --Cập nhật Nhân viên
+CREATE or ALTER PROCEDURE proc_updateEmployee
+    @employee_id INT,
+	@employee_name NVARCHAR(50),
+    @gender NVARCHAR(10),        
+    @birthday DATE,
+    @identify_card VARCHAR(25),
+    @address NVARCHAR(255),
+    @email VARCHAR(255) 
+AS
+BEGIN
+BEGIN TRANSACTION;
+	BEGIN TRY
+		UPDATE EMPLOYEE
+		SET
+			employee_name = @employee_name,
+			gender = @gender,
+			birthday = @birthday,
+			identify_card = @identify_card,
+			address = @address,
+			email = @email
+		WHERE employee_id = @employee_id;
+		COMMIT;
+	END TRY
+   	BEGIN CATCH
+		DECLARE @err NVARCHAR(MAX)
+		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+		RAISERROR(@err, 16, 1)
+	END CATCH
+END;
 
---exec proc_updateServiceRoom 
---	@service_room_id = 1002,
---	@service_room_name = N'Vay đồ',
---	@service_room_status = 1,
---	@service_room_price = 32943243,
---	@discount_service = 3249333;
+EXEC proc_updateEmployee
+	@employee_id = 8,
+    @employee_name = N'Nguyen Văn B',
+    @gender = N'Nam',        
+    @birthday = '1990-01-01',
+    @identify_card = '123456789101',
+    @address = N'Some Address', 
+    @email = 'email@gmail.com'; 
 
---Select * from SERVICE_ROOM;
+ SELECT * FROM EMPLOYEE;
 
-------Tìm kiếm theo tên dịch vụ 
+------Tìm kiếm theo tên nhân viên
 --Function trả về table không cần định dạng
 
---CREATE or ALTER FUNCTION func_searchByServiceName (@service_room_name NVARCHAR(50)) 
---RETURNS table
---AS 
---	RETURN ( SELECT * FROM View_Service WHERE service_room_name = @service_room_name);
-
---SELECT * FROM func_searchByServiceName(N'Giặt ủi, là');
-
----- Tìm kiếm dịch vụ trong khoảng giá
-
---CREATE OR ALTER FUNCTION func_searchInPriceRange(@service_room_price1 FLOAT, @service_room_price2 FLOAT)
---	RETURNS table
---AS RETURN ( SELECT * FROM View_Service WHERE service_room_price between @service_room_price1 and @service_room_price2)
-
---SELECT * FROM func_searchInPriceRange(10000, 15000);
-
---- phone number of employee
-
-
+CREATE or ALTER FUNCTION func_searchByEmployeeName (@employee_name NVARCHAR(50)) 
+RETURNS table
+AS 
+	RETURN ( SELECT * FROM View_Front_Desk_Employee WHERE employee_name = @employee_name);
 
 --4. **Tài khoản**
 SELECT * FROM ACCOUNT;
+--THÊM ACCOUNT
 
+CREATE OR ALTER PROCEDURE proc_insertAccount
+    @username NVARCHAR(50),
+    @password VARCHAR(25),
+    @employee_id INT
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        INSERT INTO ACCOUNT (username, password, employee_id)
+        VALUES (@username, @password, @employee_id);
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        DECLARE @err NVARCHAR(MAX)
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE() 
+        RAISERROR(@err, 16, 1);
+    END CATCH
+END;
+
+EXEC proc_insertAccount
+    @username = 'CAM ON',
+    @password = '123446',
+    @employee_id = 8
+
+SELECT * FROM ACCOUNT;
+
+------Xóa ACCOUNT
+
+CREATE or ALTER PROCEDURE proc_deleteAccount
+    @account_id INT
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        DELETE FROM ACCOUNT where account_id = @account_id
+        COMMIT;
+    END TRY
+   	BEGIN CATCH
+		DECLARE @err NVARCHAR(MAX)
+		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+		RAISERROR(@err, 16, 1)
+	END CATCH
+END;
+ 
+ exec proc_deleteAccount @account_id = 6;
+
+ SELECT * FROM ACCOUNT;
+
+---- --Cập nhật ACCOUNT
+CREATE OR ALTER PROCEDURE proc_updateAccount
+    @account_id INT,
+    @username NVARCHAR(50),
+    @password VARCHAR(25),
+    @employee_id INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        UPDATE ACCOUNT
+        SET
+            username = @username,
+            password = @password,
+            employee_id = @employee_id
+        WHERE account_id = @account_id;
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; -- Rollback the transaction if an error occurs
+        RAISERROR(@err, 16, 1);
+    END CATCH
+END;
+
+
+select * from account;
+EXEC proc_updateAccount
+	@account_id = 1,
+    @username = 'CAM ON',
+    @password = '123446',
+    @employee_id = 1
+
+SELECT * FROM ACCOUNT;
 
 --- 7. customer of booking record
 
