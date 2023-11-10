@@ -478,7 +478,6 @@ BEGIN
     WHERE booking_record_id = @booking_record_id_new;
 	END;
 END;
-END;
 
 
  --2.6.11. Trigger to handle when a customer has made a deposit but didn't check-in (the hotel holds the reservation until 12 PM the next day).

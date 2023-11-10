@@ -1,6 +1,5 @@
+
 USE HotelManagementSystem;
-
-
 
 -- 2.5.1. View khách hàng
 -- View 1: Xem thông tin danh sách khách hàng
@@ -8,6 +7,7 @@ USE HotelManagementSystem;
 CREATE VIEW View_Customer AS
 SELECT  c.*, p.phone_number
 FROM CUSTOMER c JOIN PHONE_NUMBER_OF_CUSTOMER p ON c.customer_id = p.customer_id;
+
 
 -- View 2: Tạo view cho tên và ID của khách hàng
 CREATE VIEW View_Customer_Name AS
@@ -34,7 +34,6 @@ WHERE status = 0;
 
 -- 2.5.2. View hóa đơn
 -- View 6: Xem danh sách hóa đơn
-
 CREATE VIEW View_Bill AS 
 SELECT b.*, c.customer_id, c.customer_name, e.employee_name  
 FROM BILL b
@@ -65,6 +64,8 @@ FROM
     ON ROOM.room_type_id = ROOM_TYPE.room_type_id);
 
 
+--View bổ sung Room_type
+
 CREATE VIEW View_Room_Type AS
 SELECT room_type_id, room_type_name
 FROM ROOM_TYPE;
@@ -89,6 +90,7 @@ FROM
     INNER JOIN ROOM r
     ON br.room_id = r.room_id;
 
+
 -- View 12: Xem danh sách hồ sơ đặt phòng đã check-in
 CREATE VIEW View_Confirmed_Booking_Record AS
 SELECT *
@@ -101,17 +103,20 @@ SELECT *
 FROM View_Booking_Record
 WHERE status like N'Chờ xác nhận';
 
+
 -- View 14: Xem danh sách hồ sơ đặt phòng đã bị hủy
 CREATE VIEW View_Canceled_Booking_Record AS
 SELECT *
 FROM View_Booking_Record
 WHERE status like N'Đã hủy';
 
+
 -- View 15: Xem danh sách hồ sơ đặt phòng đã đặt cọc
 CREATE VIEW View_Deposit_Booking_Record AS
 SELECT *
 FROM View_Booking_Record
 WHERE deposit != 0;
+
 
 -- View 16: Xem danh sách hồ sơ đặt phòng chưa đặt cọc
 CREATE VIEW View_No_Deposit_Booking_Record AS
@@ -137,17 +142,18 @@ CREATE VIEW View_Service AS
 SELECT *
 FROM SERVICE_ROOM;
 
+
+create view View_Service_Name
+AS
+SELECT service_room_id, service_room_name
+FROM SERVICE_ROOM
+
+
 -- View 19: Tạo view cho tên và số điện thoại của khách hàng sử dụng dịch vụ
 CREATE VIEW View_Customer_Service AS
 SELECT CUSTOMER.customer_id, CUSTOMER.customer_name, phone_number
 FROM CUSTOMER
 JOIN PHONE_NUMBER_OF_CUSTOMER ON CUSTOMER.customer_id = PHONE_NUMBER_OF_CUSTOMER.customer_id;
-
-
-create view View_Name_Service_Room
-AS
-SELECT service_room_id, service_room_name
-FROM SERVICE_ROOM
 
 -- View 20: Xem danh sách mẫu thông tin sử dụng dịch vụ
 CREATE VIEW View_Service_Usage_Info AS   
@@ -163,6 +169,7 @@ FROM
     JOIN CUSTOMER c ON br.representative_id = c.customer_id
 	JOIN ROOM r ON br.room_id = r.room_id;
 
+
 -- 2.5.6. View nhân viên
 -- View 21: Xem danh sách nhân viên lễ tân
 CREATE VIEW View_Front_Desk_Employee AS
@@ -174,11 +181,6 @@ CREATE VIEW View_Employee_Name AS
 SELECT employee_id, employee_name
 FROM EMPLOYEE;
 
-CREATE VIEW View_Employee_Phone AS
-SELECT EMPLOYEE.employee_name, phone_number
-FROM EMPLOYEE
-JOIN PHONE_NUMBER_OF_EMPLOYEE ON EMPLOYEE.employee_id = PHONE_NUMBER_OF_EMPLOYEE.employee_id;
-
 -- 2.5.7. View tài khoản
 -- View 23: Xem danh sách thông tin tài khoản của nhân viên lễ tân
 CREATE VIEW View_Front_Desk_Account AS
@@ -186,7 +188,14 @@ SELECT
     ACCOUNT.account_id,
     ACCOUNT.username,
     ACCOUNT.password,
+	EMPLOYEE.employee_id,
     EMPLOYEE.employee_name
 FROM
     (ACCOUNT INNER JOIN EMPLOYEE
     ON ACCOUNT.employee_id = EMPLOYEE.employee_id);
+
+-- View 24: Tạo view cho tên và số điện thoại của khách hàng
+CREATE VIEW View_Employee_Phone AS
+SELECT EMPLOYEE.employee_id, employee_name, phone_number
+FROM EMPLOYEE
+JOIN PHONE_NUMBER_OF_EMPLOYEE ON EMPLOYEE.employee_id= PHONE_NUMBER_OF_EMPLOYEE.employee_id;
