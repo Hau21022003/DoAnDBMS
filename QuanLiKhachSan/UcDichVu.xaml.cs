@@ -58,7 +58,7 @@ namespace QuanLiKhachSan
             try
             {
                 int maDichVu = int.Parse(((string)cbDichVuCuaDatDichVu.SelectedValue).Split("|")[0]);
-                serviceUsageInfoDao.Sua(int.Parse((string)tbMaSuDungDichVu.Content),int.Parse(txtSoLuong.Text), float.Parse(txtTongPhi.Text), int.Parse(txtMaDatPhong.Text), maDichVu);
+                serviceUsageInfoDao.Sua(int.Parse((string)lbMaSuDungDichVu.Content),int.Parse(txtSoLuong.Text), float.Parse(txtTongPhi.Text), int.Parse(txtMaDatPhong.Text), maDichVu);
                 LayDanhSach();
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace QuanLiKhachSan
             DataRowView drv = (DataRowView)dtgDanhSachDatDichVu.SelectedValue;
             try
             {
-                tbMaSuDungDichVu.Content = drv["service_usage_infor_id"].ToString();
+                lbMaSuDungDichVu.Content = drv["service_usage_infor_id"].ToString();
                 txtSoLuong.Text = drv["number_of_service"].ToString();
                 dtpNgaySuDung.Text = drv["date_used"].ToString();
                 txtMaDatPhong.Text = drv["booking_record_id"].ToString();

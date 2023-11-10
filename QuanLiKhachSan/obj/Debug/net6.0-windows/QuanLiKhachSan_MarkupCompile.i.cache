@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\SEM1-Y3\DBMS\Project\DoAnDBMS\QuanLiKhachSan\obj\Debug\net6.0-windows\
+D:\DoAnDBMS\DoAnDBMS\QuanLiKhachSan\obj\Debug\net6.0-windows\
 QuanLiKhachSan
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-D:\SEM1-Y3\DBMS\Project\DoAnDBMS\QuanLiKhachSan\App.xaml
+D:\DoAnDBMS\DoAnDBMS\QuanLiKhachSan\App.xaml
 9-2111521820
 
 32-1682267672
-197-689199417
+1971391968651
 fDangNhap.xaml;fUngDung.xaml;MyResourceDictionary.xaml;UcDichVu.xaml;UcDoanhThu.xaml;UcKhachHang.xaml;UcNhanVien.xaml;UcPhong.xaml;UcThanhToan.xaml;
 
 False

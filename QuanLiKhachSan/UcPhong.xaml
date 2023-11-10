@@ -45,7 +45,7 @@
                                  Style="{StaticResource tbxNoiDung}" />
                         <TextBox x:Name="txtPhuPhi" Grid.Column="1" 
                                  Style="{StaticResource tbxNoiDung}" />
-                        <ComboBox Style="{StaticResource cbLuaChon}" SelectedValuePath="Content">
+                        <ComboBox x:Name="cbTrangThaiDatPhong" Style="{StaticResource cbLuaChon}" SelectedValuePath="Content">
                             <ComboBoxItem Content="Chờ xác nhận"/>
                             <ComboBoxItem Content="Đã xác nhận"/>
                             <ComboBoxItem Content="Đã hủy"/>

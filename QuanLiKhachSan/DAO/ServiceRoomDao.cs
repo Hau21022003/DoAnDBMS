@@ -32,7 +32,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSachTenDichVu()
         {
             DataTable dt = new DataTable();
-            string sql = "select* from View_Name_Service_Room";
+            string sql = "select* from View_Service_Name";
             SqlConnection conn = DbConnection.conn;
             try
             {
