@@ -86,9 +86,7 @@ namespace QuanLiKhachSan
 
         private void btnXoaKhachHang_Click(object sender, RoutedEventArgs e)
         {
-<<<<<<< nhanhHau
-            
-=======
+
             DataRowView drv = (DataRowView)dtgDanhSachKhachHang.SelectedValue;
             try
             {
@@ -99,7 +97,7 @@ namespace QuanLiKhachSan
             {
                 MessageBox.Show(ex.Message);
             }
->>>>>>> Anh-01 | CRUD + filter CUSTOMER
+
         }
 
         private void btnSuaSdtKhach_Click(object sender, RoutedEventArgs e)

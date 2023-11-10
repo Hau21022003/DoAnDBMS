@@ -35,10 +35,8 @@ namespace QuanLiKhachSan
         {
             InitializeComponent();
             this.DataContext = hinhAnh;
-            //List<string> list = new List<string>() { "Đang cho thuê", "Trống", "Đang sửa" };
-            //cbTrangThaiPhong.ItemsSource = list;
         }
-        
+
         public void LayDanhSach()
         {
             dtgDanhSachPhong.ItemsSource = roomDao.LayDanhSach().DefaultView;
@@ -75,7 +73,7 @@ namespace QuanLiKhachSan
                     note, status, representativeId, roomId);
                 LayDanhSach();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -96,7 +94,7 @@ namespace QuanLiKhachSan
                 string status = cbTrangThaiDatPhong.Text;
                 int representativeId = int.Parse(cbNguoiDaiDienDatPhong.Text.Split("|")[0]);
                 int roomId = int.Parse(cbPhongCuaDatPhong.Text.Split("|")[0]);
-                bookingDao.Update(bookingRecordId,expectedCheckinDate, expectedCheckoutDate, actualCheckinDate, actualCheckoutDate, deposit, surcharge,
+                bookingDao.Update(bookingRecordId, expectedCheckinDate, expectedCheckoutDate, actualCheckinDate, actualCheckoutDate, deposit, surcharge,
                     note, status, representativeId, roomId);
                 LayDanhSach();
             }
@@ -115,7 +113,7 @@ namespace QuanLiKhachSan
                 dtpNgayDatPhong.SelectedDate = (DateTime)drv["booking_time"];
                 dtpNgayCheckinDuKien.SelectedDate = (DateTime)drv["expected_checkin_date"];
                 dtpNgayCheckoutDuKien.SelectedDate = (DateTime)drv["expected_checkout_date"];
-                if(drv["actual_checkin_date"] != DBNull.Value)
+                if (drv["actual_checkin_date"] != DBNull.Value)
                 {
                     dtpNgayCheckinThucTe.SelectedDate = (DateTime)drv["actual_checkin_date"];
                 }
@@ -143,7 +141,7 @@ namespace QuanLiKhachSan
         private void btnXoaDatPhong_Click(object sender, RoutedEventArgs e)
         {
             DataRowView drv = (DataRowView)dtgDanhSachDatPhong.SelectedValue;
-            int bookingId =  (int)drv["booking_record_id"];
+            int bookingId = (int)drv["booking_record_id"];
             bookingDao.Delete(bookingId);
             LayDanhSach();
         }
@@ -152,7 +150,7 @@ namespace QuanLiKhachSan
         {
             DataRowView drv = (DataRowView)dtgDanhSachPhong.SelectedValue;
             try
-            { 
+            {
                 lbMaPhong.Content = drv["room_id"].ToString();
                 txtTenPhong.Text = drv["room_name"].ToString();
                 txtSucChua.Text = drv["room_capacity"].ToString();
@@ -188,9 +186,9 @@ namespace QuanLiKhachSan
                     hinhAnh.HinhAnh, maLoaiPhong);
                 LayDanhSach();
             }
-            catch (Exception ex) 
-            { 
-                MessageBox.Show(ex.Message); 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -234,7 +232,17 @@ namespace QuanLiKhachSan
 
         private void btnThemKhachHangDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                int booking_record_id = int.Parse(txtMaDatPhongKhachHang.Text);
+                int customer_id = 1; //
+                customerBookingDao.Them(booking_record_id, customer_id);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSuaKhachHangDatPhong_Click(object sender, RoutedEventArgs e)
@@ -268,7 +276,7 @@ namespace QuanLiKhachSan
             if (ofd.ShowDialog() == true)
             {
                 hinhAnh.HinhAnh = ChuyenHinhAnhSangMang(ofd.FileName);
-            }    
+            }
         }
 
         private void btnChonAnh_Click(object sender, RoutedEventArgs e)
@@ -286,7 +294,7 @@ namespace QuanLiKhachSan
                 txtGiaLoaiPhong.Text = drv["price"].ToString();
                 txtGiamGiaLoaiPhong.Text = drv["discount_room"].ToString();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -308,15 +316,70 @@ namespace QuanLiKhachSan
 
         private void btnXoaKhachDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DataRowView drv = (DataRowView)dtgDanhSachKhachHangDatPhong.SelectedValue;
+                int booking_record_id = (int)drv["booking_record_id"];
+                int customer_id = (int)drv["customer_id"];
+                customerBookingDao.Xoa(booking_record_id, customer_id);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaLoaiPhong_Click(object sender, RoutedEventArgs e)
         {
             DataRowView drv = (DataRowView)dtgDanhSachLoaiPhong.SelectedValue;
             int roomTypeId = (int)drv["room_type_id"];
-            bookingDao.Delete(roomTypeId);
+            roomTypeDao.Xoa(roomTypeId);
             LayDanhSach();
         }
+        private void btnTimKiemTheoThongTinLoaiPhong_Click(object sender, RoutedEventArgs e)
+        {
+            string nameService = txtLocThongTinPhong.Text;
+            Console.WriteLine(nameService);
+            dtgDanhSachLoaiPhong.ItemsSource = roomTypeDao.TimKiemThongTinLoaiPhong(nameService).DefaultView;
+        }
+
+        private void btnTimKiemTheoKhoangGiaLoaiPhong_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                float fromPrice = float.Parse(txtLocGiaLoaiPhongThap.Text);
+                float toPrice = float.Parse(txtLocGiaLoaiPhongCao.Text);
+                Console.WriteLine(fromPrice);
+                Console.WriteLine(toPrice);
+                dtgDanhSachLoaiPhong.ItemsSource = roomTypeDao.TimKiemTheoKhoangGia(fromPrice, toPrice).DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Giá trị không hợp lệ");
+            }
+        }
+
+
+        private void btnTimKiemTheoKhoangGia_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+        }
+
+        private void btnTimKiemTheoTenKhachHang_Click(object sender, RoutedEventArgs e)
+        {
+            string customerName = txtLocTenKhachHang.Text;
+            dtgDanhSachDatPhong.ItemsSource = bookingDao.TimKiemHopDongTheoTenKhachHang(customerName).DefaultView;
+        }
+
+        private void btnTimKiemTheoTenPhong_Click(object sender, RoutedEventArgs e)
+        {
+            string roomName = txtLocTenPhong.Text;
+            dtgDanhSachDatPhong.ItemsSource = bookingDao.TimKiemHopDongTheoTenPhong(roomName).DefaultView;
+        }
+
+       
     }
 }

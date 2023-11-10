@@ -30,7 +30,8 @@ namespace QuanLiKhachSan.DAO
             return dt;
         }
 
-        public void Them(string room_type_name, float price, float discount_room) { 
+        public void Them(string room_type_name, float price, float discount_room)
+        {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
@@ -61,7 +62,7 @@ namespace QuanLiKhachSan.DAO
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "proc_delete_room_type";
+            cmd.CommandText = "proc_update_room_type";
             cmd.Parameters.Add("@room_type_id", SqlDbType.Int).Value = id;
             cmd.Parameters.Add("@room_type_name", SqlDbType.NVarChar).Value = room_type_name;
             cmd.Parameters.Add("@price", SqlDbType.Float).Value = price;
@@ -89,8 +90,8 @@ namespace QuanLiKhachSan.DAO
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "proc_deleteServiceRoom";
-            cmd.Parameters.Add("@service_room_id", SqlDbType.Int).Value = id;
+            cmd.CommandText = "proc_delete_room_type";
+            cmd.Parameters.Add("@room_type_id", SqlDbType.Int).Value = id;
 
             try
             {
@@ -107,6 +108,61 @@ namespace QuanLiKhachSan.DAO
             finally
             {
                 conn.Close();
+            }
+        }
+        public DataTable TimKiemThongTinLoaiPhong(string information)
+        {
+            if (information == null || information == "")
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_search_room_type(@string)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@string", information);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }
+        }
+        public DataTable TimKiemTheoKhoangGia(float fromPrice, float toPrice)
+        {
+            if (fromPrice == null || toPrice == null)
+            {
+                return LayDanhSach();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_search_room_type_by_price (@fromprice, @toprice)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@fromprice", fromPrice);
+                    cmd.Parameters.AddWithValue("@toprice", toPrice);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
             }
         }
     }

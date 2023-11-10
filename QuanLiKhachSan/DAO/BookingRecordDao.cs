@@ -217,5 +217,59 @@ namespace QuanLiKhachSan.DAO
             }
 
         }
+        public DataTable TimKiemHopDongTheoTenKhachHang(string customerName)
+        {
+            if (customerName == null || customerName == "")
+            {
+                return LayDsHoSoDaDatCoc();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_getBookingRecordByCustomerName(@customer_name)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@customer_name", customerName);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }
+        }
+        public DataTable TimKiemHopDongTheoTenPhong(string roomName)
+        {
+            if (roomName == null || roomName == "")
+            {
+                return LayDsHoSoDaDatCoc();
+            }
+            else
+            {
+                string sql = "SELECT * FROM func_getBookingRecordByRoomName(@room_name)";
+                DataTable dt = new DataTable();
+                SqlConnection conn = DbConnection.conn;
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@room_name", roomName);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally { conn.Close(); }
+                return dt;
+            }
+        }
     }
 }

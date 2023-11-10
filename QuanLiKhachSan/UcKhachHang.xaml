@@ -197,18 +197,15 @@
                     <TextBox Grid.Column="0"
                              x:Name="jj"
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
-<<<<<<< nhanhHau
+                            
                              Tag="Tìm kiếm theo theo tên khách hàng hoặc số điện thoại"
                              TextChanged="TextBox_TextChanged"/>
-=======
-                             Tag="Tìm kiếm theo thông tin khách hàng có"/>
                     <Button Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
                     <TextBox Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              Tag="Tìm kiếm theo" 
                              ToolTip="Tìm kiếm theo" />
->>>>>>> Anh-01 | CRUD + filter CUSTOMER
+
                     <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaKhach" 
