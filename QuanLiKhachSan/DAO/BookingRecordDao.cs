@@ -119,5 +119,22 @@ namespace QuanLiKhachSan.DAO
             finally { conn.Close(); }
             return dt;
         }
+        public void Xoa(int bookingRecordId)
+        {
+            string sql = "EXEC proc_deleteBookingRecord @booking_record_id";
+            SqlConnection conn = DbConnection.conn;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@booking_record_id", bookingRecordId);
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { conn.Close(); }
+        }
     }
 }

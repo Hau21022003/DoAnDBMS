@@ -104,7 +104,10 @@ namespace QuanLiKhachSan
 
         private void btnXoaDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachDatPhong.SelectedValue;
+            int bookingId =  (int)drv["booking_record_id"];
+            bookingDao.Xoa(bookingId);
+            LayDanhSach();
         }
 
         private void btnThongTinPhong_Click(object sender, RoutedEventArgs e)
