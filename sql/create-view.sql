@@ -143,7 +143,7 @@ SELECT *
 FROM SERVICE_ROOM;
 
 
-create view View_Name_Service_Room
+create view View_Service_Name
 AS
 SELECT service_room_id, service_room_name
 FROM SERVICE_ROOM
