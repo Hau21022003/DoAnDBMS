@@ -57,7 +57,6 @@ namespace QuanLiKhachSan.DAO
             cmd.Parameters.Add("@service_room_name", SqlDbType.NVarChar).Value = serviceRoomName;
             cmd.Parameters.Add("@service_room_price", SqlDbType.Float).Value = serviceRoomPrice;
             cmd.Parameters.Add("@discount_service", SqlDbType.Float).Value = discountService;
-
             try
             {
                 conn.Open();

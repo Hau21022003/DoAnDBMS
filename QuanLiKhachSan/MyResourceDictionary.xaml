@@ -83,7 +83,7 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="btnTimKiem" TargetType="Button" BasedOn="{StaticResource btnHinhAnh}">
-        <Setter Property="Margin" Value="20 5 20 5"/>
+        <Setter Property="Margin" Value="0 0 20 0"/>
         <Setter Property="Background" Value="#FFB5D6F9"/>
         <Setter Property="Width" Value="30"/>
         <Setter Property="Height" Value="30"/>
@@ -264,7 +264,6 @@
                                    VerticalAlignment="Center" Foreground="#FFC0B8B8" Visibility="Collapsed"/>
                             <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="5 0 0 0" 
                                       Background="Transparent" BorderThickness="0"/>
-                            <Image Source="/HinhAnh/TimKiem.png" Height="20" Margin="0 0 10 0" Grid.Column="1"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

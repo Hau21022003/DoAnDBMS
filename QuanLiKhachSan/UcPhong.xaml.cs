@@ -108,7 +108,36 @@ namespace QuanLiKhachSan
 
         private void btnThongTinDatPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachDatPhong.SelectedValue;
+            try
+            {
+                lbMaDatPhong.Content = drv["booking_record_id"].ToString();
+                dtpNgayDatPhong.SelectedDate = (DateTime)drv["booking_time"];
+                dtpNgayCheckinDuKien.SelectedDate = (DateTime)drv["expected_checkin_date"];
+                dtpNgayCheckoutDuKien.SelectedDate = (DateTime)drv["expected_checkout_date"];
+                if(drv["actual_checkin_date"] != DBNull.Value)
+                {
+                    dtpNgayCheckinThucTe.SelectedDate = (DateTime)drv["actual_checkin_date"];
+                }
+                else
+                {
+                    dtpNgayCheckinThucTe.SelectedDate = null;
+                }
+                if (drv["actual_checkout_date"] != DBNull.Value)
+                    dtpNgayCheckoutThucTe.SelectedDate = (DateTime)drv["actual_checkout_date"];
+                else
+                    dtpNgayCheckoutThucTe.SelectedDate = null;
+                txtTienCoc.Text = drv["deposit"].ToString();
+                txtPhuPhi.Text = drv["surcharge"].ToString();
+                txtGhiChu.Text = drv["note"].ToString();
+                cbTrangThaiDatPhong.SelectedValue = drv["status"].ToString();
+                cbNguoiDaiDienDatPhong.SelectedValue = drv["customer_id"].ToString() + "|" + drv["customer_name"].ToString();
+                cbPhongCuaDatPhong.SelectedValue = drv["room_id"].ToString() + "|" + drv["room_name"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnXoaDatPhong_Click(object sender, RoutedEventArgs e)
@@ -156,7 +185,7 @@ namespace QuanLiKhachSan
             {
                 int maLoaiPhong = int.Parse(((string)cbLoaiPhongCuaPhong.SelectedValue).Split("|")[0]);
                 roomDao.Them(txtTenPhong.Text, int.Parse(txtSucChua.Text), (string)cbTrangThaiPhong.SelectedValue, txtMoTaPhong.Text,
-                    ChuyenMangLuu(hinhAnh.HinhAnh), maLoaiPhong);
+                    hinhAnh.HinhAnh, maLoaiPhong);
                 LayDanhSach();
             }
             catch (Exception ex) 
@@ -222,6 +251,46 @@ namespace QuanLiKhachSan
         private void btnChonAnh_Click(object sender, RoutedEventArgs e)
         {
             ChonHinhAnh();
+        }
+
+        private void btnThongTinLoaiPhong_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView drv = (DataRowView)dtgDanhSachLoaiPhong.SelectedValue;
+            try
+            {
+                lbMaLoaiPhong.Content = drv["room_type_id"].ToString();
+                txtTenLoaiPhong.Text = drv["room_type_name"].ToString();
+                txtGiaLoaiPhong.Text = drv["price"].ToString();
+                txtGiamGiaLoaiPhong.Text = drv["discount_room"].ToString();
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnThongTinKhachDatPhong_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView drv = (DataRowView)dtgDanhSachKhachHangDatPhong.SelectedValue;
+            try
+            {
+                cbKhachHangCuaKhachDatPhong.SelectedValue = drv["customer_id"].ToString() + "|" + drv["customer_name"].ToString();
+                txtMaDatPhongKhachHang.Text = drv["booking_record_id"].ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnXoaKhachDatPhong_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnXoaLoaiPhong_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

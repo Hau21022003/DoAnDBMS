@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -50,68 +52,88 @@ namespace QuanLiKhachSan.DAO
         public void Insert(string employeeName, string gender,DateTime? birthday, 
             string identifyCard,string address, string email)
         {
-            string sql = "EXEC proc_insertEmployee @employee_name,@gender,@birthday," +
-                "@identify_card,@address,@email";
             SqlConnection conn = DbConnection.conn;
             try
             {
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "proc_insertEmployee";
+                cmd.Parameters.Add("@employee_name", SqlDbType.NChar).Value = employeeName;
+                cmd.Parameters.Add("@gender", SqlDbType.NChar).Value = gender;
+                cmd.Parameters.Add("@birthday", SqlDbType.Date).Value = birthday;
+                cmd.Parameters.Add("@identify_card", SqlDbType.VarChar).Value = identifyCard;
+                cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
+                cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@employee_name", employeeName);
-                cmd.Parameters.AddWithValue("@gender", gender);
-                cmd.Parameters.AddWithValue("@birthday", (object)birthday ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@identify_card", identifyCard);
-                cmd.Parameters.AddWithValue("@address", address);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Thêm thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
         public void Update(int employeeId, string employeeName, string gender, DateTime? birthday,
             string identifyCard, string address, string email)
         {
-            string sql = "EXEC proc_updateEmployee @employee_id, @employee_name,@gender,@birthday," +
-                "@identify_card,@address,@email";
             SqlConnection conn = DbConnection.conn;
             try
             {
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "proc_updateEmployee";
+                cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
+                cmd.Parameters.Add("@employee_name", SqlDbType.NChar).Value = employeeName;
+                cmd.Parameters.Add("@gender", SqlDbType.NChar).Value = gender;
+                cmd.Parameters.Add("@birthday", SqlDbType.Date).Value = birthday;
+                cmd.Parameters.Add("@identify_card", SqlDbType.VarChar).Value = identifyCard;
+                cmd.Parameters.Add("@address", SqlDbType.NVarChar).Value = address;
+                cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@employee_id", employeeId);
-                cmd.Parameters.AddWithValue("@employee_name", employeeName);
-                cmd.Parameters.AddWithValue("@gender", gender);
-                cmd.Parameters.AddWithValue("@birthday", (object)birthday ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@identify_card", identifyCard);
-                cmd.Parameters.AddWithValue("@address", address);
-                cmd.Parameters.AddWithValue("@email", email);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Sửa thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
+            
         }
         public void Delete(int employeeId)
         {
-            string sql = "EXEC proc_deleteEmployee @employee_id";
             SqlConnection conn = DbConnection.conn;
             try
             {
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "proc_deleteEmployee";
+                cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@employee_id", employeeId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Xóa thành công");
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
         public DataTable TimKiemTheoHoTen(string employeeName)
         {

@@ -172,7 +172,7 @@ namespace QuanLiKhachSan
             DataRowView drv = (DataRowView)dtgDanhSachTaiKhoan.SelectedValue;
             try
             {
-                int accountId = int.Parse((string)drv["account_id"]);
+                int accountId = int.Parse(drv["account_id"].ToString());
                 accountDao.Delete(accountId);
                 LayDanhSach();
             }

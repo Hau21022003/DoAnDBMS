@@ -31,59 +31,80 @@ namespace QuanLiKhachSan.DAO
         }
         public void Update(int accountId, string username, string password, int employeeId)
         {
-            string sql = "EXEC proc_updateAccount @account_id, @username, @password, @employee_id";
             SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_updateAccount";
+            cmd.Parameters.Add("@account_id",SqlDbType.Int).Value = accountId;
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
+            cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@account_id", accountId);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@employee_id", employeeId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Sửa thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
         public void Insert(string username, string password, int employeeId)
         {
-            string sql = "EXEC proc_insertAccount @username, @password, @employee_id";
             SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_insertAccount";
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar).Value =password;
+            cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@employee_id", employeeId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Thêm thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
         public void Delete(int accountId)
         {
-            string sql = "EXEC proc_deleteAccount @account_id";
             SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_deleteAccount";
+            cmd.Parameters.Add("@account_id", SqlDbType.Int).Value = accountId;
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@account_id", accountId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Xóa thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

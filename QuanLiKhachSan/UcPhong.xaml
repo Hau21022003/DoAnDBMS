@@ -456,11 +456,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnThongTinPhong" 
-                                                Click="btnThongTinPhong_Click"
+                                        <Button x:Name="btnThongTinLoaiPhong" 
+                                                Click="btnThongTinLoaiPhong_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
-                                        <Button x:Name="btnXoaPhong" 
-                                                Click="btnXoaPhong_Click"  
+                                        <Button x:Name="btnXoaLoaiPhong" 
+                                                Click="btnXoaLoaiPhong_Click"
                                                 Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -540,11 +540,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnThongTinPhong" 
-                                                Click="btnThongTinPhong_Click"
+                                        <Button x:Name="btnThongTinKhachDatPhong" 
+                                                Click="btnThongTinKhachDatPhong_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
-                                        <Button x:Name="btnXoaPhong" 
-                                                Click="btnXoaPhong_Click"  
+                                        <Button x:Name="btnXoaKhachDatPhong" 
+                                                Click="btnXoaKhachDatPhong_Click"  
                                                 Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
