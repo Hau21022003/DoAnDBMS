@@ -4,6 +4,29 @@
  --or update a new booking record: đối với khách đặt online)
  --to update room status to 'Đang cho thuê'
 
+-- drop all trigger
+DECLARE @triggerName NVARCHAR(MAX)
+
+DECLARE triggerCursor CURSOR FOR
+    SELECT name
+    FROM sys.triggers
+
+OPEN triggerCursor
+FETCH NEXT FROM triggerCursor INTO @triggerName
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    DECLARE @sql NVARCHAR(MAX)
+    SET @sql = 'DROP TRIGGER ' + @triggerName
+    EXEC sp_executesql @sql
+
+    FETCH NEXT FROM triggerCursor INTO @triggerName
+END
+
+CLOSE triggerCursor
+DEALLOCATE triggerCursor
+
+
 
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_Vs_Online
 ON BOOKING_RECORD
@@ -479,86 +502,33 @@ BEGIN
 	END;
 END;
 
-
- --2.6.11. Trigger to handle when a customer has made a deposit but didn't check-in (the hotel holds the reservation until 12 PM the next day).
- --This deposit will be added to the revenue as described in the previous triggers. 
- --This trigger executes after an INSERT operation and updates room status (available), booking record status (canceled), and bill status (paid).
-
-CREATE OR ALTER TRIGGER Trg_Update_Room_Booking_Record_Bill_When_Customer_Not_Checkin
-ON BOOKING_RECORD
-AFTER INSERT
-AS
-BEGIN
-  DECLARE @booking_record_id VARCHAR(25);
-  SET @booking_record_id = (SELECT booking_record_id FROM inserted);
-
-  DECLARE @room_id VARCHAR(25);
-  SET @room_id = (SELECT room_id FROM inserted);
-
-  DECLARE @actual_checkin_date DATETIME;
-  SET @actual_checkin_date = (SELECT actual_checkin_date FROM inserted);
-  
-  DECLARE @expected_checkin_date DATETIME;
-  SET @expected_checkin_date = (SELECT expected_checkin_date FROM inserted);
-
-  DECLARE @deposit float;
-  SET @deposit = (SELECT deposit FROM inserted);
-
-  DECLARE @interval_time_hour INT;
-  SET @interval_time_hour = 12 + DATEDIFF(HOUR, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0), @expected_checkin_date)
-
-  WHILE @interval_time_hour > 24
-	BEGIN
-	  WAITFOR DELAY '23:59:59';
-	  SET @interval_time_hour = @interval_time_hour - 24;
-	END;
-
-  DECLARE @new_time_interval VARCHAR(10) = CONCAT(@interval_time_hour, ':00:00');
-  WAITFOR DELAY @new_time_interval;
-
-  IF (GETDATE() >= DATEADD(HOUR, 12, @expected_checkin_date)) AND @deposit > 0 AND @actual_checkin_date IS NULL
-  BEGIN
-    -- Update room status to 'Available'
-    UPDATE ROOM
-    SET room_status = N'Trống'
-    WHERE room_id = @room_id;
-
-    -- Update booking record status to 'Canceled'
-    UPDATE BOOKING_RECORD
-    SET status = N'Đã hủy'
-    WHERE booking_record_id = @booking_record_id;
-
-    -- Update bill status to 'Paid' and set total cost as the deposit
-    UPDATE BILL
-    SET total_cost = @deposit,
-        paytime = GETDATE()
-    WHERE booking_record_id = @booking_record_id;
-  END;
-END;
-
  --2.6.12. Trigger to update customer status to official and apply surcharge (phụ phí) for early check-in and exceeding room capacity (vượt quá số người quy định)
  --This trigger executes after an UPDATE operation on booking record status.
 
 CREATE OR ALTER TRIGGER Trg_Update_Booking_Record_Status_TOfficial
 ON BOOKING_RECORD
-AFTER UPDATE
+AFTER INSERT, UPDATE
 AS 
-IF UPDATE(status) 
 BEGIN
   DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
+
   IF @status = N'Đã xác nhận'
   BEGIN
     DECLARE @booking_record_id VARCHAR(25);
     DECLARE @actual_checkin_date DATETIME;
     DECLARE @room_id VARCHAR(25);
-    SELECT @booking_record_id = booking_record_id,
-           @room_id = room_id,
-           @actual_checkin_date = actual_checkin_date
+
+    SELECT
+      @booking_record_id = booking_record_id,
+      @room_id = room_id,
+      @actual_checkin_date = actual_checkin_date
     FROM inserted;
 
     -- Calculate room price
     DECLARE @room_price MONEY;
-    SELECT @room_price = price
+    
+    SELECT
+      @room_price = price
     FROM ROOM 
     JOIN ROOM_TYPE ON ROOM.room_type_id = ROOM_TYPE.room_type_id            
     WHERE room_id = @room_id;
@@ -587,12 +557,18 @@ BEGIN
     END
 
     -- Calculate the number of customers
-    DECLARE @number_of_customers INT = (SELECT COUNT(customer_id) 
-     FROM CUSTOMER_OF_BOOKING_RECORD 
-     WHERE booking_record_id = @booking_record_id);
+    DECLARE @number_of_customers INT = (
+      SELECT COUNT(customer_id) 
+      FROM CUSTOMER_OF_BOOKING_RECORD 
+      WHERE booking_record_id = @booking_record_id
+    );
 
     -- Get the room capacity
-    DECLARE @room_capacity INT = (SELECT room_capacity FROM ROOM WHERE room_id = @room_id);
+    DECLARE @room_capacity INT = (
+      SELECT room_capacity
+      FROM ROOM
+      WHERE room_id = @room_id
+    );
 
     -- Apply surcharge for exceeding room capacity
     IF @number_of_customers > @room_capacity
@@ -607,6 +583,6 @@ BEGIN
       UPDATE BOOKING_RECORD 
       SET surcharge = @surcharge, note = @note
       WHERE booking_record_id = @booking_record_id;
-    END
-  END
-END
+    END;
+  END;
+END;
