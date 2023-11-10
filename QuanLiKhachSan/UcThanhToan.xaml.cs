@@ -51,22 +51,5 @@ namespace QuanLiKhachSan
         {
 
         }
-
-
-        private void cbLocTrangThaiBill_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string trangThaiBill = (string)cbLocTrangThaiBill.SelectedValue;
-            if(trangThaiBill == "Chưa thanh toán")
-            {
-                dtgDanhSach.ItemsSource = billDao.LayDsBillChuaThanhToan().DefaultView;
-            } else if(trangThaiBill == "Đã thanh toán")
-            {
-                dtgDanhSach.ItemsSource = billDao.LayDsBillDaThanhToan().DefaultView;
-            }
-            else
-            {
-                dtgDanhSach.ItemsSource = billDao.LayDanhSach().DefaultView;
-            }
-        }
     }
 }

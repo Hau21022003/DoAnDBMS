@@ -1,26 +1,8 @@
---CREATE TRIGGER TG_TrungTenSP
---ON dbo.SanPham
---AFTER INSERT, UPDATE
---AS
---BEGIN
--- -- Kiểm tra tên sản phẩm vừa thêm có bị trùng lặp
--- IF EXISTS (
--- SELECT *
--- FROM inserted i
--- WHERE EXISTS (
--- SELECT *
--- FROM dbo.SanPham sp
--- WHERE sp.TenSP = i.TenSP AND sp.MaSP <> i.MaSP
--- )
--- )
--- BEGIN
--- -- Nếu trùng thì rollback
--- RAISERROR ('Tên sản phẩm bị trùng', 16, 1)
--- ROLLBACK;
--- END
---END
+--- nhập số điện thoại của khác hàng?
 
---Trigger trùng tên phòng roll back
+ --2.6.1. Trigger when customer come to checkin then (adding a new booking record: đối với khách đặt trực tiếp + checkin liền luôn
+ --or update a new booking record: đối với khách đặt online)
+ --to update room status to 'Đang cho thuê'
 
 
 CREATE OR ALTER TRIGGER Trg_Update_Status_Room_And_Customer_Status_When_Checkin_Vs_Online
@@ -208,9 +190,10 @@ ON BOOKING_RECORD
 AFTER INSERT
 AS
 BEGIN
-    INSERT INTO BILL (booking_record_id)
-    SELECT booking_record_id
-    FROM inserted;
+	DECLARE @booking_record_id INT = (SELECT booking_record_id
+    FROM inserted);
+    INSERT INTO BILL (booking_record_id, payment_method)
+    VALUES (@booking_record_id, N'Tiền mặt');
 END;
 
 
@@ -244,7 +227,7 @@ BEGIN
         SELECT *
         FROM ROOM
         INNER JOIN inserted I ON ROOM.room_id = I.room_id
-        WHERE ROOM.room_status LIKE 'Tr%'
+        WHERE ROOM.room_status LIKE N'Trống'
     )
     BEGIN
         INSERT INTO BOOKING_RECORD (
@@ -428,21 +411,6 @@ BEGIN
     END
 END;
 
--- 2.6.9. Trigger to update room status to available after payment
-CREATE OR ALTER TRIGGER UpdateRoomStatusToAvailable
-ON BILL
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(paytime)
-    BEGIN
-        UPDATE ROOM
-        SET room_status = 'Available'
-        FROM inserted i
-        JOIN BOOKING_RECORD br ON i.booking_record_id = br.booking_record_id
-        JOIN ROOM r ON br.room_id = r.room_id;
-    END
-END;
 
 -- BEFORE UPDATE
 
@@ -471,6 +439,8 @@ ON BOOKING_RECORD
 AFTER UPDATE
 AS
 BEGIN
+IF (UPDATE(room_id))
+BEGIN
     DECLARE @room_old VARCHAR(25);
     SET @room_old = (SELECT room_id FROM deleted);
 
@@ -484,11 +454,11 @@ BEGIN
     SET @number_of_days = DATEDIFF(DAY, (SELECT actual_checkin_date FROM inserted), (SELECT actual_checkout_date FROM inserted)) + 1;
 
     UPDATE ROOM
-    SET room_status = 'Available'
+    SET room_status = N'Trống'
     WHERE room_id = @room_old;
 
     UPDATE ROOM
-    SET room_status = 'Onrent'
+    SET room_status = N'Đang cho thuê'
     WHERE room_id = @room_new;
 
     UPDATE BILL
@@ -506,6 +476,7 @@ BEGIN
             + (SELECT surcharge FROM inserted)
         )
     WHERE booking_record_id = @booking_record_id_new;
+END;
 END;
 
 
@@ -550,12 +521,12 @@ BEGIN
   BEGIN
     -- Update room status to 'Available'
     UPDATE ROOM
-    SET room_status = 'Available'
+    SET room_status = N'Trống'
     WHERE room_id = @room_id;
 
     -- Update booking record status to 'Canceled'
     UPDATE BOOKING_RECORD
-    SET status = 'Canceled'
+    SET status = N'Đã hủy'
     WHERE booking_record_id = @booking_record_id;
 
     -- Update bill status to 'Paid' and set total cost as the deposit
@@ -576,7 +547,7 @@ AS
 IF UPDATE(status) 
 BEGIN
   DECLARE @status VARCHAR(10) = (SELECT status FROM inserted);
-  IF @status = 'official'
+  IF @status = N'Đã xác nhận'
   BEGIN
     DECLARE @booking_record_id VARCHAR(25);
     DECLARE @actual_checkin_date DATETIME;
@@ -585,13 +556,6 @@ BEGIN
            @room_id = room_id,
            @actual_checkin_date = actual_checkin_date
     FROM inserted;
-
-    -- Update customer status to 'official'
-    UPDATE CUSTOMER
-    SET status = 'official'
-    WHERE customer_id IN (SELECT customer_id 
-      FROM CUSTOMER_OF_BOOKING_RECORD
-      WHERE booking_record_id = @booking_record_id);
 
     -- Calculate room price
     DECLARE @room_price MONEY;

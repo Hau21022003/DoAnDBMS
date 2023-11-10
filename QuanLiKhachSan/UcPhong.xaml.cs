@@ -35,6 +35,8 @@ namespace QuanLiKhachSan
         {
             InitializeComponent();
             this.DataContext = hinhAnh;
+            //List<string> list = new List<string>() { "Đang cho thuê", "Trống", "Đang sửa" };
+            //cbTrangThaiPhong.ItemsSource = list;
         }
         
         public void LayDanhSach()
@@ -67,39 +69,7 @@ namespace QuanLiKhachSan
 
         private void btnThongTinDatPhong_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView drv = (DataRowView)dtgDanhSachDatPhong.SelectedValue;
-            try
-            {
-                lbMaDatPhong.Content = drv["booking_record_id"].ToString();
-                dtpNgayDatPhong.SelectedDate = DateTime.Parse(drv["booking_time"].ToString());
-                dtpNgayCheckinDuKien.SelectedDate = DateTime.Parse(drv["expected_checkin_date"].ToString());
-                dtpNgayCheckoutDuKien.SelectedDate = DateTime.Parse(drv["expected_checkout_date"].ToString());
-                if (drv["actual_checkin_date"] != DBNull.Value)
-                {
-                    dtpNgayCheckinThucTe.SelectedDate = DateTime.Parse(drv["actual_checkin_date"].ToString());
-                }
-                else
-                {
-                    dtpNgayCheckinThucTe.SelectedDate = null;
-                }
-                if (drv["actual_checkout_date"] != DBNull.Value)
-                {
-                    dtpNgayCheckoutThucTe.SelectedDate = DateTime.Parse(drv["actual_checkout_date"].ToString());
-                }
-                else
-                {
-                    dtpNgayCheckoutThucTe.SelectedDate = null;
-                }
-                txtTienCoc.Text = drv["deposit"].ToString();
-                txtPhuPhi.Text = drv["surcharge"].ToString();
-                txtGhiChu.Text = drv["note"].ToString() ;
-                cbTrangThaiDatPhong.SelectedValue = drv["status"].ToString();
-                cbNguoiDaiDienDatPhong.SelectedValue = drv["customer_id"].ToString() + "|" + drv["customer_name"].ToString();
-                cbPhongCuaDatPhong.SelectedValue = drv["room_id"].ToString() + "|" + drv["room_name"].ToString();
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
         }
 
         private void btnXoaDatPhong_Click(object sender, RoutedEventArgs e)
@@ -116,7 +86,10 @@ namespace QuanLiKhachSan
                 txtTenPhong.Text = drv["room_name"].ToString();
                 txtSucChua.Text = drv["room_capacity"].ToString();
                 cbTrangThaiPhong.SelectedValue = drv["room_status"].ToString();
-                txtMoTaPhong.Text = drv["room_description"].ToString();
+                if (drv["room_description"] != DBNull.Value)
+                {
+                    txtMoTaPhong.Text = drv["room_description"].ToString();
+                }
                 if (drv["room_image"] != DBNull.Value)
                 {
                     hinhAnh.HinhAnh = (byte[])drv["room_image"];
@@ -207,79 +180,6 @@ namespace QuanLiKhachSan
         private void btnChonAnh_Click(object sender, RoutedEventArgs e)
         {
             ChonHinhAnh();
-        }
-
-        private void cbLocTheoTinhTrangDatPhong_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string tinhTrangDatPhong = (string)cbLocTheoTinhTrangDatPhong.SelectedValue;
-            if(tinhTrangDatPhong == "Chưa checkin")
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.LayDsHoSoChuaCheckin().DefaultView;
-            } else if(tinhTrangDatPhong == "Đã checkin")
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.LayDsHoSoDaCheckin().DefaultView;
-            } else if(tinhTrangDatPhong == "Bị hủy")
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.LayDsHoSoDaBiHuy().DefaultView;
-            } else
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.layDanhSach().DefaultView;
-            }
-        }
-
-        private void cbLocTheoTinhTrangCoc_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string tinhTranhCoc = (string)cbLocTheoTinhTrangCoc.SelectedValue;
-            if(tinhTranhCoc == "Chưa đặt cọc")
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.LayDsHoSoChuaDatCoc().DefaultView;
-            } else if(tinhTranhCoc == "Đã đặt cọc")
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.LayDsHoSoDaDatCoc().DefaultView;
-            } else
-            {
-                dtgDanhSachDatPhong.ItemsSource = bookingDao.layDanhSach().DefaultView;
-            }
-        }
-
-        private void btnThongTinLoaiPhong_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView drv = (DataRowView)dtgDanhSachLoaiPhong.SelectedValue;
-            try
-            {
-                lbMaLoaiPhong.Content = drv["room_type_id"].ToString();
-                txtTenLoaiPhong.Text = drv["room_type_name"].ToString();
-                txtGiaLoaiPhong.Text = drv["price"].ToString();
-                txtGiamGiaLoaiPhong.Text = drv["discount_room"].ToString();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnXoaLoaiPhong_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnThongTinKhachDatPhong_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView drv = (DataRowView)dtgDanhSachKhachHangDatPhong.SelectedValue;
-            try
-            {
-                cbKhachHangCuaKhachDatPhong.SelectedValue = drv["customer_id"].ToString() + "|" + drv["customer_name"].ToString();
-                txtMaDatPhongKhachHang.Text = drv["booking_record_id"].ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnXoaKhachDatPhong_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
