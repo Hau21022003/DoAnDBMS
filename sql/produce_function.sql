@@ -570,7 +570,7 @@
 --    	END TRY
 --    	BEGIN CATCH
 --           	ROLLBACK TRAN
---           	RAISERROR('KHÁCH HÀNG ĐÃ TỒN TẠI', 16, 1)
+--           	RAISERROR('KHÁCH HÀNG ĐÃ TỒN TẠI', 18, 1)
 --    	END CATCH
 -- END
 
@@ -597,7 +597,7 @@
 --    	END TRY
 --    	BEGIN CATCH
 --           	ROLLBACK TRAN
---           	RAISERROR('KHÔNG XÓA ĐƯỢC KHÁCH HÀNG', 16, 1)
+--           	RAISERROR('KHÔNG XÓA ĐƯỢC KHÁCH HÀNG', 18, 1)
 --    	END CATCH
 -- END
 
@@ -643,7 +643,7 @@
 --    	END TRY
 --    	BEGIN CATCH
 --           	ROLLBACK TRAN
---         c
+--              RAISERROR('KHÔNG CẬP NHẬT ĐƯỢC KHÁCH HÀNG', 18, 1)
 --    	END CATCH
 -- END
 
@@ -958,17 +958,26 @@
 
 ---5.1.3. Update room type information
 -- CREATE PROCEDURE proc_delete_room_type
--- @room_type_id int
+-- CREATE PROCEDURE proc_update_room_type
+-- @room_type_id INT,
+-- @room_type_name NVARCHAR(25),
+-- @price FLOAT,
+-- @discount_room FLOAT
 -- AS
 -- BEGIN
--- 	BEGIN TRANSACTION
+-- BEGIN TRANSACTION
 -- 	BEGIN TRY
---        	DELETE FROM ROOM_TYPE WHERE room_type_id=@room_type_id
+--        	UPDATE ROOM_TYPE
+--        	SET
+--        	room_type_name = @room_type_name,
+--        	price = @price,
+--        	discount_room = @discount_room
+--        	WHERE room_type_id = @room_type_id
 --        	COMMIT TRAN
 -- 	END TRY
 -- 	BEGIN CATCH
 --        	ROLLBACK TRAN
---        	RAISERROR('KHÔNG XÓA ĐƯỢC LOẠI PHÒNG!', 18, 1)
+--        	RAISERROR('KHÔNG CẬP NHẬT ĐƯỢC THÔNG TIN LOẠI PHÒNG!', 16, 1)
 -- 	END CATCH
 -- END
 

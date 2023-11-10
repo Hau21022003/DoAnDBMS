@@ -1,9 +1,9 @@
----- Khách Hàng
---CREATE TRIGGER Trg_Insert_New_Customer
---ON CUSTOMER
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Khách Hàng
+-- CREATE TRIGGER Trg_Insert_New_Customer
+-- ON CUSTOMER
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of customer
 --    DECLARE @customer_id INT 
 --    SET @customer_id = (SELECT customer_id FROM inserted)
@@ -43,14 +43,24 @@
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
 
----- Hóa Đơn
---CREATE TRIGGER Trg_Insert_New_Bill
---ON BILL
---FOR INSERT, UPDATE
---AS
---BEGIN
+--    --Check identify_card of Customer
+--    DECLARE @identify_card INT 
+--    SET @identify_card = (SELECT identify_card FROM inserted)
+--    IF EXISTS (SELECT * FROM CUSTOMER WHERE identify_card IN (@identify_card) AND customer_id != @customer_id)
+--    BEGIN
+--        RAISERROR(N'Chứng minh thư đã tồn tại', 16, 1)
+--        ROLLBACK TRANSACTION
+--        RETURN
+--    END
+-- END;
+
+-- -- Hóa Đơn
+-- CREATE TRIGGER Trg_Insert_New_Bill
+-- ON BILL
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Bill
 --    DECLARE @bill_id INT 
 --    SET @bill_id = (SELECT bill_id FROM inserted)
@@ -70,7 +80,7 @@
 --    END
 
 --    --Check booking_record_id 
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(booking_record_id) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE booking_record_id is NULL)
 --    BEGIN
 --        RAISERROR(N'Mã hồ sơ đặt phòng không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -78,20 +88,20 @@
 --    END
 
 --    --Check employee_id 
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(employee_id) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE employee_id is NULL)
 --    BEGIN
 --        RAISERROR(N'Mã nhân viên không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
+-- END;
 
----- Phòng
---CREATE TRIGGER Trg_Insert_New_Room
---ON ROOM
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Phòng
+-- CREATE TRIGGER Trg_Insert_New_Room
+-- ON ROOM
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Room
 --    DECLARE @room_id INT 
 --    SET @room_id = (SELECT room_id FROM inserted)
@@ -111,7 +121,7 @@
 --    END
 
 --    --Check Capacity of Room 
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(room_capacity) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE room_capacity is NULL)
 --    BEGIN
 --        RAISERROR(N'Sức chứa của phòng không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -127,20 +137,20 @@
 --    END
 
 --    --Check Room Type of Room 
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(room_type_id) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE room_type_id is NULL)
 --    BEGIN
 --        RAISERROR(N'Loại phòng không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
+-- END;
 
----- Loại Phòng
---CREATE TRIGGER Trg_Insert_New_Room_Type
---ON ROOM_TYPE
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Loại Phòng
+-- CREATE TRIGGER Trg_Insert_New_Room_Type
+-- ON ROOM_TYPE
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Room Type
 --    DECLARE @room_type_id INT 
 --    SET @room_type_id = (SELECT room_type_id FROM inserted)
@@ -160,7 +170,7 @@
 --    END
 
 --    --Check Price of Room Type
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(price) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE price is NULL)
 --    BEGIN
 --        RAISERROR(N'Giá phòng không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -168,20 +178,20 @@
 --    END
 
 --    --Check Discount of Room 
---    IF EXISTS (SELECT * FROM inserted WHERE TRIM(room_type_id) = ' ')
+--    IF EXISTS (SELECT * FROM inserted WHERE room_type_id is NULL)
 --    BEGIN
 --        RAISERROR(N'Giảm giá không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
+-- END;
 
----- Đặt phòng
---CREATE TRIGGER Trg_Insert_New_Booking_Record
---ON BOOKING_RECORD
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Đặt phòng
+-- CREATE TRIGGER Trg_Insert_New_Booking_Record
+-- ON BOOKING_RECORD
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Booking Record
 --    DECLARE @booking_record_id INT 
 --    SET @booking_record_id = (SELECT booking_record_id FROM inserted)
@@ -193,7 +203,7 @@
 --    END
 
 --    --Check Expected Checkin Date of Booking Record
---    IF EXISTS (SELECT * FROM inserted WHERE expected_checkin_date is null)
+--    IF EXISTS (SELECT * FROM inserted WHERE expected_checkin_date is NULL)
 --    BEGIN
 --        RAISERROR(N'Ngày checkin dự kiến không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -201,7 +211,7 @@
 --    END
 
 --    --Check Expected Checkout Date of Booking Record
---    IF EXISTS (SELECT * FROM inserted WHERE expected_checkout_date is null)
+--    IF EXISTS (SELECT * FROM inserted WHERE expected_checkout_date is NULL)
 --    BEGIN
 --        RAISERROR(N'Ngày checkout dự kiến không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -232,14 +242,14 @@
 --        RETURN
 --    END
     
---END;
+-- END;
 
----- Dịch vụ
---CREATE TRIGGER Trg_Insert_New_Service_Room
---ON SERVICE_ROOM
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Dịch vụ
+-- CREATE TRIGGER Trg_Insert_New_Service_Room
+-- ON SERVICE_ROOM
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Service
 --    DECLARE @service_room_id INT 
 --    SET @service_room_id = (SELECT service_room_id FROM inserted)
@@ -259,7 +269,7 @@
 --    END
 
 --    --Check Status of Service
---    IF EXISTS (SELECT * FROM inserted WHERE service_room_status is null)
+--    IF EXISTS (SELECT * FROM inserted WHERE service_room_status is NULL)
 --    BEGIN
 --        RAISERROR(N'Trạng thái dịch vụ không được để trống', 16, 1)
 --        ROLLBACK TRANSACTION
@@ -273,14 +283,14 @@
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
+-- END;
 
----- Nhân viên
---CREATE TRIGGER Trg_Insert_New_Employee
---ON EMPLOYEE
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Nhân viên
+-- CREATE TRIGGER Trg_Insert_New_Employee
+-- ON EMPLOYEE
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Employee
 --    DECLARE @employee_id INT 
 --    SET @employee_id = (SELECT employee_id FROM inserted)
@@ -330,14 +340,14 @@
 --        ROLLBACK TRANSACTION
 --        RETURN
 --    END
---END;
+-- END;
 
----- Tài khoản
---CREATE TRIGGER Trg_Insert_New_Account
---ON ACCOUNT
---FOR INSERT, UPDATE
---AS
---BEGIN
+-- -- Tài khoản
+-- CREATE TRIGGER Trg_Insert_New_Account
+-- ON ACCOUNT
+-- FOR INSERT, UPDATE
+-- AS
+-- BEGIN
 --    --Check Id of Account
 --    DECLARE @account_id INT 
 --    SET @account_id = (SELECT account_id FROM inserted)
@@ -372,4 +382,4 @@
 --        RETURN
 --    END
     
---END;
+-- END;
