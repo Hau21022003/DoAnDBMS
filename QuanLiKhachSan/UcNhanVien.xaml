@@ -80,15 +80,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox Grid.Column="0" x:Name="txtLocTheoTenNhanVien"
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                             ToolTip="Lọc theo tên nhân viên" 
+                             Tag="Lọc theo tên nhân viên"/>
+                    <Button x:Name="btnTimKiemTheoTenNhanVien" Click="btnTimKiemTheoTenNhanVien_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachNhanVien" Grid.Row="4">
                     <DataGrid.Columns>

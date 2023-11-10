@@ -83,7 +83,7 @@ namespace QuanLiKhachSan
         {
             try
             {
-                int bookingRecordId = int.Parse(lbMaDatPhong.Content.ToString());
+                int bookingRecordId = int.Parse((string)lbMaDatPhong.Content);
                 DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
                 DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
                 DateTime? actualCheckinDate = dtpNgayCheckinThucTe.SelectedDate;
