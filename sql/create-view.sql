@@ -1,4 +1,4 @@
-﻿
+
 USE HotelManagementSystem;
 
 -- 2.5.1. View khách hàng
@@ -252,8 +252,8 @@ SELECT *
 FROM SERVICE_ROOM;
 
 
---VIEW bổ sung
-CREATE VIEW View_Service_Name AS
+create view View_Service_Name
+AS
 SELECT service_room_id, service_room_name
 FROM SERVICE_ROOM
 
