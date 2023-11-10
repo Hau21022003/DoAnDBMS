@@ -156,7 +156,18 @@ BEGIN
  RETURN
 END
 
-SELECT * FROM func_getBookingRecordByRoomName('102');
+CREATE OR ALTER FUNCTION func_getBookingRecordPriceRange (@fromPrice float, @toPrice float)
+RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
+room_id INT, room_name NVARCHAR(25), customer_name NVARCHAR(50))
+AS
+BEGIN
+ INSERT INTO @BookingRecordList
+ SELECT booking_record_id, booking_time, status, room_id, room_name, representative_name
+ FROM View_Booking_Record WHERE total_cost between @fromPrice and @toPrice
+ RETURN
+END
+
+SELECT * FROM func_getBookingRecordByRang('102');
 
 --2. **Dịch vụ**
 
@@ -1027,7 +1038,40 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 
 ---5.1.2. Delete room type information
 
- CREATE PROCEDURE proc_delete_room_type
+ CREATE OR ALTER PROCEDURE proc_update_room_type
+ @room_type_id int,
+ @room_type_name NVARCHAR(25),
+ @price float,
+ @discount_room float
+ AS
+ BEGIN
+ 	BEGIN TRANSACTION
+ 	BEGIN TRY
+        	UPDATE ROOM_TYPE
+			SET room_type_name = @room_type_name,
+			price = @price, 
+			discount_room = @discount_room
+			WHERE room_type_id=@room_type_id
+        	COMMIT TRAN
+ 	END TRY
+    BEGIN CATCH
+        DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; 
+        RAISERROR(@err, 16, 1);
+    END CATCH
+ END
+
+ EXEC proc_update_room_type
+ @room_type_id = 2,
+  @room_type_name = 'Family of 5',
+ @price = 3200000,
+ @discount_room = 0.2
+
+ SELECT * FROM ROOM_TYPE
+---5.1.3. Update room type information
+
+ CREATE OR ALTER PROCEDURE proc_delete_room_type
  @room_type_id int
  AS
  BEGIN
@@ -1045,32 +1089,7 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
  END
 
  EXEC proc_delete_room_type
- @room_type_id = 6
-
----5.1.3. Update room type information
-
- CREATE PROCEDURE proc_delete_room_type
- @room_type_id int
- AS
- BEGIN
- 	BEGIN TRANSACTION
- 	BEGIN TRY
-        	DELETE FROM ROOM_TYPE WHERE room_type_id=@room_type_id
-        	COMMIT TRAN
- 	END TRY
-    BEGIN CATCH
-        DECLARE @err NVARCHAR(MAX);
-        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
-        ROLLBACK; 
-        RAISERROR(@err, 16, 1);
-    END CATCH
- END
-
- EXEC proc_update_room_type
- @room_type_id = 7,
- @room_type_name = 'Family of 6',
- @price = 6655443,
- @discount_room = 0.15
+ @room_type_id = 2
 
 --5.2. **FUNCTION**
 ---5.2.1. Search room type information
@@ -1089,10 +1108,7 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 
 ---5.2.1. Search room type by price range
 
- CREATE FUNCTION func_search_room_type_by_price
- (@fromprice float,
- @toprice float
- )
+ CREATE FUNCTION func_search_room_type_by_price (@fromprice float, @toprice float)
  RETURNS TABLE
  AS
  RETURN
@@ -1103,3 +1119,64 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
  )
 
  SELECT * FROM func_search_room_type_by_price(1, 400000)
+
+
+ --CUSTOMER OF BOOKING RECORD
+
+
+--5.1. **PROCEDURE**
+---5.1.1. Add
+SELECT * FROM CUSTOMER_OF_BOOKING_RECORD
+
+ CREATE OR ALTER PROCEDURE proc_add_customer_of_booking_record
+ @customer_id INT,
+ @booking_record_id INT
+ AS
+ BEGIN
+ 	BEGIN TRAN
+ 	BEGIN TRY
+        	INSERT INTO CUSTOMER_OF_BOOKING_RECORD(customer_id, booking_record_id)
+        	VALUES (@customer_id, @booking_record_id)
+        	COMMIT TRAN
+ 	END TRY
+    BEGIN CATCH
+        DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; 
+        RAISERROR(@err, 16, 1);
+    END CATCH
+ END
+
+ EXEC proc_add_customer_of_booking_record
+ @customer_id = 1,
+ @booking_record_id = 2;
+
+ SELECT * FROM CUSTOMER_OF_BOOKING_RECORD
+
+
+---5.1.2. Delete
+
+
+ CREATE OR ALTER PROCEDURE proc_delete_customer_of_booking_record
+ @customer_id INT,
+ @booking_record_id INT
+ AS
+ BEGIN
+ 	BEGIN TRANSACTION
+ 	BEGIN TRY
+        	DELETE FROM CUSTOMER_OF_BOOKING_RECORD WHERE booking_record_id=@booking_record_id and customer_id = @customer_id
+        	COMMIT TRAN
+ 	END TRY
+    BEGIN CATCH
+        DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; 
+        RAISERROR(@err, 16, 1);
+    END CATCH
+ END
+
+ EXEC proc_delete_customer_of_booking_record
+ @customer_id = 1,
+ @booking_record_id = 2;
+
+ SELECT * FROM CUSTOMER_OF_BOOKING_RECORD

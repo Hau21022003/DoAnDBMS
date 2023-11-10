@@ -66,8 +66,9 @@ FROM
 
 --View bổ sung Room_type
 
+
 CREATE VIEW View_Room_Type AS
-SELECT room_type_id, room_type_name
+SELECT *
 FROM ROOM_TYPE;
 
 
