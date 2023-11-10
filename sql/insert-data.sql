@@ -6,7 +6,7 @@ VALUES
     ('Nguyen Van A', N'Nam', 'johndoe@gmail.com', '1990-01-15', '123456789012', '123 Main St', 1),
     ('Nguyen Van B', N'Nữ', 'jane.smith@gmail.com', '1985-03-20', '987654321098', '456 Elm St', 1),
     ('Nguyen Van C', N'Nữ', 'alice.johnson@gmail.com', '1995-07-10', '555111222233', '789 Oak St', 1),
-    ('Nguyen Van D', N'Nam', 'bob.brown@gmail.com', '1980-12-05', '777888999911', '101 Pine St', 1),
+    ('Nguyen Van D', N'Nam', 'bob.brown@gmail.com', '1980-12-05', '777888999911', '101 Pine St', 0),
     ('Nguyen Van E', N'Nữ', 'eve.williams@gmail.com', '1987-09-25', '222333444455', '222 Cedar St', 1),
     ('Nguyen Van F', N'Nam', 'johndoe@gmail.com', '1990-01-15', '123456789011', '123 Main St', 1),
     ('Nguyen Van G', N'Nữ', 'jane.smith@gmail.com', '1985-03-20', '987654321091', '456 Elm St', 1),
@@ -46,7 +46,7 @@ VALUES
     ('101', 2, N'Đang cho thuê', 'Standard room with a view', null, 1),
     ('102', 2, N'Đang cho thuê', 'Standard room with a view', null, 1),
     ('103', 2, N'Đang cho thuê', 'Standard room with a view', null, 1),
-    ('104', 2, N'Đang cho thuê', 'Standard room with a view', null, 1),
+    ('104', 2, N'Trống', 'Standard room with a view', null, 1),
     ('105', 2, N'Trống', 'Standard room with a view', null, 1),
     ('106', 2, N'Đang cho thuê', 'Standard room with a view', null, 1);
 

@@ -114,12 +114,13 @@ CREATE TABLE BOOKING_RECORD (
     deposit FLOAT DEFAULT 0 NOT NULL, -- SỐ TIỀN CỌC MẶC ĐỊNH LÀ 0
     surcharge FLOAT DEFAULT 0 NOT NULL, -- PHỤ PHÍ MẶC ĐỊNH LÀ 0
     note NVARCHAR(255),
-    status NVARCHAR(25) CONSTRAINT CK_BOOKING_RECORD_STATUS CHECK (status IN (N'Chờ xác nhận', N'Đã xác nhận', N'Đã hủy')) NOT NULL,
+    status NVARCHAR(25) CONSTRAINT CK_BOOKING_RECORD_STATUS CHECK (status IN (N'Chờ xác nhận', N'Đã xác nhận', N'Đã hủy', N'Đã hoàn tất')) NOT NULL,
     actual_checkin_date DATETIME NULL,
     actual_checkout_date DATETIME NULL,
     room_id INT CONSTRAINT FK_ROOM_BOOKING_RECORD REFERENCES ROOM(room_id),
     representative_id INT CONSTRAINT FK_REPRESENTATIVE_BOOKING_RECORD REFERENCES CUSTOMER(customer_id)
 );
+
 
 CREATE TABLE SERVICE_USAGE_INFOR (
     service_usage_infor_id INT IDENTITY(1,1) CONSTRAINT PK_SERVICE_USAGE_INFOR PRIMARY KEY,
