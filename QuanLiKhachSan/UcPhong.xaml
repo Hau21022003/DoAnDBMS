@@ -17,6 +17,12 @@
         </TabControl.Resources>
         <TabItem x:Name="tabDatPhong" Header="Đặt phòng" Width="100" Style="{StaticResource tab}">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="143*"/>
+                    <ColumnDefinition Width="31*"/>
+                    <ColumnDefinition Width="86*"/>
+                    <ColumnDefinition Width="734*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -24,7 +30,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" x:Name="grThongTinDatPhong">
+                <Grid Grid.Row="0" x:Name="grThongTinDatPhong" Grid.ColumnSpan="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -96,7 +102,7 @@
                         <ComboBox x:Name="cbPhongCuaDatPhong" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Grid.ColumnSpan="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -106,8 +112,8 @@
                     <Button x:Name="btnSuaDatPhong" Click="btnSuaDatPhong_Click"  
                             Grid.Column="1" Style="{StaticResource btnSua}"/>
                 </Grid>
-                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
-                <Grid Grid.Row="3">
+                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}" Grid.ColumnSpan="4" Margin="20,5,20,5"/>
+                <Grid Grid.Row="3" Grid.ColumnSpan="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -121,7 +127,7 @@
                              Tag="Tìm kiếm theo " ToolTip="Tìm kiếm theo"/>
                     <Button x:Name="btnInExcelKetHon" Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
-                <DataGrid x:Name="dtgDanhSachDatPhong" ItemsSource="{Binding dsDatPhong}" Grid.Row="4">
+                <DataGrid x:Name="dtgDanhSachDatPhong" ItemsSource="{Binding dsDatPhong}" Grid.Row="4" Grid.ColumnSpan="4" Margin="20,10,20,10">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Xử lí">
                             <DataGridTemplateColumn.CellTemplate>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -19,7 +19,7 @@ namespace QuanLiKhachSan.DAO
             {
                 conn.Open();
                 String sql = "Select* from View_Booking_Record";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql,conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
                 adapter.Fill(dt);
             }
             catch (Exception ex)
@@ -121,81 +121,101 @@ namespace QuanLiKhachSan.DAO
         }
         public void Delete(int bookingRecordId)
         {
-            string sql = "EXEC proc_deleteBookingRecord @booking_record_id";
             SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_deleteBookingRecord";
+            cmd.Parameters.Add("@booking_record_id", SqlDbType.Int).Value = bookingRecordId;
+
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@booking_record_id", bookingRecordId);
-                cmd.ExecuteNonQuery();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-        }
-        public void Update(int bookingRecordId, DateTime? expectedCheckinDate, DateTime? expectedCheckoutDate, 
-            DateTime? actualCheckinDate, DateTime? actualCheckoutDate,float deposit, float surcharge,
-            string note, string status, int representativeId, int roomId)
-        {
-            string sql = "EXEC proc_updateBookingRecord @booking_record_id,@expected_checkin_date," +
-                "@expected_checkout_date,@actual_checkin_date,@actual_checkout_date,@deposit,@surcharge," +
-                "@note, @status, @representative_id, @room_id";
-            SqlConnection conn = DbConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@booking_record_id", bookingRecordId);
-                cmd.Parameters.AddWithValue("@expected_checkin_date", (object)expectedCheckinDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@expected_checkout_date", (object)expectedCheckoutDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@actual_checkin_date", (object)actualCheckinDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@actual_checkout_date", (object)actualCheckoutDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@deposit", deposit);
-                cmd.Parameters.AddWithValue("@surcharge", surcharge);
-                cmd.Parameters.AddWithValue("@note", note);
-                cmd.Parameters.AddWithValue("@status", status);
-                cmd.Parameters.AddWithValue("@representative_id", representativeId);
-                cmd.Parameters.AddWithValue("@room_id", roomId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Xóa thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public void Update(int bookingRecordId, DateTime? expectedCheckinDate, DateTime? expectedCheckoutDate,
+            DateTime? actualCheckinDate, DateTime? actualCheckoutDate, float deposit, float surcharge,
+            string note, string status, int representativeId, int roomId)
+        {
+            SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_updateBookingRecord";
+            cmd.Parameters.AddWithValue("@booking_record_id", bookingRecordId);
+            cmd.Parameters.AddWithValue("@expected_checkin_date", (object)expectedCheckinDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@expected_checkout_date", (object)expectedCheckoutDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@actual_checkin_date", (object)actualCheckinDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@actual_checkout_date", (object)actualCheckoutDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@deposit", deposit);
+            cmd.Parameters.AddWithValue("@surcharge", surcharge);
+            cmd.Parameters.AddWithValue("@note", note);
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@representative_id", representativeId);
+            cmd.Parameters.AddWithValue("@room_id", roomId);
+            try
+            {
+                conn.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Sửa thành công");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
         public void Insert(DateTime? expectedCheckinDate, DateTime? expectedCheckoutDate,
             DateTime? actualCheckinDate, DateTime? actualCheckoutDate, float deposit, float surcharge,
             string note, string status, int representativeId, int roomId)
         {
-            string sql = "EXEC proc_insertBookingRecord @expected_checkin_date," +
-                "@expected_checkout_date,@actual_checkin_date,@actual_checkout_date,@deposit,@surcharge," +
-                "@note, @status, @representative_id, @room_id";
             SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_insertBookingRecord";
+            cmd.Parameters.AddWithValue("@expected_checkin_date", (object)expectedCheckinDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@expected_checkout_date", (object)expectedCheckoutDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@actual_checkin_date", (object)actualCheckinDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@actual_checkout_date", (object)actualCheckoutDate ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@deposit", deposit);
+            cmd.Parameters.AddWithValue("@surcharge", surcharge);
+            cmd.Parameters.AddWithValue("@note", note);
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@representative_id", representativeId);
+            cmd.Parameters.AddWithValue("@room_id", roomId);
+
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@expected_checkin_date", (object)expectedCheckinDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@expected_checkout_date", (object)expectedCheckoutDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@actual_checkin_date", (object)actualCheckinDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@actual_checkout_date", (object)actualCheckoutDate ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@deposit", deposit);
-                cmd.Parameters.AddWithValue("@surcharge", surcharge);
-                cmd.Parameters.AddWithValue("@note", note);
-                cmd.Parameters.AddWithValue("@status", status);
-                cmd.Parameters.AddWithValue("@representative_id", representativeId);
-                cmd.Parameters.AddWithValue("@room_id", roomId);
-                cmd.ExecuteNonQuery();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Thêm thành công");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally { conn.Close(); }
+            finally
+            {
+                conn.Close();
+            }
+
         }
     }
 }

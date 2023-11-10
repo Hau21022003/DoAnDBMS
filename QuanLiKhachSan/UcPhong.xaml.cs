@@ -201,12 +201,35 @@ namespace QuanLiKhachSan
 
         private void btnThemLoaiPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                string room_type_name = txtTenLoaiPhong.Text;
+                float price = float.Parse(txtGiaLoaiPhong.Text);
+                float discount_room = float.Parse(txtGiamGiaLoaiPhong.Text);
+                roomTypeDao.Them(room_type_name, price, discount_room);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSuaLoaiPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                int roomTypeId = int.Parse((string)lbMaLoaiPhong.Content);
+                string room_type_name = txtTenLoaiPhong.Text;
+                float price = float.Parse(txtGiaLoaiPhong.Text);
+                float discount_room = float.Parse(txtGiamGiaLoaiPhong.Text);
+                roomTypeDao.Sua(roomTypeId, room_type_name, price, discount_room);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnThemKhachHangDatPhong_Click(object sender, RoutedEventArgs e)
@@ -290,7 +313,10 @@ namespace QuanLiKhachSan
 
         private void btnXoaLoaiPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachLoaiPhong.SelectedValue;
+            int roomTypeId = (int)drv["room_type_id"];
+            bookingDao.Delete(roomTypeId);
+            LayDanhSach();
         }
     }
 }

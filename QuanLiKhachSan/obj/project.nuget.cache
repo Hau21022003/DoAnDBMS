@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "8mvylnfjROGgPrTPo4Jd0TxFULSjGVZR+K3OpVo9yQRuV3eHWRbPFF3PE9HVR901xnTz+7dXuwy/Ky+qoy5bDw==",
   "success": true,
   "projectFilePath": "D:\\SEM1-Y3\\DBMS\\Project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
@@ -15,6 +16,23 @@
     "C:\\Users\\Ngoc Anh\\.nuget\\packages\\system.data.sqlclient\\4.8.5\\system.data.sqlclient.4.8.5.nupkg.sha512",
     "C:\\Users\\Ngoc Anh\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\Ngoc Anh\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+=======
+  "dgSpecHash": "dn3QXj3O2e320klVVRhj4ZTpNS68H3mlU89VOpipe9vb6AJxVkwisa2zFjITBXq2Lh5kLDHkasPJmOumadWBYQ==",
+  "success": true,
+  "projectFilePath": "D:\\Nam-2\\LTWeb\\FInal_Project\\AI-final-project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\system.data.sqlclient\\4.8.5\\system.data.sqlclient.4.8.5.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\THANH TUYEN\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+>>>>>>> Stashed changes
   ],
   "logs": [
     {
