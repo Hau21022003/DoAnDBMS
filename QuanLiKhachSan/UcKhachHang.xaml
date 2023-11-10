@@ -165,7 +165,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnThemSdtKhach" Style="{StaticResource btnThem}" Click="btnThemSdtKhach_Click"/>
-                    <Button x:Name="btnSuaSdtKhach" Style="{StaticResource btnSua}" Click="btnSuaSdtKhach_Click"  Grid.Column="1"/>
+                    <Button x:Name="btnSuaSdtKhach" Style="{StaticResource btnSua}" Click="btnSuaSdtKhach_Click"  Grid.Column="1" IsEnabled="False"/>
                 </Grid>
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">
@@ -177,11 +177,8 @@
                     <TextBox Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
+                             Tag="Tìm kiếm theo theo tên khách hàng hoặc số điện thoại"
+                             TextChanged="TextBox_TextChanged"/>
                     <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaKhach" 

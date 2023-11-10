@@ -1,4 +1,4 @@
-﻿using QuanLiKhachSan.DAO;
+using QuanLiKhachSan.DAO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -70,17 +70,24 @@ namespace QuanLiKhachSan
 
         private void btnXoaKhachHang_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void btnSuaSdtKhach_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void btnThemSdtKhach_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                phoneDao.Them(txtSDT.Text, int.Parse(((string)cbKhachHangCuaSDT.SelectedValue).Split("|")[0]));
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnThongTinSdtKhach_Click(object sender, RoutedEventArgs e)
@@ -95,11 +102,28 @@ namespace QuanLiKhachSan
             {
                 MessageBox.Show(ex.Message);    
             }
+
         }
 
         private void btnXoaSdtKhach_Click(object sender, RoutedEventArgs e)
         {
+            DataRowView drv = (DataRowView)dtgDanhSachSdtCuaKhach.SelectedValue;
+            try
+            {
+                phoneDao.Xoa(drv["phone_number"].ToString(), int.Parse(drv["customer_id"].ToString()));
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = ((TextBox)sender).Text;
+            dtgDanhSachKhachHang.ItemsSource = phoneDao.TimKiem(searchText).DefaultView;
+            dtgDanhSachSdtCuaKhach.ItemsSource = phoneDao.TimKiem(searchText).DefaultView;
         }
     }
 }
