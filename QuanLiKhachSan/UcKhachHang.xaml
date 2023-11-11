@@ -58,6 +58,7 @@
                     <StackPanel Grid.Column="4">
                         <Label Content="Giới tính"/>
                         <Label Content="Căn cước"/>
+                        <Label Content="Số điện thoại"/>
                     </StackPanel>
                     <StackPanel Grid.Column="5">
                         <ComboBox x:Name="cbGioiTinh" SelectedValuePath="Content" Style="{StaticResource cbLuaChon}">
@@ -65,6 +66,8 @@
                             <ComboBoxItem Content="Nữ"/>
                         </ComboBox>
                         <TextBox x:Name="txtIdentifyCard" 
+                                 Style="{StaticResource tbxNoiDung}"/>
+                        <TextBox x:Name="txtPhoneNumber" 
                                  Style="{StaticResource tbxNoiDung}"/>
                     </StackPanel>
                 </Grid>
@@ -79,19 +82,35 @@
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0"
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                         x:Name="txtLocTheoThongTinKH"
+                         Style="{StaticResource tbxNoiDungMacDinh}"
+                         ToolTip="Tìm kiếm theo" 
+                         Tag="Tìm kiếm theo thông tin khách hàng có"/>  
+                    <Button x:Name="btnTimKiemTheoThongTinKH" Click="btnTimKiemTheoThongTinKH_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <Label Content="Ngày sinh từ"
+                           Grid.Column="2"/>
+                    <DatePicker x:Name="dtpFromDoB"
+                                Grid.Column="3"
+                                Margin="0" Height="30" 
+                                Background="Transparent" 
+                                BorderBrush="Transparent"/>
+                    <Label Content="đến"
+                           Grid.Column="4"/>
+                    <DatePicker x:Name="dtpToDoB"
+                                Grid.Column="5"
+                                Margin="0" Height="30" 
+                                Background="Transparent" 
+                                BorderBrush="Transparent"/>
+                    <Button x:Name="btnTimKiemTheoNgaySinh" Click="btnTimKiemTheoNgaySinh_Click" Style="{StaticResource btnTimKiem}" Grid.Column="6" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachKhachHang" Grid.Row="4">
                     <DataGrid.Columns>
@@ -171,14 +190,22 @@
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0"
+                             x:Name="jj"
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
+                            
                              Tag="Tìm kiếm theo theo tên khách hàng hoặc số điện thoại"
                              TextChanged="TextBox_TextChanged"/>
+                    <Button Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="2" 
+                             Style="{StaticResource tbxNoiDungMacDinh}"
+                             Tag="Tìm kiếm theo" 
+                             ToolTip="Tìm kiếm theo" />
+
                     <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaKhach" 

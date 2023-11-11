@@ -40,12 +40,28 @@ namespace QuanLiKhachSan
 
         private void btnThemKhachHang_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                customerDao.Them(txtTenKhachHang.Text, cbGioiTinh.Text, DateTime.Parse(dtpNgaySinh.Text), txtIdentifyCard.Text, txtPhoneNumber.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSuaKhachHang_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                customerDao.Sua(int.Parse((string)lbMaKhachHang.Content),txtTenKhachHang.Text, cbGioiTinh.Text, DateTime.Parse(dtpNgaySinh.Text), txtIdentifyCard.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnThongTinKhachHang_Click(object sender, RoutedEventArgs e)
@@ -70,7 +86,18 @@ namespace QuanLiKhachSan
 
         private void btnXoaKhachHang_Click(object sender, RoutedEventArgs e)
         {
-            
+
+            DataRowView drv = (DataRowView)dtgDanhSachKhachHang.SelectedValue;
+            try
+            {
+                customerDao.Xoa((int)drv["customer_id"]);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void btnSuaSdtKhach_Click(object sender, RoutedEventArgs e)
@@ -124,6 +151,19 @@ namespace QuanLiKhachSan
             string searchText = ((TextBox)sender).Text;
             dtgDanhSachKhachHang.ItemsSource = phoneDao.TimKiem(searchText).DefaultView;
             dtgDanhSachSdtCuaKhach.ItemsSource = phoneDao.TimKiem(searchText).DefaultView;
+        }
+
+        private void btnTimKiemTheoThongTinKH_Click(object sender, RoutedEventArgs e)
+        {
+            string infor = txtLocTheoThongTinKH.Text;
+            dtgDanhSachKhachHang.ItemsSource = customerDao.TimKiemTheoThongTinKH(infor).DefaultView;
+        }
+
+        private void btnTimKiemTheoNgaySinh_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime fromDate = DateTime.Parse(dtpToDoB.Text);
+            DateTime toDate = DateTime.Parse(dtpToDoB.Text);
+            dtgDanhSachKhachHang.ItemsSource = customerDao.TimKiemTheoNgaySinh(fromDate, toDate).DefaultView;
         }
     }
 }

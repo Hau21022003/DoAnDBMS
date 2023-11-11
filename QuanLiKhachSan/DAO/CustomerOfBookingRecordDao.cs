@@ -19,7 +19,7 @@ namespace QuanLiKhachSan.DAO
             try
             {
                 conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql,conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
                 adapter.Fill(dt);
             }
             catch (Exception ex)
@@ -28,6 +28,59 @@ namespace QuanLiKhachSan.DAO
             }
             finally { conn.Close(); }
             return dt;
+        }
+        public void Them(int customerId, int bookingRecordId)
+        {
+            SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_add_customer_of_booking_record";
+            cmd.Parameters.Add("@customer_id", SqlDbType.Int).Value = customerId;
+            cmd.Parameters.Add("@booking_record_id", SqlDbType.Int).Value = bookingRecordId;
+
+            try
+            {
+                conn.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Thêm thành công");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void Xoa(int customerId, int bookingRecordId)
+        {
+            SqlConnection conn = DbConnection.conn;
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "proc_delete_customer_of_booking_record";
+            cmd.Parameters.Add("@customer_id", SqlDbType.Int).Value = customerId;
+            cmd.Parameters.Add("@booking_record_id", SqlDbType.Int).Value = bookingRecordId;
+
+            try
+            {
+                conn.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    MessageBox.Show("Xóa thành công");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
