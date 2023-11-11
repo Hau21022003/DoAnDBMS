@@ -682,7 +682,6 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
     	@gender nvarchar(10),
     	@birthday date,
     	@identify_card varchar(25),
-    	@phone_number varchar(15),
     	@email varchar(255),
     	@address nvarchar(255),
     	@status bit
@@ -690,15 +689,6 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
  BEGIN
     	BEGIN TRANSACTION
     	BEGIN TRY
-                   	-- Cập nhật thông tin số điện thoại trong bảng PHONE_NUMBER_OF_CUSTOMER --
-           	IF NOT EXISTS (SELECT 1 FROM PHONE_NUMBER_OF_CUSTOMER WHERE customer_id = @customer_id AND phone_number = @phone_number)
-           	BEGIN
-                   	-- Nếu không tồn tại, thực hiện cập nhật
-                   	UPDATE PHONE_NUMBER_OF_CUSTOMER
-                   	SET phone_number = @phone_number
-                   	WHERE customer_id = @customer_id
-           	END
- 
            	-- Cập nhật thông tin khách hàng trong bảng CUSTOMER --
            	UPDATE CUSTOMER
            	SET
@@ -1221,3 +1211,57 @@ SELECT * FROM CUSTOMER_OF_BOOKING_RECORD
  @booking_record_id = 2;
 
  SELECT * FROM CUSTOMER_OF_BOOKING_RECORD
+
+ ----**6.SỐ ĐIỆN THOẠI KHÁCH HÀNG**------- 
+----6.1. **PROCEDURE** 
+---6.1.1. Add new phone number of customer 
+CREATE or ALTER PROCEDURE proc_add_phone_of_customer 
+@phone_number varchar(15), 
+@customer_id int 
+AS 
+BEGIN 
+	BEGIN TRAN 
+	BEGIN TRY 
+       	INSERT INTO PHONE_NUMBER_OF_CUSTOMER(phone_number, customer_id) 
+       	VALUES (@phone_number, @customer_id) 
+       	COMMIT TRAN 
+	END TRY 
+	BEGIN CATCH 
+       	DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; 
+        RAISERROR(@err, 16, 1);
+	END CATCH 
+END 
+ 
+--6.1.2. Delete phone number of customer 
+CREATE or ALTER PROCEDURE proc_delete_phone_of_customer 
+@phone_number varchar(15), 
+@customer_id int 
+AS 
+BEGIN 
+	BEGIN TRAN 
+	BEGIN TRY 
+       	DELETE FROM PHONE_NUMBER_OF_CUSTOMER 
+       	WHERE phone_number = @phone_number AND customer_id = @customer_id 
+       	COMMIT TRAN 
+	END TRY 
+	BEGIN CATCH 
+       	DECLARE @err NVARCHAR(MAX);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+        ROLLBACK; 
+        RAISERROR(@err, 16, 1);
+	END CATCH 
+END 
+ 
+--6.2. **FUNCTION** 
+-6.2.1. Search phone number of customer 
+CREATE FUNCTION func_search_phone_of_customer(@string nvarchar(50)) 
+RETURNS TABLE 
+AS 
+RETURN 
+( 
+SELECT * 
+FROM View_Customer_Phone 
+WHERE CONCAT(customer_name, customer_id, phone_number) LIKE '%' + @string + '%' 
+)

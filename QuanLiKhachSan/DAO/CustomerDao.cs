@@ -48,7 +48,7 @@ namespace QuanLiKhachSan.DAO
             finally { conn.Close(); }
             return dt;
         }
-        public void Them(string customerName, string gender, DateTime birthday, string identifyCard, string phoneNumber, string email, string address, bool status)
+        public void Them(string customerName, string gender, DateTime? birthday, string identifyCard, string phoneNumber, string email, string address, bool status)
         {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
@@ -80,7 +80,7 @@ namespace QuanLiKhachSan.DAO
                 conn.Close();
             }
         }
-        public void Sua(int customerId, string customerName, string gender, DateTime birthday, string identifyCard, string email, string address, bool status)
+        public void Sua(int customerId, string customerName, string gender, DateTime? birthday, string identifyCard, string email, string address, bool status)
         {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();

@@ -130,7 +130,8 @@ CREATE VIEW View_Customer_Of_Booking_Record AS
 SELECT
     br.booking_record_id,
     r.room_name,
-    c.customer_name
+    c.customer_name,
+    c.customer_id
 FROM
     CUSTOMER_OF_BOOKING_RECORD cbr
     JOIN BOOKING_RECORD br ON br.booking_record_id = cbr.booking_record_id

@@ -200,13 +200,8 @@
                             
                              Tag="Tìm kiếm theo theo tên khách hàng hoặc số điện thoại"
                              TextChanged="TextBox_TextChanged"/>
-                    <Button Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Column="2" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
 
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2" RenderTransformOrigin="7.014,0.681" Margin="427,5,10,0"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaKhach" 
                           ItemsSource="{Binding dsKhachDatPhong}" Grid.Row="4">

@@ -166,6 +166,7 @@ Grid.Column="2"
                         <DataGridTextColumn Header="Tên người đại diện" Binding="{Binding customer_name}"/>
                         <DataGridTextColumn Header="Ngày checkin thực tế" Binding="{Binding actual_checkin_date,StringFormat=dd/MM/yyyy}"/>
                         <DataGridTextColumn Header="Ngày checkout thực tế" Binding="{Binding actual_checkout_date,StringFormat=dd/MM/yyyy}"/>
+                        <DataGridTextColumn Header="Mã khách hàng" Binding="{Binding customer_id}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

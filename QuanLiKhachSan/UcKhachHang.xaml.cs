@@ -42,7 +42,7 @@ namespace QuanLiKhachSan
         {
             try
             {
-                customerDao.Them(txtTenKhachHang.Text, cbGioiTinh.Text, DateTime.Parse(dtpNgaySinh.Text), txtIdentifyCard.Text, txtPhoneNumber.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
+                customerDao.Them(txtTenKhachHang.Text, cbGioiTinh.Text, dtpNgaySinh.SelectedDate, txtIdentifyCard.Text, txtPhoneNumber.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
                 LayDanhSach();
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace QuanLiKhachSan
         {
             try
             {
-                customerDao.Sua(int.Parse((string)lbMaKhachHang.Content),txtTenKhachHang.Text, cbGioiTinh.Text, DateTime.Parse(dtpNgaySinh.Text), txtIdentifyCard.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
+                customerDao.Sua(int.Parse((string)lbMaKhachHang.Content),txtTenKhachHang.Text, cbGioiTinh.Text, dtpNgaySinh.SelectedDate, txtIdentifyCard.Text, txtEmail.Text, txtDiaChi.Text, Boolean.Parse(chbTrangThai.IsChecked.ToString()));
                 LayDanhSach();
             }
             catch (Exception ex)
