@@ -82,7 +82,8 @@ FROM ROOM;
 CREATE VIEW View_Booking_Record AS
 SELECT
     br.*,
-    c.customer_name as representative_name,
+    c.customer_name,
+    c.customer_id,  
 	c.gender, c.email, c.birthday, c.identify_card, c.address,
     r.room_name
 FROM
