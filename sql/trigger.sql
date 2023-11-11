@@ -426,11 +426,11 @@ BEGIN
 		JOIN ROOM r ON br.room_id = r.room_id
 
 	---- CÁI UPDATE CUSTOMER NÀY CHƯA THỰC HIỆN ĐƯỢC DO BẢNG CUSTOMER_OF_BOOKING_RECORD KHÔNG CÓ ĐỦ DỮ LIỆU
-        UPDATE CUSTOMER
-        SET status = 0
-		FROM inserted i
-        JOIN CUSTOMER_OF_BOOKING_RECORD cbr ON i.booking_record_id = cbr.booking_record_id
-        JOIN CUSTOMER c ON cbr.customer_id = c.customer_id;
+        -- UPDATE CUSTOMER
+        -- SET status = 0
+		-- FROM inserted i
+        -- JOIN CUSTOMER_OF_BOOKING_RECORD cbr ON i.booking_record_id = cbr.booking_record_id
+        -- JOIN CUSTOMER c ON cbr.customer_id = c.customer_id;
     END
 END;
 
