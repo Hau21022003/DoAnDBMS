@@ -17,6 +17,15 @@
         </TabControl.Resources>
         <TabItem x:Name="tabDatPhong" Header="Đặt phòng" Width="100" Style="{StaticResource tab}">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="143*"/>
+                    <ColumnDefinition Width="31*"/>
+                    <ColumnDefinition Width="86*"/>
+                    <ColumnDefinition Width="106*"/>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="592*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -24,7 +33,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" x:Name="grThongTinDatPhong">
+                <Grid Grid.Row="0" x:Name="grThongTinDatPhong" Grid.ColumnSpan="7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -45,7 +54,7 @@
                                  Style="{StaticResource tbxNoiDung}" />
                         <TextBox x:Name="txtPhuPhi" Grid.Column="1" 
                                  Style="{StaticResource tbxNoiDung}" />
-                        <ComboBox Style="{StaticResource cbLuaChon}" SelectedValuePath="Content">
+                        <ComboBox x:Name="cbTrangThaiDatPhong" Style="{StaticResource cbLuaChon}" SelectedValuePath="Content">
                             <ComboBoxItem Content="Chờ xác nhận"/>
                             <ComboBoxItem Content="Đã xác nhận"/>
                             <ComboBoxItem Content="Đã hủy"/>
@@ -96,7 +105,7 @@
                         <ComboBox x:Name="cbPhongCuaDatPhong" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Grid.ColumnSpan="7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -106,22 +115,32 @@
                     <Button x:Name="btnSuaDatPhong" Click="btnSuaDatPhong_Click"  
                             Grid.Column="1" Style="{StaticResource btnSua}"/>
                 </Grid>
-                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
-                <Grid Grid.Row="3">
+                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}" Grid.ColumnSpan="7" Margin="20,5,20,5"/>
+                <Grid Grid.Row="3" Grid.ColumnSpan="7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
+
                     </Grid.ColumnDefinitions>
-                    <TextBox Style="{StaticResource tbxNoiDungMacDinh}" 
-                             Tag="Tìm kiếm theo ...."
-                             ToolTip="Tìm kiếm theo" Grid.Column="0"/>
-                    <TextBox Grid.Column="1"
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo " ToolTip="Tìm kiếm theo"/>
-                    <Button x:Name="btnInExcelKetHon" Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <TextBox x:Name="txtLocTenKhachHang"
+          Grid.Column="0"
+               Style="{StaticResource tbxNoiDungMacDinh}"
+               ToolTip="Tìm kiếm theo" 
+               Tag="Tìm kiếm theo tên khách hàng"/>
+                    <Button x:Name="btnTimKiemTheoTenKhachHang" Click="btnTimKiemTheoTenKhachHang_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+
+                    <TextBox x:Name="txtLocTenPhong"
+Grid.Column="2"
+     Style="{StaticResource tbxNoiDungMacDinh}"
+     ToolTip="Tìm kiếm theo" 
+     Tag="Tìm kiếm theo tên phòng"/>
+                    <Button x:Name="btnTimKiemTheoTenPhong" Click="btnTimKiemTheoTenPhong_Click" Style="{StaticResource btnTimKiem}" Grid.Column="3" HorizontalAlignment="Left"/>
+
+
                 </Grid>
-                <DataGrid x:Name="dtgDanhSachDatPhong" ItemsSource="{Binding dsDatPhong}" Grid.Row="4">
+                <DataGrid x:Name="dtgDanhSachDatPhong" ItemsSource="{Binding dsDatPhong}" Grid.Row="4" Grid.ColumnSpan="7" Margin="20,10,20,10">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Xử lí">
                             <DataGridTemplateColumn.CellTemplate>
@@ -436,18 +455,29 @@
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="txtLocThongTinPhong"
+                        Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
+                             Tag="Tìm kiếm theo thông tin loại phòng"/>
+                    <Button x:Name="btnTimKiemTheoThongTinLoaiPhong" Click="btnTimKiemTheoThongTinLoaiPhong_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+
+                    <TextBox  x:Name="txtLocGiaLoaiPhongThap"
+                        Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
+                             Tag="Từ giá thấp nhất" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <TextBox x:Name="txtLocGiaLoaiPhongCao"
+                         Grid.Column="3" 
+                         Style="{StaticResource tbxNoiDungMacDinh}"
+                         Tag="Đến giá cao nhất" 
+                         ToolTip="Tìm kiếm theo"/>
+                    <Button x:Name="btnTimKiemTheoKhoangGiaLoaiPhong" Click="btnTimKiemTheoKhoangGiaLoaiPhong_Click" Style="{StaticResource btnTimKiem}" Grid.Column="4" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachLoaiPhong" 
                           ItemsSource="{Binding dsPhong}" Grid.Row="4">
@@ -456,11 +486,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnThongTinPhong" 
-                                                Click="btnThongTinPhong_Click"
+                                        <Button x:Name="btnThongTinLoaiPhong" 
+                                                Click="btnThongTinLoaiPhong_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
-                                        <Button x:Name="btnXoaPhong" 
-                                                Click="btnXoaPhong_Click"  
+                                        <Button x:Name="btnXoaLoaiPhong" 
+                                                Click="btnXoaLoaiPhong_Click"
                                                 Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -505,7 +535,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <TextBox x:Name="txtMaDatPhongKhachHang" 
-                                 Style="{StaticResource tbxNoiDung}" />
+                                 Style="{StaticResource tbxNoiDung}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -523,14 +553,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
+          
                     <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachKhachHangDatPhong" 
@@ -540,11 +563,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnThongTinPhong" 
-                                                Click="btnThongTinPhong_Click"
+                                        <Button x:Name="btnThongTinKhachDatPhong" 
+                                                Click="btnThongTinKhachDatPhong_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
-                                        <Button x:Name="btnXoaPhong" 
-                                                Click="btnXoaPhong_Click"  
+                                        <Button x:Name="btnXoaKhachDatPhong" 
+                                                Click="btnXoaKhachDatPhong_Click"  
                                                 Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -554,7 +577,7 @@
                                             Binding="{Binding booking_record_id}"/>
                         <DataGridTextColumn Header="Tên phòng" 
                                             Binding="{Binding room_name}"/>
-                        <DataGridTextColumn Header="Tên nhân viên" 
+                        <DataGridTextColumn Header="Tên khách hàng" 
                                             Binding="{Binding customer_name}"/>
                     </DataGrid.Columns>
                 </DataGrid>

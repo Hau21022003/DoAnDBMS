@@ -55,6 +55,7 @@
             <StackPanel Grid.Column="4">
                 <Label Content="Nội dung phát sinh"/>
                 <Label Content="Phương thức TT "/>
+                <Label Content="Ngày thanh toán"/>
             </StackPanel>
             <StackPanel Grid.Column="5">
                 <TextBox x:Name="txtNoiDungPhatSinh" Style="{StaticResource tbxNoiDung}"/>
@@ -62,6 +63,11 @@
                     <ComboBoxItem Content="Tiền mặt"/>
                     <ComboBoxItem Content="Chuyển khoản"/>
                 </ComboBox>
+                <Border Grid.Column="1" Background="White" BorderThickness="1" 
+                                BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
+                    <DatePicker x:Name="dtpNgayThanhToan"
+                                Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
+                </Border>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -80,7 +86,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <ComboBox Style="{StaticResource cbLuaChon}" SelectedValuePath="Content"
-                      Tag="Lọc theo trạng thái của bill">
+                      Tag="Lọc theo trạng thái của bill" SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBoxItem Content="Tất cả"/>
                 <ComboBoxItem Content="Đã thanh toán"/>
                 <ComboBoxItem Content="Chưa thanh toán"/>
@@ -88,7 +94,8 @@
             <TextBox Grid.Column="1" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
+                             ToolTip="Tìm kiếm theo" 
+                     TextChanged="TextBox_TextChanged"/>
             <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
         </Grid>
         <DataGrid x:Name="dtgDanhSach" Grid.Row="4">
@@ -122,6 +129,8 @@
                                             Binding="{Binding  content_incurred}"/>
                 <DataGridTextColumn Header="Ngày tạo" 
                                             Binding="{Binding created_date, StringFormat=dd/MM/yyyy}"/>
+                <DataGridTextColumn Header="Ngày thanh toán" 
+                                            Binding="{Binding paytime, StringFormat=dd/MM/yyyy}"/>
                 <DataGridTextColumn Header="Phương thức thanh toán" 
                                             Binding="{Binding payment_method }"/>
 

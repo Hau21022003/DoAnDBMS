@@ -82,6 +82,22 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="btnTimKiem" TargetType="Button" BasedOn="{StaticResource btnHinhAnh}">
+        <Setter Property="Margin" Value="0 0 20 0"/>
+        <Setter Property="Background" Value="#FFB5D6F9"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="/HinhAnh/TimKiemTrang.png"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF4D8CE3"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="btnInWord" TargetType="Button" BasedOn="{StaticResource btnHinhAnh}">
         <Setter Property="Margin" Value="1"/>
         <Setter Property="Background" Value="#FF7DC4F3"/>
@@ -248,7 +264,6 @@
                                    VerticalAlignment="Center" Foreground="#FFC0B8B8" Visibility="Collapsed"/>
                             <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="5 0 0 0" 
                                       Background="Transparent" BorderThickness="0"/>
-                            <Image Source="/HinhAnh/TimKiem.png" Height="20" Margin="0 0 10 0" Grid.Column="1"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

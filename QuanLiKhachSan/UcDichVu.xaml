@@ -12,6 +12,10 @@
     <TabControl  Margin="0" Background="Transparent">
         <TabItem Style="{StaticResource tab}" Header="Đặt dịch vụ" Width="100">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="141*"/>
+                    <ColumnDefinition Width="853*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -19,7 +23,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -33,7 +37,7 @@
                         <Label Content="Số lượng"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Label x:Name="tbMaSuDungDichVu" Style="{StaticResource lbNoiDung}"/>
+                        <Label x:Name="lbMaSuDungDichVu" Style="{StaticResource lbNoiDung}"/>
                         <TextBox x:Name="txtSoLuong" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
@@ -58,7 +62,7 @@
                         <ComboBox x:Name="cbDichVuCuaDatDichVu" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -66,24 +70,28 @@
                     <Button x:Name="btnThemDaDichVu" Style="{StaticResource btnThem}" Click="btnThemDaDichVu_Click"/>
                     <Button x:Name="btnSuaDatDichVu" Style="{StaticResource btnSua}" Click="btnSuaDatDichVu_Click"  Grid.Column="1"/>
                 </Grid>
-                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
-                <Grid Grid.Row="3">
+                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}" Grid.ColumnSpan="2" Margin="20,5,20,5"/>
+                <Grid Grid.Row="3" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="txtLocThangSuDungDV"
+                        Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
+                             Tag="Tìm kiếm theo tháng sử dụng dịch vụ"/>
+                    <Button x:Name="btnTimKiemTheoThangSuDung" Click="btnTimKiemTheoThangSuDung_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="txtLocTenKH"
+                        Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
+                             Tag="Tìm kiếm theo tên khách hàng sử dụng" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <Button x:Name="btnTimKiemTheoTenKH" Click="btnTimKiemTheoTenKH_Click" Style="{StaticResource btnTimKiem}" Grid.Column="3" HorizontalAlignment="Left"/>
                 </Grid>
-                <DataGrid x:Name="dtgDanhSachDatDichVu" Grid.Row="4">
+                <DataGrid x:Name="dtgDanhSachDatDichVu" Grid.Row="4" Grid.ColumnSpan="2" Margin="20,10,20,10">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Xử lí">
                             <DataGridTemplateColumn.CellTemplate>
@@ -117,6 +125,10 @@
         </TabItem>
         <TabItem Style="{StaticResource tab}" Header="Dịch vụ" Width="100">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26*"/>
+                    <ColumnDefinition Width="471*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -124,7 +136,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -159,7 +171,7 @@
                         <CheckBox x:Name="chbTrangThaiDichVu" Style="{StaticResource MyCheckBox}"/>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -167,24 +179,35 @@
                     <Button x:Name="btnThemDichVu" Style="{StaticResource btnThem}" Click="btnThemDichVu_Click"/>
                     <Button x:Name="btnSuaDichVu" Style="{StaticResource btnSua}" Click="btnSuaDichVu_Click"  Grid.Column="1"/>
                 </Grid>
-                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
-                <Grid Grid.Row="3">
+                <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}" Grid.ColumnSpan="2" Margin="20,5,20,5"/>
+                <Grid Grid.Row="3" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="txtLocTenDV"
+                        Grid.Column="0"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
+                             Tag="Tìm kiếm theo tên dịch vụ"/>
+                    <Button x:Name="btnTimKiemTheoTenDV" Click="btnTimKiemTheoTenDV_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
+
+                    <TextBox x:Name="txtLocGiaThap"
+                        Grid.Column="2" 
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
+                             Tag="Từ giá thấp nhất" 
                              ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                    <TextBox x:Name="txtLocGiaCao"
+                         Grid.Column="3" 
+                         Style="{StaticResource tbxNoiDungMacDinh}"
+                         Tag="Đến giá cao nhất" 
+                         ToolTip="Tìm kiếm theo"/>
+                    <Button x:Name="btnTimKiemTheoKhoangGia" Click="btnTimKiemTheoKhoangGia_Click" Style="{StaticResource btnTimKiem}" Grid.Column="4" HorizontalAlignment="Left"/>
                 </Grid>
-                <DataGrid x:Name="dtgDanhSachDichVu" Grid.Row="4">
+                <DataGrid x:Name="dtgDanhSachDichVu" Grid.Row="4" Grid.ColumnSpan="2" Margin="20,10,20,10">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Xử lí">
                             <DataGridTemplateColumn.CellTemplate>
