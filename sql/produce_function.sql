@@ -133,12 +133,12 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 
 CREATE OR ALTER FUNCTION func_getBookingRecordByCustomerName (@customer_name NVARCHAR(50))
 RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
-room_id INT, room_name NVARCHAR(25), customer_name NVARCHAR(50))
+room_id INT, room_name NVARCHAR(25), representative_name NVARCHAR(50))
 AS
 BEGIN
  INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, representative_name
- FROM View_Booking_Record WHERE representative_name like @customer_name
+ SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name as representative_name
+ FROM View_Booking_Record WHERE customer_name like @customer_name
  RETURN
 END
 
@@ -151,7 +151,7 @@ room_id INT, room_name NVARCHAR(25), customer_name NVARCHAR(50))
 AS
 BEGIN
  INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, representative_name
+ SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name
  FROM View_Booking_Record WHERE room_name like @room_name
  RETURN
 END

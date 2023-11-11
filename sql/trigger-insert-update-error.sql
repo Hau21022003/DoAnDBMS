@@ -76,14 +76,6 @@ BEGIN
        ROLLBACK TRANSACTION
        RETURN
    END
-
---    --Check employee_id 
---    IF EXISTS (SELECT * FROM inserted WHERE employee_id is NULL)
---    BEGIN
---        RAISERROR(N'Mã nhân viên không được để trống', 16, 1)
---        ROLLBACK TRANSACTION
---        RETURN
---    END
 END;
 
 -- Phòng
