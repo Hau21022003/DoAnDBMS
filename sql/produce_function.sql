@@ -769,6 +769,30 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 --3. **HÓA ĐƠN**
 ---3.1. **PROCEDURE**
 --3.1.1. Add new BILL (PENDING)
+
+CREATE PROCEDURE proc_add_new_bill 
+@costs_incurred float, 
+@content_incurred NVARCHAR(255), 
+@total_cost float, 
+@payment_method NVARCHAR(15), 
+@pay_time DATETIME, 
+@booking_record_id int, 
+@employee_id int 
+AS 
+BEGIN 
+   	BEGIN TRANSACTION 
+   	BEGIN TRY 
+          	INSERT INTO BILL (costs_incurred, content_incurred, total_cost, payment_method, paytime, booking_record_id, employee_id) 
+			VALUES (@costs_incurred, @content_incurred, @total_cost, @payment_method, @pay_time, @booking_record_id, @employee_id) 
+			COMMIT TRAN 
+   	END TRY 
+   	BEGIN CATCH 
+          	DECLARE @err NVARCHAR(MAX);
+			SELECT @err = N'Lỗi ' + ERROR_MESSAGE();
+			ROLLBACK; 
+   	END CATCH 
+END 
+ 
 --3.1.2. Delete BILL
 
  CREATE PROCEDURE proc_delete_bill
@@ -831,15 +855,15 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 ---3.2. **FUNCTION**
 --3.2.1. Search BILL information (PENDING)
 
- CREATE FUNCTION func_search_bill(@string nvarchar(50))
- RETURNS TABLE
- AS
- RETURN
- (
- SELECT *
- FROM BILL
- WHERE CONCAT(content_incurred, payment_method) LIKE '%' + @string + '%'
- )
+CREATE FUNCTION func_search_bill(@string nvarchar(50)) 
+RETURNS TABLE 
+AS 
+RETURN 
+( 
+SELECT * 
+FROM View_Bill 
+WHERE CONCAT(costs_incurred, content_incurred, total_cost, payment_method, employee_name, customer_name) LIKE '%' + @string + '%' 
+) 
 
  SELECT * FROM func_search_bill(N'Tiền mặt')
 
@@ -872,6 +896,23 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
  )
 
  SELECT * FROM func_search_bill_by_paydate('2023-11-21 11:00:00')
+
+--3.2.4. Search BILL information by bill status 
+CREATE FUNCTION func_search_bill_by_status(@string nvarchar(50)) 
+RETURNS TABLE 
+AS 
+RETURN 
+( 
+    SELECT * 
+    FROM View_Bill 
+    WHERE 
+        (@string = N'Chưa thanh toán' AND paytime IS NULL) 
+        OR 
+        (@string = N'Đã thanh toán' AND paytime IS NOT NULL) 
+        OR 
+        (@string = N'Tất cả') 
+); 
+ 
 
 
 --4. **PHÒNG**
