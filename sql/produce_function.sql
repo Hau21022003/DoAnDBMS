@@ -1265,3 +1265,26 @@ SELECT *
 FROM View_Customer_Phone 
 WHERE CONCAT(customer_name, customer_id, phone_number) LIKE '%' + @string + '%' 
 )
+
+--6.3 Function trả về 1 giá trị
+CREATE FUNCTION f_Calculate_Total_Revenue
+
+(@StartDay DATETIME, @EndDay DATETIME) 
+
+RETURNS FLOAT
+
+AS 
+
+BEGIN
+
+DECLARE @Total FLOAT;
+
+SELECT @Total = SUM(BILL.total_cost)
+
+FROM BILL  
+
+WHERE BILL.paytime IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay ;
+
+RETURN @Total
+
+END
