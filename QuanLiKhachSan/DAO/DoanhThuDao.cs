@@ -17,7 +17,8 @@ namespace QuanLiKhachSan.DAO
     {
         public void LayDoanhThu(ThongKe thongKe)
         {
-            string sql = "select* from f_Calculate_Revenue(@StartDay, @EndDay)";
+            string sql1 = "select* from f_Calculate_Revenue(@StartDay, @EndDay)";
+            string sql2 = "SELECT dbo.f_Calculate_Total_Revenue (@StartDay, @EndDay)";
             SqlConnection conn = DbConnection.conn;
             try
             {
@@ -25,12 +26,18 @@ namespace QuanLiKhachSan.DAO
                 {
                     conn.Open();
                 }
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand(sql1, conn);
+                SqlCommand cmd2 = new SqlCommand(sql2, conn);
                 cmd.Parameters.AddWithValue("@StartDay", thongKe.NgayBatDau);
                 cmd.Parameters.AddWithValue("@EndDay", thongKe.NgayKetThuc);
+                cmd2.Parameters.AddWithValue("@StartDay", thongKe.NgayBatDau);
+                cmd2.Parameters.AddWithValue("@EndDay", thongKe.NgayKetThuc);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                SqlDataAdapter adapter2 = new SqlDataAdapter(cmd2);
                 DataTable tb = new DataTable();
+                DataTable tb2 = new DataTable();
                 adapter.Fill(tb);
+                adapter2.Fill(tb2);
 
                 List<double> listDoanhThu = new List<double>();
                 DateTime current = thongKe.NgayBatDau;
@@ -58,7 +65,8 @@ namespace QuanLiKhachSan.DAO
                      new LineSeries() { Title = "Doanh thu", Values = listDoanhThu.AsChartValues()}
                 };
                 thongKe.SeriesCollection = seriesCollection;
-                thongKe.TongDoanhThu = tb.AsEnumerable().Sum(x => x.Field<double>("ToTal"));
+                thongKe.TongDoanhThu = (double)tb2.Rows[0][0];//tb.AsEnumerable().Sum(x => x.Field<double>("ToTal"));
+                
             }
             catch (Exception ex)
             {
