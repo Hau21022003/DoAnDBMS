@@ -150,10 +150,12 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Tên tài khoản"/>
+                        <Label Content="Vai trò admin"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <TextBox x:Name="txtTenTaiKhoan" 
                                  Style="{StaticResource tbxNoiDung}" />
+                        <CheckBox x:Name="chbVaiTro" Style="{StaticResource MyCheckBox}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="4">
                         <Label Content="Mật khẩu"/>
