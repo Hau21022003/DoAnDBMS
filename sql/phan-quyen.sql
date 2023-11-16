@@ -1,0 +1,34 @@
+﻿CREATE ROLE Staff
+--Gán các quyền trên table cho role Staff
+
+GRANT SELECT, REFERENCES ON BangPhanCa TO Staff
+GRANT SELECT, REFERENCES ON CaLamViec TO Staff
+GRANT SELECT, REFERENCES ON CheBien TO Staff
+GRANT SELECT, REFERENCES ON ChiTietHoaDon TO Staff
+GRANT SELECT, REFERENCES ON ChiTietHoaDonUngDung TO Staff
+GRANT SELECT, REFERENCES ON ChiTietNhapHang TO Staff
+GRANT SELECT, REFERENCES ON CongViec TO Staff
+GRANT SELECT, INSERT, REFERENCES ON DonNhapHang TO Staff
+GRANT SELECT, INSERT, REFERENCES ON HoaDon TO Staff
+GRANT SELECT, INSERT, REFERENCES ON HoaDonUngDung TO Staff
+GRANT SELECT, INSERT, REFERENCES ON KhachHang TO Staff
+GRANT SELECT, REFERENCES ON LoaiSanPham TO Staff
+GRANT SELECT, REFERENCES ON NguyenLieu TO Staff
+GRANT SELECT, REFERENCES ON NhaCungCap TO Staff
+GRANT SELECT, REFERENCES ON NhanVien TO Staff
+GRANT SELECT, INSERT, REFERENCES ON PhieuChi TO Staff
+GRANT SELECT, REFERENCES ON SanPham TO Staff
+GRANT SELECT, REFERENCES ON UngDung TO Staff
+
+--Gán quyền thực thi trên các procedure, function cho role Staff
+
+GRANT EXECUTE TO Staff
+GRANT SELECT TO Staff
+DENY EXECUTE ON proc_AddEmployee to Staff;
+DENY EXECUTE ON proc_DeleteEmployee to Staff;
+DENY EXECUTE ON proc_EditEmployee to Staff;
+DENY EXECUTE ON proc_suaCheBien to Staff;
+DENY EXECUTE ON proc_suaNguyenLieu to Staff;
+DENY EXECUTE ON proc_suaSanPham to Staff;
+DENY EXECUTE ON proc_xoaSanPham to Staff;
+DENY EXECUTE ON proc_xoaPhanCa to Staff;
