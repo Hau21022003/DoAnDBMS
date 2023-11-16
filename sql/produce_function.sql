@@ -430,20 +430,43 @@ EXEC proc_insertEmployee
 SELECT * FROM EMPLOYEE;
 
 ----Xóa NHÂN VIÊN
-
+--- !!! UPDATE : proc delete employee -> delete account have permission ---
 CREATE or ALTER PROCEDURE proc_deleteEmployee
     @employee_id INT
 AS
 BEGIN
-    BEGIN TRANSACTION;
+	SET NOCOUNT ON;
+	DECLARE @username varchar(15);
+		SELECT @username=username FROM ACCOUNT WHERE employee_id=@employee_id
+		DECLARE @sql varchar(100)
+		DECLARE @SessionID INT;
+		SELECT @SessionID = session_id
+		FROM sys.dm_exec_sessions
+		WHERE login_name = @username;
+		IF @SessionID IS NOT NULL
+		BEGIN
+		SET @sql = 'kill ' + Convert(NVARCHAR(20), @SessionID)
+		exec(@sql)
+		END
+	BEGIN TRANSACTION;
     BEGIN TRY
         DELETE FROM EMPLOYEE where employee_id = @employee_id
+		--
+		SET @sql = 'DROP USER '+ @username
+		exec (@sql)
+		--
+		SET @sql = 'DROP LOGIN '+ @username
+		exec (@sql)
+		--
+		DELETE FROM ACCOUNT WHERE employee_id=@employee_id;
         COMMIT;
     END TRY
    	BEGIN CATCH
 		DECLARE @err NVARCHAR(MAX)
 		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
 		RAISERROR(@err, 16, 1)
+		ROLLBACK TRANSACTION;
+		THROW;
 	END CATCH
 END;
  
