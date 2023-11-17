@@ -1,4 +1,5 @@
 ﻿using QuanLiKhachSan.Class;
+using QuanLiKhachSan.DAO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ namespace QuanLiKhachSan
     public partial class fDangNhap : Window
     {
         TaiKhoan taiKhoan = new TaiKhoan();
+        AccountDao accountDao = new AccountDao();
         public fDangNhap()
         {
             InitializeComponent();
@@ -54,7 +56,17 @@ namespace QuanLiKhachSan
         //Hàm đăng nhập từ việc kiểm tra tài khoản
         private void DangNhap()
         {
-
+            bool isSuccess = accountDao.Login(taiKhoan.TenTaiKhoan, taiKhoan.MatKhau);
+            if(isSuccess)
+            {
+                fUngDung ungDung = new fUngDung();
+                ungDung.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Tên tài khoản hoặc mật khẩu không đúng");
+            }
         }
 
         private void pswMatKhau_PasswordChanged(object sender, RoutedEventArgs e)

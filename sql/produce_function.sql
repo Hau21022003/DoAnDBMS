@@ -1,5 +1,5 @@
 --Trong đề tài phải áp dụng hết các loại hàm và thủ tục, nên có đa dạng mỗi loại 2 ba cái
---USE HotelManagementSystem;
+USE HotelManagementSystem;
 
 
 --1. **Đặt phòng**
@@ -132,29 +132,29 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 -- Tìm hồ sơ đặt phòng của khách hàng có tên là Nguyễn Văn A
 
 CREATE OR ALTER FUNCTION func_getBookingRecordByCustomerName (@customer_name NVARCHAR(50))
-RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
-room_id INT, room_name NVARCHAR(25), representative_name NVARCHAR(50))
+RETURNS table
 AS
-BEGIN
- INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name as representative_name
- FROM View_Booking_Record WHERE customer_name like @customer_name
- RETURN
-END
+RETURN ( SELECT * FROM View_Booking_Record WHERE representative_name like @customer_name);
+
+SELECT * FROM View_Booking_Record
+
 
 SELECT * FROM func_getBookingRecordByCustomerName(N'Nguyen Van A');
 
 --- Tìm hồ sơ đặt phòng của phòng 101
+
+drop FUNCTION func_getBookingRecordByRoomName;
+
 CREATE OR ALTER FUNCTION func_getBookingRecordByRoomName (@room_name NVARCHAR(50))
-RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
-room_id INT, room_name NVARCHAR(25), customer_name NVARCHAR(50))
+RETURNS table
 AS
-BEGIN
- INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name
- FROM View_Booking_Record WHERE room_name like @room_name
- RETURN
-END
+RETURN (
+    SELECT *
+    FROM View_Booking_Record
+    WHERE room_name LIKE @room_name
+);
+
+SELECT * FROM func_getBookingRecordByRoomName('101');
 
 CREATE OR ALTER FUNCTION func_getBookingRecordPriceRange (@fromPrice float, @toPrice float)
 RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
@@ -430,20 +430,43 @@ EXEC proc_insertEmployee
 SELECT * FROM EMPLOYEE;
 
 ----Xóa NHÂN VIÊN
-
+--- !!! UPDATE : proc delete employee -> delete account have permission ---
 CREATE or ALTER PROCEDURE proc_deleteEmployee
     @employee_id INT
 AS
 BEGIN
-    BEGIN TRANSACTION;
+	SET NOCOUNT ON;
+	DECLARE @username varchar(15);
+		SELECT @username=username FROM ACCOUNT WHERE employee_id=@employee_id
+		DECLARE @sql varchar(100)
+		DECLARE @SessionID INT;
+		SELECT @SessionID = session_id
+		FROM sys.dm_exec_sessions
+		WHERE login_name = @username;
+		IF @SessionID IS NOT NULL
+		BEGIN
+		SET @sql = 'kill ' + Convert(NVARCHAR(20), @SessionID)
+		exec(@sql)
+		END
+	BEGIN TRANSACTION;
     BEGIN TRY
         DELETE FROM EMPLOYEE where employee_id = @employee_id
+		--
+		SET @sql = 'DROP USER '+ @username
+		exec (@sql)
+		--
+		SET @sql = 'DROP LOGIN '+ @username
+		exec (@sql)
+		--
+		DELETE FROM ACCOUNT WHERE employee_id=@employee_id;
         COMMIT;
     END TRY
    	BEGIN CATCH
 		DECLARE @err NVARCHAR(MAX)
 		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
 		RAISERROR(@err, 16, 1)
+		ROLLBACK TRANSACTION;
+		THROW;
 	END CATCH
 END;
  
@@ -500,57 +523,68 @@ RETURNS table
 AS 
 	RETURN ( SELECT * FROM View_Front_Desk_Employee WHERE employee_name = @employee_name);
 
---4. **Tài khoản**
-SELECT * FROM ACCOUNT;
+--4. **Tài khoản
 --THÊM ACCOUNT
 
 CREATE OR ALTER PROCEDURE proc_insertAccount
     @username NVARCHAR(50),
     @password VARCHAR(25),
-    @employee_id INT
+    @employee_id INT,
+    @roles NVARCHAR(20)
 AS
 BEGIN
-    BEGIN TRANSACTION;
+    BEGIN TRAN
     BEGIN TRY
-        INSERT INTO ACCOUNT (username, password, employee_id)
-        VALUES (@username, @password, @employee_id);
-        COMMIT;
+        -- Thêm tài khoản
+        INSERT INTO ACCOUNT (username, password, employee_id, roles) VALUES (@username, @password, @employee_id, @roles);
+
+        DECLARE @sqlString NVARCHAR(2000)
+
+        -- Tạo tài khoản login cho nhân viên, tên người dùng và mật khẩu là tài khoản được tạo trên bảng Account
+        SET @sqlString = 'CREATE LOGIN [' + @username + '] WITH PASSWORD=''' + @password + ''', DEFAULT_DATABASE=[HotelManagementSystem], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF'
+        EXEC (@sqlString)
+
+        -- Tạo tài khoản người dùng đối với nhân viên đó trên database (tên người dùng trùng với tên login)
+		SET @sqlString = 'CREATE USER ' + @username + ' FOR LOGIN ' + @username;
+		EXEC (@sqlString)
+
+
+        -- Thêm người dùng vào vai trò quyền tương ứng (Staff hoặc Manager(sysadmin))
+        IF (@roles = 'sysadmin')
+            SET @sqlString = 'ALTER SERVER ROLE sysadmin ADD MEMBER ' + @username;
+        ELSE
+            SET @sqlString = 'ALTER ROLE Staff ADD MEMBER ' + @username;
+
+        EXEC (@sqlString)
+
+        COMMIT TRAN
     END TRY
     BEGIN CATCH
+        ROLLBACK TRAN
         DECLARE @err NVARCHAR(MAX)
-        SELECT @err = N'Lỗi ' + ERROR_MESSAGE() 
-        RAISERROR(@err, 16, 1);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+        RAISERROR(@err, 16, 1)
     END CATCH
-END;
+END
+
 
 EXEC proc_insertAccount
-    @username = 'CAM ON',
+    @username = 'tuyenne',
     @password = '123446',
-    @employee_id = 8
+    @employee_id = 5,
+	@roles = 'staff'
 
-SELECT * FROM ACCOUNT;
+EXEC proc_insertAccount
+    @username = 'tuyenne1',
+    @password = '123446',
+    @employee_id = 5,
+	@roles = 'sysadmin'
+
 
 ----Xóa ACCOUNT
 
-CREATE or ALTER PROCEDURE proc_deleteAccount
-    @account_id INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-    BEGIN TRY
-        DELETE FROM ACCOUNT where account_id = @account_id
-        COMMIT;
-    END TRY
-   	BEGIN CATCH
-		DECLARE @err NVARCHAR(MAX)
-		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
-		RAISERROR(@err, 16, 1)
-	END CATCH
-END;
- 
- exec proc_deleteAccount @account_id = 6;
-
- SELECT * FROM ACCOUNT;
+-- không cho phép xóa account
+-- xóa nhân viên -> cascade xóa account
 
 -- --Cập nhật ACCOUNT
 CREATE OR ALTER PROCEDURE proc_updateAccount
@@ -565,8 +599,6 @@ BEGIN
 
         UPDATE ACCOUNT
         SET
-            username = @username,
-            password = @password,
             employee_id = @employee_id
         WHERE account_id = @account_id;
 
@@ -579,6 +611,7 @@ BEGIN
         RAISERROR(@err, 16, 1);
     END CATCH
 END;
+
 
 
 select * from account;
@@ -600,6 +633,31 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 		FROM BILL 
 		WHERE BILL.created_date IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay
 		GROUP BY MONTH(BILL.created_date), YEAR(BILL.created_date));
+
+
+--6.3 Function trả về 1 giá trị
+CREATE FUNCTION f_Calculate_Total_Revenue
+
+(@StartDay DATETIME, @EndDay DATETIME) 
+
+RETURNS FLOAT
+
+AS 
+
+BEGIN
+
+DECLARE @Total FLOAT;
+
+SELECT @Total = SUM(BILL.total_cost)
+
+FROM BILL  
+
+WHERE BILL.paytime IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay ;
+
+RETURN @Total
+
+END
+
 
 --2. **Khách hàng**
 
@@ -1265,3 +1323,27 @@ SELECT *
 FROM View_Customer_Phone 
 WHERE CONCAT(customer_name, customer_id, phone_number) LIKE '%' + @string + '%' 
 )
+
+
+
+--6.4 Function trả về 1 giá trị chuỗi kết nối khi đăng nhập
+
+CREATE OR ALTER FUNCTION Login
+(@username VARCHAR(50), @password VARCHAR(25))
+RETURNS VARCHAR(1000)
+AS
+BEGIN
+	DECLARE @connectString VARCHAR(1000);
+	DECLARE @roles VARCHAR(20);
+	SELECT @roles = roles
+	FROM ACCOUNT 
+	WHERE username = @username AND password = @password;
+	IF @roles IS NOT NULL
+	BEGIN
+		SET @connectString = 'Data Source=(localdb)\mssqllocaldb;Initial Catalog=HotelManagementSystem;User Id='
+		+ @username + ';Password=' + @password + ';';
+	END
+	RETURN @connectString;
+END
+
+SELECT * FROM ACCOUNT;
