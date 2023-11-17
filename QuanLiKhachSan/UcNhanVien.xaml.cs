@@ -39,7 +39,7 @@ namespace QuanLiKhachSan
             DataTable tb = employeeDao.LayDanhSachTenNhanVien();
             List<string> list = tb.AsEnumerable()
                                   .Select(x => x.Field<int>("employee_id").ToString() + "|" + x.Field<string>("employee_name"))
-                                  .ToList<string>();
+                                  .ToList();
             cbNhanVienCuaSDT.ItemsSource = list;
             cbNhanVienCuaTaiKhoan.ItemsSource = list;
         }
@@ -52,7 +52,7 @@ namespace QuanLiKhachSan
                 lbMaNhanVien.Content = drv["employee_id"].ToString();
                 txtTenNhanVien.Text = drv["employee_name"].ToString();
                 cbGioiTinh.SelectedValue = drv["gender"].ToString();
-                dtpNgaySinh.SelectedDate = DateTime.Parse(drv["birthday"].ToString());
+                dtpNgaySinh.SelectedDate = (DateTime?)drv["birthday"];
                 txtIdentifyCard.Text = drv["identify_card"].ToString();
                 txtDiaChi.Text = drv["address"].ToString();
                 txtEmail.Text = drv["email"].ToString();
@@ -68,7 +68,7 @@ namespace QuanLiKhachSan
             DataRowView drv = (DataRowView)dtgDanhSachNhanVien.SelectedValue;
             try
             {
-                int employeeId = int.Parse(drv["employee_id"].ToString());
+                int employeeId = (int)drv["employee_id"];
                 employeeDao.Delete(employeeId);
                 LayDanhSach();
             }
@@ -170,51 +170,48 @@ namespace QuanLiKhachSan
         private void btnXoaTaiKhoan_Click(object sender, RoutedEventArgs e)
         {
             DataRowView drv = (DataRowView)dtgDanhSachTaiKhoan.SelectedValue;
-            try
-            {
-                int accountId = int.Parse(drv["account_id"].ToString());
-                accountDao.Delete(accountId);
-                LayDanhSach();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            int accountId = (int)drv["account_id"];
+            accountDao.Delete(accountId);
+            LayDanhSach();
         }
 
         private void btnThemSdtNhanVien_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void btnSuaSdtNhanVien_Click(object sender, RoutedEventArgs e)
-        {
-
+            if(cbNhanVienCuaSDT.SelectedValue != null)
+            {
+                string phoneNumber = txtSDT.Text;
+                int employeeId = int.Parse(cbNhanVienCuaSDT.SelectedValue.ToString().Split("|")[0]);
+                phoneDao.Insert(phoneNumber, employeeId);
+                LayDanhSach();
+            }
         }
 
         private void btnThongTinSdtNhanVien_Click(object sender, RoutedEventArgs e)
         {
             DataRowView drv = (DataRowView)dtgDanhSachSdtCuaNhanVien.SelectedValue;
-            try
-            {
-                cbNhanVienCuaSDT.SelectedValue = drv["employee_id"].ToString() + "|" + drv["employee_name"].ToString();
-                txtSDT.Text = drv["phone_number"].ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            cbNhanVienCuaSDT.SelectedValue = drv["employee_id"].ToString() + "|" + drv["employee_name"].ToString();
+            txtSDT.Text = drv["phone_number"].ToString();
         }
 
         private void btnXoaSdtNhanVien_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachSdtCuaNhanVien.SelectedValue;
+            int employeeId = (int)drv["employee_id"];
+            string phoneNumber = (string)drv["phone_number"];
+            phoneDao.Delete(phoneNumber, employeeId);
+            LayDanhSach();
         }
 
         private void btnTimKiemTheoTenNhanVien_Click(object sender, RoutedEventArgs e)
         {
             string employeeName = txtLocTheoTenNhanVien.Text;
             dtgDanhSachNhanVien.ItemsSource = employeeDao.TimKiemTheoHoTen(employeeName).DefaultView;
+        }
+
+        private void btnLocSdt_Click(object sender, RoutedEventArgs e)
+        {
+            string employeeName = txtLocSdtTheoTenNhanVien.Text;
+            dtgDanhSachSdtCuaNhanVien.ItemsSource = phoneDao.SearchByEmployeeName(employeeName).DefaultView;
         }
     }
 }

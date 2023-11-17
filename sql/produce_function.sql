@@ -1308,3 +1308,48 @@ BEGIN
 	END
 	RETURN @connectString;
 END
+
+--thủ tục thêm xóa sửa số điện thoại nhân viên
+CREATE OR ALTER PROCEDURE proc_add_phone_of_employee
+@phone_number VARCHAR(15),
+@employee_id INT
+AS
+BEGIN
+	IF EXISTS (SELECT* FROM PHONE_NUMBER_OF_EMPLOYEE WHERE phone_number = @phone_number) 
+	BEGIN
+		RAISERROR(N'Số điện thoại đã tồn tại',16,1);
+		RETURN
+	END
+	IF LEN(@phone_number) != 10 OR @phone_number LIKE '%[^0-9]%'
+	BEGIN
+		RAISERROR(N'Số điện thoại không hợp lệ',16,1);
+		RETURN
+	END
+	IF NOT EXISTS (SELECT* FROM EMPLOYEE WHERE employee_id = @employee_id)
+	BEGIN
+		RAISERROR(N'Nhân viên không tồn tại',16,1);
+		RETURN
+	END
+    INSERT INTO PHONE_NUMBER_OF_EMPLOYEE(phone_number, employee_id) values(@phone_number, @employee_id);
+END
+
+CREATE OR ALTER PROCEDURE proc_delete_phone_of_employee
+@phone_number VARCHAR(15),
+@employee_id INT
+AS
+BEGIN
+    DELETE FROM PHONE_NUMBER_OF_EMPLOYEE
+    WHERE phone_number = @phone_number AND employee_id = @employee_id
+END
+
+CREATE OR ALTER FUNCTION f_search_phone_employee_by_employee_name(@employee_name nvarchar(50))
+RETURNS @OutputTable TABLE (employee_id INT,employee_name NVARCHAR(50),phone_number VARCHAR(15))
+AS
+BEGIN
+	   INSERT INTO @OutputTable
+	   SELECT EMPLOYEE.employee_id, employee_name, phone_number
+	   FROM PHONE_NUMBER_OF_EMPLOYEE JOIN EMPLOYEE ON EMPLOYEE.employee_id = PHONE_NUMBER_OF_EMPLOYEE.employee_id
+	   WHERE EMPLOYEE.employee_name = @employee_name
+	   RETURN;
+END
+	   

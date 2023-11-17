@@ -73,7 +73,7 @@ namespace QuanLiKhachSan
                 txtTenKhachHang.Text = drv["customer_name"].ToString();
                 cbGioiTinh.SelectedValue = drv["gender"].ToString();
                 txtEmail.Text = drv["email"].ToString();
-                dtpNgaySinh.SelectedDate = DateTime.Parse(drv["birthday"].ToString());
+                dtpNgaySinh.SelectedDate = (DateTime?)drv["birthday"];
                 txtIdentifyCard.Text = drv["identify_card"].ToString();
                 txtDiaChi.Text = drv["address"].ToString();
                 chbTrangThai.IsChecked = (bool)drv["status"];

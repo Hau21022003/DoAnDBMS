@@ -232,6 +232,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <Label Content="Nhân viên"/>
@@ -246,31 +247,23 @@
                         <TextBox x:Name="txtSDT" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="btnThemSdtNhanVien" Style="{StaticResource btnThem}" Click="btnThemSdtNhanVien_Click"/>
-                    <Button x:Name="btnSuaSdtNhanVien" Style="{StaticResource btnSua}" Click="btnSuaSdtNhanVien_Click"  Grid.Column="1"/>
+                    <Button x:Name="btnThemSdtNhanVien" Style="{StaticResource btnThem}" 
+                            Click="btnThemSdtNhanVien_Click" Grid.Column="4"/>
                 </Grid>
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox Grid.Column="0" x:Name="txtLocSdtTheoTenNhanVien"
                              Style="{StaticResource tbxNoiDungMacDinh}"
-                             ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                             ToolTip="Lọc theo tên nhân viên" 
+                             Tag="Lọc theo tên nhân viên"/>
+                    <Button Style="{StaticResource btnTimKiem}" Grid.Column="1"
+                            ToolTip="Lọc theo tên nhân viên" 
+                            x:Name="btnLocSdt" Click="btnLocSdt_Click"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaNhanVien" 
                           ItemsSource="{Binding dsKhachDatPhong}" Grid.Row="4">

@@ -29,32 +29,6 @@ namespace QuanLiKhachSan.DAO
             finally { conn.Close(); }
             return dt;
         }
-        /*
-        public void Them(string tenPhong, int sucChua, string trangThai, string moTa, string anh, int loaiPhong)
-        {
-            SqlConnection conn = DbConnection.conn;
-            string sql = $"insert into Room(room_name, room_capacity, room_status, room_description, room_image, room_type_id) " +
-                $"values('{tenPhong}', {sucChua},'{trangThai}',N'{moTa}',{anh},{loaiPhong})";
-            MessageBox.Show("OK");
-            try
-            {
-                conn.Open();
-                SqlCommand cm = new SqlCommand(sql, conn);
-                if (cm.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("thanh cong");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message );
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-        */
         public DataTable LayDanhSachTenPhong()
         {
             DataTable dt = new DataTable() ;
@@ -107,7 +81,7 @@ namespace QuanLiKhachSan.DAO
             }
         }
         public void Sua(int roomId, string roomName, int roomCapacity, string roomStatus, string roomDescription,
-            string roomImage, int roomTypeId)
+            byte[] roomImage, int roomTypeId)
         {
             SqlConnection conn = DbConnection.conn;
             try
