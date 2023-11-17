@@ -1,5 +1,5 @@
 --Trong đề tài phải áp dụng hết các loại hàm và thủ tục, nên có đa dạng mỗi loại 2 ba cái
---USE HotelManagementSystem;
+USE HotelManagementSystem;
 
 
 --1. **Đặt phòng**
@@ -132,29 +132,29 @@ select * from BOOKING_RECORD WHERE booking_record_id = 1;
 -- Tìm hồ sơ đặt phòng của khách hàng có tên là Nguyễn Văn A
 
 CREATE OR ALTER FUNCTION func_getBookingRecordByCustomerName (@customer_name NVARCHAR(50))
-RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
-room_id INT, room_name NVARCHAR(25), representative_name NVARCHAR(50))
+RETURNS table
 AS
-BEGIN
- INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name as representative_name
- FROM View_Booking_Record WHERE customer_name like @customer_name
- RETURN
-END
+RETURN ( SELECT * FROM View_Booking_Record WHERE representative_name like @customer_name);
+
+SELECT * FROM View_Booking_Record
+
 
 SELECT * FROM func_getBookingRecordByCustomerName(N'Nguyen Van A');
 
 --- Tìm hồ sơ đặt phòng của phòng 101
+
+drop FUNCTION func_getBookingRecordByRoomName;
+
 CREATE OR ALTER FUNCTION func_getBookingRecordByRoomName (@room_name NVARCHAR(50))
-RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
-room_id INT, room_name NVARCHAR(25), customer_name NVARCHAR(50))
+RETURNS table
 AS
-BEGIN
- INSERT INTO @BookingRecordList
- SELECT booking_record_id, booking_time, status, room_id, room_name, customer_name
- FROM View_Booking_Record WHERE room_name like @room_name
- RETURN
-END
+RETURN (
+    SELECT *
+    FROM View_Booking_Record
+    WHERE room_name LIKE @room_name
+);
+
+SELECT * FROM func_getBookingRecordByRoomName('101');
 
 CREATE OR ALTER FUNCTION func_getBookingRecordPriceRange (@fromPrice float, @toPrice float)
 RETURNS @BookingRecordList TABLE (booking_record_id VARCHAR(10), booking_time DATETIME, status NVARCHAR(25), 
