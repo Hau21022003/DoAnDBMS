@@ -523,57 +523,68 @@ RETURNS table
 AS 
 	RETURN ( SELECT * FROM View_Front_Desk_Employee WHERE employee_name = @employee_name);
 
---4. **Tài khoản**
-SELECT * FROM ACCOUNT;
+--4. **Tài khoản
 --THÊM ACCOUNT
 
 CREATE OR ALTER PROCEDURE proc_insertAccount
     @username NVARCHAR(50),
     @password VARCHAR(25),
-    @employee_id INT
+    @employee_id INT,
+    @roles NVARCHAR(20)
 AS
 BEGIN
-    BEGIN TRANSACTION;
+    BEGIN TRAN
     BEGIN TRY
-        INSERT INTO ACCOUNT (username, password, employee_id)
-        VALUES (@username, @password, @employee_id);
-        COMMIT;
+        -- Thêm tài khoản
+        INSERT INTO ACCOUNT (username, password, employee_id, roles) VALUES (@username, @password, @employee_id, @roles);
+
+        DECLARE @sqlString NVARCHAR(2000)
+
+        -- Tạo tài khoản login cho nhân viên, tên người dùng và mật khẩu là tài khoản được tạo trên bảng Account
+        SET @sqlString = 'CREATE LOGIN [' + @username + '] WITH PASSWORD=''' + @password + ''', DEFAULT_DATABASE=[HotelManagementSystem], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF'
+        EXEC (@sqlString)
+
+        -- Tạo tài khoản người dùng đối với nhân viên đó trên database (tên người dùng trùng với tên login)
+		SET @sqlString = 'CREATE USER ' + @username + ' FOR LOGIN ' + @username;
+		EXEC (@sqlString)
+
+
+        -- Thêm người dùng vào vai trò quyền tương ứng (Staff hoặc Manager(sysadmin))
+        IF (@roles = 'sysadmin')
+            SET @sqlString = 'ALTER SERVER ROLE sysadmin ADD MEMBER ' + @username;
+        ELSE
+            SET @sqlString = 'ALTER ROLE Staff ADD MEMBER ' + @username;
+
+        EXEC (@sqlString)
+
+        COMMIT TRAN
     END TRY
     BEGIN CATCH
+        ROLLBACK TRAN
         DECLARE @err NVARCHAR(MAX)
-        SELECT @err = N'Lỗi ' + ERROR_MESSAGE() 
-        RAISERROR(@err, 16, 1);
+        SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
+        RAISERROR(@err, 16, 1)
     END CATCH
-END;
+END
+
 
 EXEC proc_insertAccount
-    @username = 'CAM ON',
+    @username = 'tuyenne',
     @password = '123446',
-    @employee_id = 8
+    @employee_id = 5,
+	@roles = 'staff'
 
-SELECT * FROM ACCOUNT;
+EXEC proc_insertAccount
+    @username = 'tuyenne1',
+    @password = '123446',
+    @employee_id = 5,
+	@roles = 'sysadmin'
+
 
 ----Xóa ACCOUNT
 
-CREATE or ALTER PROCEDURE proc_deleteAccount
-    @account_id INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-    BEGIN TRY
-        DELETE FROM ACCOUNT where account_id = @account_id
-        COMMIT;
-    END TRY
-   	BEGIN CATCH
-		DECLARE @err NVARCHAR(MAX)
-		SELECT @err = N'Lỗi ' + ERROR_MESSAGE()
-		RAISERROR(@err, 16, 1)
-	END CATCH
-END;
- 
- exec proc_deleteAccount @account_id = 6;
-
- SELECT * FROM ACCOUNT;
+-- không cho phép xóa account
+-- xóa nhân viên -> cascade xóa account
 
 -- --Cập nhật ACCOUNT
 CREATE OR ALTER PROCEDURE proc_updateAccount
@@ -588,8 +599,6 @@ BEGIN
 
         UPDATE ACCOUNT
         SET
-            username = @username,
-            password = @password,
             employee_id = @employee_id
         WHERE account_id = @account_id;
 
@@ -602,6 +611,7 @@ BEGIN
         RAISERROR(@err, 16, 1);
     END CATCH
 END;
+
 
 
 select * from account;
@@ -623,6 +633,31 @@ RETURN (SELECT MONTH(BILL.created_date) AS Month, YEAR(BILL.created_date) AS Yea
 		FROM BILL 
 		WHERE BILL.created_date IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay
 		GROUP BY MONTH(BILL.created_date), YEAR(BILL.created_date));
+
+
+--6.3 Function trả về 1 giá trị
+CREATE FUNCTION f_Calculate_Total_Revenue
+
+(@StartDay DATETIME, @EndDay DATETIME) 
+
+RETURNS FLOAT
+
+AS 
+
+BEGIN
+
+DECLARE @Total FLOAT;
+
+SELECT @Total = SUM(BILL.total_cost)
+
+FROM BILL  
+
+WHERE BILL.paytime IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay ;
+
+RETURN @Total
+
+END
+
 
 --2. **Khách hàng**
 
@@ -1289,28 +1324,7 @@ FROM View_Customer_Phone
 WHERE CONCAT(customer_name, customer_id, phone_number) LIKE '%' + @string + '%' 
 )
 
---6.3 Function trả về 1 giá trị
-CREATE FUNCTION f_Calculate_Total_Revenue
 
-(@StartDay DATETIME, @EndDay DATETIME) 
-
-RETURNS FLOAT
-
-AS 
-
-BEGIN
-
-DECLARE @Total FLOAT;
-
-SELECT @Total = SUM(BILL.total_cost)
-
-FROM BILL  
-
-WHERE BILL.paytime IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.created_date <= @EndDay ;
-
-RETURN @Total
-
-END
 
 --6.4 Function trả về 1 giá trị chuỗi kết nối khi đăng nhập
 
@@ -1331,3 +1345,5 @@ BEGIN
 	END
 	RETURN @connectString;
 END
+
+SELECT * FROM ACCOUNT;
