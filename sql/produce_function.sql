@@ -1288,3 +1288,23 @@ WHERE BILL.paytime IS NOT NULL AND BILL.created_date >= @StartDay AND BILL.creat
 RETURN @Total
 
 END
+
+--6.4 Function trả về 1 giá trị chuỗi kết nối khi đăng nhập
+
+CREATE OR ALTER FUNCTION Login
+(@username VARCHAR(50), @password VARCHAR(25))
+RETURNS VARCHAR(1000)
+AS
+BEGIN
+	DECLARE @connectString VARCHAR(1000);
+	DECLARE @roles VARCHAR(20);
+	SELECT @roles = roles
+	FROM ACCOUNT 
+	WHERE username = @username AND password = @password;
+	IF @roles IS NOT NULL
+	BEGIN
+		SET @connectString = 'Data Source=(localdb)\mssqllocaldb;Initial Catalog=HotelManagementSystem;User Id='
+		+ @username + ';Password=' + @password + ';';
+	END
+	RETURN @connectString;
+END

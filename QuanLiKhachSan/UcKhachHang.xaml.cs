@@ -161,9 +161,12 @@ namespace QuanLiKhachSan
 
         private void btnTimKiemTheoNgaySinh_Click(object sender, RoutedEventArgs e)
         {
-            DateTime fromDate = DateTime.Parse(dtpToDoB.Text);
-            DateTime toDate = DateTime.Parse(dtpToDoB.Text);
-            dtgDanhSachKhachHang.ItemsSource = customerDao.TimKiemTheoNgaySinh(fromDate, toDate).DefaultView;
+            if (dtpFromDoB.SelectedDate != null && dtpToDoB.SelectedDate != null)
+            {
+                DateTime fromDate = dtpFromDoB.SelectedDate.Value;
+                DateTime toDate = dtpToDoB.SelectedDate.Value;
+                dtgDanhSachKhachHang.ItemsSource = customerDao.TimKiemTheoNgaySinh(fromDate, toDate).DefaultView;
+            }
         }
     }
 }

@@ -98,18 +98,23 @@
                     <Button x:Name="btnTimKiemTheoThongTinKH" Click="btnTimKiemTheoThongTinKH_Click" Style="{StaticResource btnTimKiem}" Grid.Column="1" HorizontalAlignment="Left"/>
                     <Label Content="Ngày sinh từ"
                            Grid.Column="2"/>
-                    <DatePicker x:Name="dtpFromDoB"
-                                Grid.Column="3"
+                    <Border Background="White" BorderThickness="1" Grid.Column="3"
+                                BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
+                        <DatePicker x:Name="dtpFromDoB"
                                 Margin="0" Height="30" 
                                 Background="Transparent" 
                                 BorderBrush="Transparent"/>
+                    </Border>
                     <Label Content="đến"
                            Grid.Column="4"/>
-                    <DatePicker x:Name="dtpToDoB"
-                                Grid.Column="5"
+                    <Border Background="White" BorderThickness="1" Grid.Column="5"
+                                BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
+                        <DatePicker x:Name="dtpToDoB"
                                 Margin="0" Height="30" 
                                 Background="Transparent" 
                                 BorderBrush="Transparent"/>
+                    </Border>
+                    
                     <Button x:Name="btnTimKiemTheoNgaySinh" Click="btnTimKiemTheoNgaySinh_Click" Style="{StaticResource btnTimKiem}" Grid.Column="6" HorizontalAlignment="Left"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachKhachHang" Grid.Row="4">
