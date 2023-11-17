@@ -65,7 +65,7 @@ namespace QuanLiKhachSan.DAO
                      new LineSeries() { Title = "Doanh thu", Values = listDoanhThu.AsChartValues()}
                 };
                 thongKe.SeriesCollection = seriesCollection;
-                thongKe.TongDoanhThu = (double)tb2.Rows[0][0];//tb.AsEnumerable().Sum(x => x.Field<double>("ToTal"));
+                thongKe.TongDoanhThu = (double)tb2.Rows[0][0];
                 
             }
             catch (Exception ex)

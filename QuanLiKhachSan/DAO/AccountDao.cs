@@ -29,6 +29,36 @@ namespace QuanLiKhachSan.DAO
             finally { conn.Close(); }
             return dt;
         }
+
+        public bool Login(string username, string password)
+        {
+            bool isSuccess = false;
+            string sql = "SELECT dbo.Login(@username,@password)";
+            SqlConnection connAdmin = DbConnection.connAdmin;
+            try
+            {
+                connAdmin.Open();
+                SqlCommand cmd = new SqlCommand(sql, connAdmin);
+                cmd.Parameters.AddWithValue("username", username);
+                cmd.Parameters.AddWithValue("password", password);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if(dataTable.Rows.Count > 0 && dataTable.Rows[0][0] != DBNull.Value)
+                {
+                    isSuccess = true;
+                    string connStr = dataTable.Rows[0][0].ToString();
+                    DbConnection.conn = new SqlConnection(connStr);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally { connAdmin.Close(); }
+            return isSuccess;
+        }
+
         public void Update(int accountId, string username, string password, int employeeId)
         {
             SqlConnection conn = DbConnection.conn;
