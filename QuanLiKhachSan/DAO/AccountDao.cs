@@ -41,7 +41,6 @@ namespace QuanLiKhachSan.DAO
                 SqlCommand cmd = new SqlCommand(sql, connAdmin);
                 cmd.Parameters.AddWithValue("username", username);
                 cmd.Parameters.AddWithValue("password", password);
-                MessageBox.Show(username);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -49,7 +48,6 @@ namespace QuanLiKhachSan.DAO
                 {
                     isSuccess = true;
                     string connStr = dataTable.Rows[0][0].ToString();
-                    MessageBox.Show(connStr);
                     DbConnection.conn = new SqlConnection(connStr);
                 }
             }

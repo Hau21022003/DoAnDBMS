@@ -137,7 +137,7 @@ CREATE TABLE BILL (
     bill_id INT IDENTITY(1,1) CONSTRAINT PK_BILL PRIMARY KEY,
     costs_incurred float DEFAULT 0,
     content_incurred NVARCHAR(255),
-    total_cost float,
+    total_cost float DEFAULT 0,
     created_date DATETIME DEFAULT (GETDATE()),
     payment_method NVARCHAR(15) CONSTRAINT CK_PAYMENT_METHOD CHECK (payment_method IN(N'Tiền mặt', N'Chuyển khoản')),
 	paytime DATETIME,
