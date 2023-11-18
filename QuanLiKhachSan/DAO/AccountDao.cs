@@ -86,7 +86,7 @@ namespace QuanLiKhachSan.DAO
                 conn.Close();
             }
         }
-        public void Insert(string username, string password, int employeeId)
+        public void Insert(string username, string password, int employeeId, string roles)
         {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
@@ -95,36 +95,13 @@ namespace QuanLiKhachSan.DAO
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
             cmd.Parameters.Add("@password", SqlDbType.VarChar).Value =password;
             cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
+            cmd.Parameters.Add("@roles", SqlDbType.VarChar).Value = roles;
             try
             {
                 conn.Open();
                 if (cmd.ExecuteNonQuery() > 0)
                 {
                     MessageBox.Show("Thêm thành công");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-        public void Delete(int accountId)
-        {
-            SqlConnection conn = DbConnection.conn;
-            SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "proc_deleteAccount";
-            cmd.Parameters.Add("@account_id", SqlDbType.Int).Value = accountId;
-            try
-            {
-                conn.Open();
-                if (cmd.ExecuteNonQuery() > 0)
-                {
-                    MessageBox.Show("Xóa thành công");
                 }
             }
             catch (Exception ex)
