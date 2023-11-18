@@ -37,7 +37,7 @@ WHERE status = 0;
 CREATE VIEW View_Bill AS 
 SELECT b.*, c.customer_id, c.customer_name, e.employee_name  
 FROM BILL b
-JOIN EMPLOYEE e ON b.employee_id = e.employee_id
+LEFT JOIN EMPLOYEE e ON b.employee_id = e.employee_id
 JOIN BOOKING_RECORD br ON b.booking_record_id = br.booking_record_id
 JOIN CUSTOMER c ON br.representative_id = c.customer_id
 
