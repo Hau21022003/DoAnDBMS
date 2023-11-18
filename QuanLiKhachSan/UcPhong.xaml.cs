@@ -174,7 +174,9 @@ namespace QuanLiKhachSan
 
         private void btnXoaPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            DataRowView drv = (DataRowView)dtgDanhSachPhong.SelectedValue;
+            roomDao.Xoa((int)drv["room_id"]);
+            LayDanhSach();
         }
 
         private void btnThemPhong_Click(object sender, RoutedEventArgs e)
@@ -194,7 +196,18 @@ namespace QuanLiKhachSan
 
         private void btnSuaPhong_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                int roomId = int.Parse(lbMaPhong.Content.ToString());
+                int maLoaiPhong = int.Parse(((string)cbLoaiPhongCuaPhong.SelectedValue).Split("|")[0]);
+                roomDao.Sua(maLoaiPhong, txtTenPhong.Text, int.Parse(txtSucChua.Text), (string)cbTrangThaiPhong.SelectedValue, txtMoTaPhong.Text,
+                    hinhAnh.HinhAnh, maLoaiPhong);
+                LayDanhSach();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnThemLoaiPhong_Click(object sender, RoutedEventArgs e)
