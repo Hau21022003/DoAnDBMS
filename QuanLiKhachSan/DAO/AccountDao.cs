@@ -41,6 +41,7 @@ namespace QuanLiKhachSan.DAO
                 SqlCommand cmd = new SqlCommand(sql, connAdmin);
                 cmd.Parameters.AddWithValue("username", username);
                 cmd.Parameters.AddWithValue("password", password);
+                MessageBox.Show(username);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -48,6 +49,7 @@ namespace QuanLiKhachSan.DAO
                 {
                     isSuccess = true;
                     string connStr = dataTable.Rows[0][0].ToString();
+                    MessageBox.Show(connStr);
                     DbConnection.conn = new SqlConnection(connStr);
                 }
             }
@@ -86,7 +88,7 @@ namespace QuanLiKhachSan.DAO
                 conn.Close();
             }
         }
-        public void Insert(string username, string password, int employeeId)
+        public void Insert(string username, string password, int employeeId, Boolean? isAdmin)
         {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
@@ -95,6 +97,7 @@ namespace QuanLiKhachSan.DAO
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
             cmd.Parameters.Add("@password", SqlDbType.VarChar).Value =password;
             cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
+            cmd.Parameters.Add("@roles", SqlDbType.NVarChar).Value = (bool)isAdmin ? "sysadmin" : "staff";
             try
             {
                 conn.Open();
