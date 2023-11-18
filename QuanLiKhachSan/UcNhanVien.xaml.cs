@@ -142,7 +142,8 @@ namespace QuanLiKhachSan
                 string username = txtTenTaiKhoan.Text;
                 string password = txtMatKhau.Text;
                 int employeeId = int.Parse(cbNhanVienCuaTaiKhoan.Text.Split("|")[0]);
-                accountDao.Insert(username, password, employeeId);
+                Boolean? isAdmin = chbVaiTro.IsChecked;
+                accountDao.Insert(username, password, employeeId, isAdmin);
                 LayDanhSach();
             }
             catch (Exception ex)
