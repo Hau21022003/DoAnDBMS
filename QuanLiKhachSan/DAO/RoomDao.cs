@@ -107,7 +107,7 @@ namespace QuanLiKhachSan.DAO
             }
         }
         public void Sua(int roomId, string roomName, int roomCapacity, string roomStatus, string roomDescription,
-            string roomImage, int roomTypeId)
+            byte[] roomImage, int roomTypeId)
         {
             SqlConnection conn = DbConnection.conn;
             try
