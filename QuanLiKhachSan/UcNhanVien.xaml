@@ -150,12 +150,15 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <Label Content="Tên tài khoản"/>
-                        <Label Content="Vai trò admin"/>
+                        <Label Content="Vai trò"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <TextBox x:Name="txtTenTaiKhoan" 
                                  Style="{StaticResource tbxNoiDung}" />
-                        <CheckBox x:Name="chbVaiTro" Style="{StaticResource MyCheckBox}"/>
+                        <ComboBox Style="{StaticResource cbLuaChon}" x:Name="cbVaiTro" SelectedValuePath="Content">
+                            <ComboBoxItem Content="Admin"/>
+                            <ComboBoxItem Content="Staff"/>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Column="4">
                         <Label Content="Mật khẩu"/>
@@ -198,9 +201,6 @@
                                         <Button x:Name="btnThongTinTaiKhoan" 
                                                 Click="btnThongTinTaiKhoan_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
-                                        <Button x:Name="btnXoaTaiKhoan" 
-                                                Click="btnXoaTaiKhoan_Click" 
-                                                Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -232,6 +232,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <Label Content="Nhân viên"/>
@@ -246,31 +247,21 @@
                         <TextBox x:Name="txtSDT" 
                                  Style="{StaticResource tbxNoiDung}" />
                     </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="btnThemSdtNhanVien" Style="{StaticResource btnThem}" Click="btnThemSdtNhanVien_Click"/>
-                    <Button x:Name="btnSuaSdtNhanVien" Style="{StaticResource btnSua}" Click="btnSuaSdtNhanVien_Click"  Grid.Column="1"/>
+                    <Button x:Name="btnThemSdtNhanVien" Style="{StaticResource btnThem}" Click="btnThemSdtNhanVien_Click" Grid.Column="5"/>
                 </Grid>
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
+                    <TextBox Grid.Column="0" x:Name="txtLocSdtTheoTenNhanVien"
                              Style="{StaticResource tbxNoiDungMacDinh}"
                              ToolTip="Tìm kiếm theo" 
-                             Tag="Tìm kiếm theo g"/>
-                    <TextBox Grid.Column="1" 
-                             Style="{StaticResource tbxNoiDungMacDinh}"
-                             Tag="Tìm kiếm theo" 
-                             ToolTip="Tìm kiếm theo" />
-                    <Button Style="{StaticResource btnInExcel}" Grid.Column="2"/>
+                             Tag="Tìm kiếm theo tên nhân viên"/>
+                    <Button Style="{StaticResource btnTimKiem}" x:Name="btnTimKiemSdtTheoTenNhanVien" 
+                            Click="btnTimKiemSdtTheoTenNhanVien_Click"  Grid.Column="1"/>
                 </Grid>
                 <DataGrid x:Name="dtgDanhSachSdtCuaNhanVien" 
                           ItemsSource="{Binding dsKhachDatPhong}" Grid.Row="4">
