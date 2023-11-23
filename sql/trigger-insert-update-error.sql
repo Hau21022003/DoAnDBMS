@@ -7,7 +7,7 @@ BEGIN
    --Check Id of customer
    DECLARE @customer_id INT 
    SET @customer_id = (SELECT customer_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@customer_id))
+   IF NOT EXISTS (SELECT * FROM CUSTOMER WHERE customer_id IN (@customer_id)) AND @customer_id <> null
    BEGIN
        RAISERROR(N'Mã khách hàng không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -54,7 +54,7 @@ BEGIN
    --Check Id of Bill
    DECLARE @bill_id INT 
    SET @bill_id = (SELECT bill_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM BILL WHERE bill_id IN (@bill_id))
+   IF NOT EXISTS (SELECT * FROM BILL WHERE bill_id IN (@bill_id)) AND @bill_id <> null
    BEGIN
        RAISERROR(N'Mã hóa đơn không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -87,7 +87,7 @@ BEGIN
    --Check Id of Room
    DECLARE @room_id INT 
    SET @room_id = (SELECT room_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM ROOM WHERE room_id IN (@room_id))
+   IF NOT EXISTS (SELECT * FROM ROOM WHERE room_id IN (@room_id)) AND @room_id <> null
    BEGIN
        RAISERROR(N'Mã phòng không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -136,7 +136,7 @@ BEGIN
    --Check Id of Room Type
    DECLARE @room_type_id INT 
    SET @room_type_id = (SELECT room_type_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM Room_TYPE WHERE room_type_id IN (@room_type_id))
+   IF NOT EXISTS (SELECT * FROM Room_TYPE WHERE room_type_id IN (@room_type_id)) AND @room_type_id <> null
    BEGIN
        RAISERROR(N'Mã loại phòng không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -177,7 +177,7 @@ BEGIN
    --Check Id of Booking Record
    DECLARE @booking_record_id INT 
    SET @booking_record_id = (SELECT booking_record_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM BOOKING_RECORD WHERE booking_record_id IN (@booking_record_id))
+   IF NOT EXISTS (SELECT * FROM BOOKING_RECORD WHERE booking_record_id IN (@booking_record_id)) AND @booking_record_id <> null
    BEGIN
        RAISERROR(N'Mã hồ sơ đặt phòng không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -235,7 +235,7 @@ BEGIN
    --Check Id of Service
    DECLARE @service_room_id INT 
    SET @service_room_id = (SELECT service_room_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM SERVICE_ROOM WHERE service_room_id IN (@service_room_id))
+   IF NOT EXISTS (SELECT * FROM SERVICE_ROOM WHERE service_room_id IN (@service_room_id)) AND @service_room_id <> null
    BEGIN
        RAISERROR(N'Mã dịch vụ không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -276,7 +276,7 @@ BEGIN
    --Check Id of Employee
    DECLARE @employee_id INT 
    SET @employee_id = (SELECT employee_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM EMPLOYEE WHERE employee_id IN (@employee_id))
+   IF NOT EXISTS (SELECT * FROM EMPLOYEE WHERE employee_id IN (@employee_id)) AND @employee_id <> null
    BEGIN
        RAISERROR(N'Mã nhân viên không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
@@ -333,7 +333,7 @@ BEGIN
    --Check Id of Account
    DECLARE @account_id INT 
    SET @account_id = (SELECT account_id FROM inserted)
-   IF NOT EXISTS (SELECT * FROM ACCOUNT WHERE account_id IN (@account_id))
+   IF NOT EXISTS (SELECT * FROM ACCOUNT WHERE account_id IN (@account_id)) AND @account_id <> null
    BEGIN
        RAISERROR(N'Mã tài khoản không tồn tại', 16, 1)
        ROLLBACK TRANSACTION
