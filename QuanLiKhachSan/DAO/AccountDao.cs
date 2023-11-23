@@ -59,16 +59,14 @@ namespace QuanLiKhachSan.DAO
             return isSuccess;
         }
 
-        public void Update(int accountId, string username, string password, int employeeId)
+        public void Update(string username, string password)
         {
             SqlConnection conn = DbConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_updateAccount";
-            cmd.Parameters.Add("@account_id",SqlDbType.Int).Value = accountId;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
             cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
-            cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
             try
             {
                 conn.Open();

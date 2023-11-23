@@ -23,11 +23,13 @@ namespace QuanLiKhachSan
         private void dtpNgayBatDau_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             doanhThuDao.LayDoanhThu(thongKe);
+            doanhThuDao.LayTongDoanhThu(thongKe);
         }
 
         private void dtgNgayKetThuc_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             doanhThuDao.LayDoanhThu(thongKe);
+            doanhThuDao.LayTongDoanhThu(thongKe);    
         }
 
         private void btnMotNamQua_Click(object sender, RoutedEventArgs e)

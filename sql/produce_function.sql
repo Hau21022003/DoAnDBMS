@@ -1392,3 +1392,13 @@ BEGIN
 	   RETURN; 
 END 
 	   
+
+CREATE or ALTER PROC proc_updateAccount
+(@username NVARCHAR(50), @password VARCHAR(25))
+AS
+IF EXISTS (SELECT* FROM ACCOUNT WHERE username = @username)
+BEGIN
+	UPDATE ACCOUNT SET password = @password WHERE username = @username;
+	DECLARE @sql VARCHAR(200) = 'ALTER LOGIN [' + @username + '] WITH PASSWORD=''' + @password + '''';
+	EXEC(@sql);
+END
