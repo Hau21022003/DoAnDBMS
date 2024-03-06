@@ -27,3 +27,6 @@ DENY EXECUTE ON proc_deleteEmployee to Staff;
 DENY EXECUTE ON proc_deleteServiceRoom to Staff;
 DENY EXECUTE ON proc_insertServiceRoom to Staff;
 DENY EXECUTE ON proc_update_room_type to Staff;
+
+GRANT  EXECUTE ON dbo.f_Calculate_Total_Revenue to Staff;
+GRANT SELECT ON dbo.f_Calculate_Revenue to Staff;

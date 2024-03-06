@@ -121,11 +121,9 @@ namespace QuanLiKhachSan
         {
             try
             {
-                int accountId = int.Parse((string)lbMaTaiKhoan.Content);
                 string username = txtTenTaiKhoan.Text;
                 string password = txtMatKhau.Text;
-                int employeeId = int.Parse(cbNhanVienCuaTaiKhoan.Text.Split("|")[0]);
-                accountDao.Update(accountId, username, password, employeeId);
+                accountDao.Update( username, password);
                 LayDanhSach();
             }
             catch(Exception ex)
