@@ -69,6 +69,15 @@ namespace QuanLiKhachSan
             return bookingDao.LayDanhSachPhongThue();
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachPhong()
+        {
+            // TODO implement here
+            return bookingDao.LayDanhSachPhongThue();
+        }
+
         private void Them_Click(object sender, RoutedEventArgs e)
         {
             try
