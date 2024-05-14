@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLiKhachSan.Class;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,10 +12,11 @@ namespace QuanLiKhachSan.DAO
 {
     class BookingRecordDao
     {
+        DBConnection dbConnection = new DBConnection();
         public DataTable layDanhSach()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -32,7 +34,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDsHoSoDaCheckin()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -50,7 +52,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDsHoSoChuaCheckin()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -68,7 +70,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDsHoSoDaBiHuy()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -86,7 +88,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDsHoSoDaDatCoc()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -104,7 +106,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDsHoSoChuaDatCoc()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -121,7 +123,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Delete(int bookingRecordId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_deleteBookingRecord";
@@ -148,7 +150,7 @@ namespace QuanLiKhachSan.DAO
             DateTime? actualCheckinDate, DateTime? actualCheckoutDate, float deposit, float surcharge,
             string note, string status, int representativeId, int roomId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_updateBookingRecord";
@@ -184,7 +186,7 @@ namespace QuanLiKhachSan.DAO
             DateTime? actualCheckinDate, DateTime? actualCheckoutDate, float deposit, float surcharge,
             string note, string status, int representativeId, int roomId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_insertBookingRecord";
@@ -217,6 +219,41 @@ namespace QuanLiKhachSan.DAO
             }
 
         }
+
+        public void TaoPhongThue(PhongThue phongThue)
+        {
+            string sqlQuery = $@"
+                DECLARE @expected_checkin_date DATETIME = '{((object)phongThue.ThoiGianCheckIn ?? DBNull.Value):yyyy-MM-dd}';
+                DECLARE @expected_checkout_date DATETIME = '{((object)phongThue.ThoiGianCheckOut ?? DBNull.Value):yyyy-MM-dd}';
+                DECLARE @actual_checkin_date DATETIME = '{((object)DateTime.Now ?? DBNull.Value):yyyy-MM-dd}';
+                DECLARE @actual_checkout_date DATETIME = '{((object)DateTime.Now ?? DBNull.Value):yyyy-MM-dd}';
+                DECLARE @deposit DECIMAL(18, 2) = {phongThue.TienCoc};
+                DECLARE @surcharge DECIMAL(18, 2) = {phongThue.PhuPhi};
+                DECLARE @note NVARCHAR(MAX) = N'{phongThue.GhiChu.Replace("'", "''")}';
+                DECLARE @status NVARCHAR(50) = N'Chờ xác nhận';
+                DECLARE @representative_id INT = {phongThue.MaKhachHang};
+                DECLARE @room_id INT = {phongThue.MaPhong};
+
+                EXEC proc_insertBookingRecord 
+                    @expected_checkin_date = @expected_checkin_date,
+                    @expected_checkout_date = @expected_checkout_date,
+                    @actual_checkin_date = @actual_checkin_date,
+                    @actual_checkout_date = @actual_checkout_date,
+                    @deposit = @deposit,
+                    @surcharge = @surcharge,
+                    @note = @note,
+                    @status = @status,
+                    @representative_id = @representative_id,
+                    @room_id = @room_id;
+                ";
+
+            MessageBox.Show(sqlQuery);
+            Console.WriteLine(sqlQuery);
+
+            dbConnection.ThucThi(sqlQuery);
+
+        }
+
         public DataTable TimKiemHopDongTheoTenKhachHang(string customerName)
         {
             if (customerName == null || customerName == "")
@@ -227,7 +264,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_getBookingRecordByCustomerName(@customer_name)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();
@@ -254,7 +291,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_getBookingRecordByRoomName(@room_name)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();

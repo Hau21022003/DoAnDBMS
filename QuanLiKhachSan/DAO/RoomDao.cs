@@ -15,7 +15,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -33,7 +33,7 @@ namespace QuanLiKhachSan.DAO
         /*
         public void Them(string tenPhong, int sucChua, string trangThai, string moTa, string anh, int loaiPhong)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             string sql = $"insert into Room(room_name, room_capacity, room_status, room_description, room_image, room_type_id) " +
                 $"values('{tenPhong}', {sucChua},'{trangThai}',N'{moTa}',{anh},{loaiPhong})";
             MessageBox.Show("OK");
@@ -60,7 +60,7 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable() ;
             string sql = "select* from View_Room_Name";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -80,7 +80,7 @@ namespace QuanLiKhachSan.DAO
         public void Them(string roomName, int roomCapacity, string roomStatus, string roomDescription,
             byte[] roomImage, int roomTypeId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -110,7 +110,7 @@ namespace QuanLiKhachSan.DAO
         public void Sua(int roomId, string roomName, int roomCapacity, string roomStatus, string roomDescription,
             byte[] roomImage, int roomTypeId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -140,7 +140,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Xoa(int roomId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -167,7 +167,7 @@ namespace QuanLiKhachSan.DAO
         {
             Phong phong = null;
             string sql = "select * from Room Where room_id = @roomId";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();

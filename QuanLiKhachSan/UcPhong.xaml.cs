@@ -63,27 +63,27 @@ namespace QuanLiKhachSan
         {
             try
             {
-                if (!kiemTraPhuPhi())
+                if (!KiemTraPhuPhi())
                 {
                     MessageBox.Show("Phụ phí phải là số và là số nguyên dương");
                     return;
                 }
-                if (!kiemTraTienCoc())
+                if (!KiemTraTienCoc())
                 {
                     MessageBox.Show("Tiền cọc phải là số và là số nguyên dương");
                     return;
                 }
-                if (!kiemTraGhiChu())
+                if (!KiemTraGhiChu())
                 {
                     MessageBox.Show("Ghi chú phải ít hơn 1000 ký tự");
                     return;
                 }
-                if (!kiemTraThoiGianCheckOut())
+                if (!KiemTraThoiGianCheckOut())
                 {
                     MessageBox.Show("Thời gian check out không đúng định dạng ngày và là ngày trong quá khứ");
                     return;
                 }
-                if (!kiemTraThoiGianCheckIn())
+                if (!KiemTraThoiGianCheckIn())
                 {
                     MessageBox.Show("Thời gian check in không đúng định dạng ngày và là ngày trong quá khứ");
                     return;
@@ -116,14 +116,14 @@ namespace QuanLiKhachSan
 
                 //*TODO: Update diagram 
                 Phong phong = new Phong(roomId, roomName);
-                if (!phong.kiemTraPhongTrong())
+                if (!phong.KiemTraPhongTrong())
                 {
                     MessageBox.Show("Phòng đã được thuê hoặc không còn trống");
                     return;
                 }
 
                 KhachHang khachHang = new KhachHang(representativeId, representativeName);
-                if (!khachHang.kiemTraKhachHang())
+                if (!khachHang.KiemTraKhachHang())
                 {
                     MessageBox.Show("Không được để trống khách hàng");
                     return;
@@ -136,7 +136,7 @@ namespace QuanLiKhachSan
                     string tenDV = cbDichVu.Text.Split("|")[1];
                     dichVu = new DichVu(maDV, tenDV);
 
-                    if (!dichVu.kiemTraDichVu())
+                    if (!dichVu.KiemTraDichVu())
                     {
                         MessageBox.Show("Dịch vụ đã hết");
                         return;
@@ -144,8 +144,8 @@ namespace QuanLiKhachSan
                 }
 
                 MessageBox.Show("Phòng OKE");
-                PhongThue phongThue = new PhongThue((DateTime)expectedCheckinDate, (DateTime)expectedCheckoutDate, surcharge, deposit, note, new DateTime());
-                phongThue.thuePhong(phong, khachHang, dichVu);
+                PhongThue phongThue = new PhongThue((DateTime)expectedCheckinDate, (DateTime)expectedCheckoutDate, surcharge, deposit, note, DateTime.Now, phong.MaPhong, khachHang.MaKhachHang);
+                phongThue.ThuePhong();
                 
                 LayDanhSach();
             }
@@ -155,7 +155,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private Boolean kiemTraPhuPhi()
+        private Boolean KiemTraPhuPhi()
         {
             try
             {
@@ -177,7 +177,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private Boolean kiemTraTienCoc()
+        private Boolean KiemTraTienCoc()
         {
             try
             {
@@ -199,7 +199,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private Boolean kiemTraGhiChu()
+        private Boolean KiemTraGhiChu()
         {
             string note = txtGhiChu.Text;
             if (note.Length > 1000)
@@ -210,7 +210,7 @@ namespace QuanLiKhachSan
         }
 
 
-        private Boolean kiemTraThoiGianCheckOut()
+        private Boolean KiemTraThoiGianCheckOut()
         {
             try
             {
@@ -228,7 +228,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private Boolean kiemTraThoiGianCheckIn()
+        private Boolean KiemTraThoiGianCheckIn()
         {
             try
             {

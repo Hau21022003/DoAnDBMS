@@ -545,11 +545,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+      "projectUniqueName": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnQLPMHDT\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
       "projectName": "QuanLiKhachSan",
-      "projectPath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+      "projectPath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnQLPMHDT\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
       "packagesPath": "C:\\Users\\phung\\.nuget\\packages\\",
-      "outputPath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\obj\\",
+      "outputPath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnQLPMHDT\\QuanLiKhachSan\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\phung\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -611,12 +611,6 @@
     }
   },
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",

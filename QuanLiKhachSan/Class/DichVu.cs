@@ -21,7 +21,7 @@ namespace QuanLiKhachSan.Class
             this.TenDichVu = tenDichVu;
         }
 
-        public Boolean kiemTraDichVu()
+        public Boolean KiemTraDichVu()
         {
             try
             {

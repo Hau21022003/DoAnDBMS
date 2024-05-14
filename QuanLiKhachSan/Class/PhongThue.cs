@@ -17,6 +17,8 @@ namespace QuanLiKhachSan.Class
         private float tienCoc;
         private string ghiChu;
         private DateTime ngayDat;
+        private int maPhong;
+        private int maKhachHang;
 
         private PhongThue() { }
 
@@ -31,7 +33,7 @@ namespace QuanLiKhachSan.Class
             this.ngayDat = ngayDat;
         }
 
-        public PhongThue(DateTime thoiGianCheckIn, DateTime thoiGianCheckOut, float phuPhi, float tienCoc, string ghiChu, DateTime ngayDat)
+        public PhongThue(DateTime thoiGianCheckIn, DateTime thoiGianCheckOut, float phuPhi, float tienCoc, string ghiChu, DateTime ngayDat, int maPhong, int maKhachHang)
         {
             this.thoiGianCheckIn = thoiGianCheckIn;
             this.thoiGianCheckOut = thoiGianCheckOut;
@@ -39,15 +41,17 @@ namespace QuanLiKhachSan.Class
             this.tienCoc = tienCoc;
             this.ghiChu = ghiChu;
             this.ngayDat = ngayDat;
+            this.MaPhong = maPhong;
+            this.MaKhachHang = maKhachHang;
         }
 
-        public void thuePhong(Phong phong, KhachHang khachHang, DichVu? dichVu)
+        public void ThuePhong()
         {
             try
             {
                 BookingRecordDao phongThueDAO = new BookingRecordDao();
-                phongThueDAO.Insert(thoiGianCheckIn, thoiGianCheckOut, DateTime.Now, DateTime.Now, tienCoc, phuPhi,
-                        ghiChu, "Chờ xác nhận", khachHang.MaKhachHang, phong.MaPhong);
+                phongThueDAO.TaoPhongThue(this);
+
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -62,5 +66,7 @@ namespace QuanLiKhachSan.Class
         public float TienCoc { get => tienCoc; set => tienCoc = value; }
         public string GhiChu { get => ghiChu; set => ghiChu = value; }
         public DateTime NgayDat { get => ngayDat; set => ngayDat = value; }
+        public int MaPhong { get => maPhong; set => maPhong = value; }
+        public int MaKhachHang { get => maKhachHang; set => maKhachHang = value; }
     }
 }

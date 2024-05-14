@@ -17,7 +17,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "select* from View_Front_Desk_Employee";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -35,7 +35,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "select* from View_Employee_Name";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -52,7 +52,7 @@ namespace QuanLiKhachSan.DAO
         public void Insert(string employeeName, string gender,DateTime? birthday, 
             string identifyCard,string address, string email)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -82,7 +82,7 @@ namespace QuanLiKhachSan.DAO
         public void Update(int employeeId, string employeeName, string gender, DateTime? birthday,
             string identifyCard, string address, string email)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -113,7 +113,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Delete(int employeeId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -139,7 +139,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "SELECT * FROM func_searchByEmployeeName(@employee_name)";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();

@@ -13,7 +13,7 @@ namespace QuanLiKhachSan.DAO
     {
         public DataTable LayDanhSach()
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             DataTable dt = new DataTable();
             try
             {
@@ -32,7 +32,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Them(string room_type_name, float price, float discount_room)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_add_room_type";
@@ -59,7 +59,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Sua(int id, string room_type_name, float price, float discount_room)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_update_room_type";
@@ -87,7 +87,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Xoa(int id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_delete_room_type";
@@ -120,7 +120,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_search_room_type(@string)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();
@@ -147,7 +147,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_search_room_type_by_price (@fromprice, @toprice)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();

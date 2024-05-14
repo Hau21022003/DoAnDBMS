@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-D:\School\HK2-2023\OOP-project-design\project\DoAnDBMS\QuanLiKhachSan\obj\Debug\net6.0-windows\
+D:\School\HK2-2023\OOP-project-design\project\DoAnQLPMHDT\QuanLiKhachSan\obj\Debug\net6.0-windows\
 QuanLiKhachSan
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-D:\School\HK2-2023\OOP-project-design\project\DoAnDBMS\QuanLiKhachSan\App.xaml
+D:\School\HK2-2023\OOP-project-design\project\DoAnQLPMHDT\QuanLiKhachSan\App.xaml
 9-2111521820
 
-36-1870079442
+36-194454913
 197-1821488593
 fDangNhap.xaml;fUngDung.xaml;MyResourceDictionary.xaml;UcDichVu.xaml;UcDoanhThu.xaml;UcKhachHang.xaml;UcNhanVien.xaml;UcPhong.xaml;UcThanhToan.xaml;
 

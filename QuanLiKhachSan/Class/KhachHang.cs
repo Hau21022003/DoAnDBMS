@@ -26,7 +26,7 @@ namespace QuanLiKhachSan.Class
             this.Ten = ten;
         }
 
-        public Boolean kiemTraKhachHang()
+        public Boolean KiemTraKhachHang()
         {
             try
             {

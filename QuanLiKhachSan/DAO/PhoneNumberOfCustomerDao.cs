@@ -14,7 +14,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             string sql = "select* from View_Customer_Phone";
             try
             {
@@ -32,7 +32,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Them(string phone_number, int customer_id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_add_phone_of_customer";
@@ -59,7 +59,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Xoa(string phone_number, int customer_id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_delete_phone_of_customer";
@@ -88,7 +88,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "SELECT * FROM func_search_phone_of_customer(@string)";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();

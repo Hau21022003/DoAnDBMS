@@ -16,7 +16,7 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable();
             string sql = "select* from View_Customer";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -34,7 +34,7 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable();
             string sql = "select* from View_Customer_Name";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -50,7 +50,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Them(string customerName, string gender, DateTime? birthday, string identifyCard, string phoneNumber, string email, string address, bool status)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_add_customer";
@@ -82,7 +82,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Sua(int customerId, string customerName, string gender, DateTime? birthday, string identifyCard, string email, string address, bool status)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_update_customer";
@@ -114,7 +114,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Xoa(int customerId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_delete_customer";
@@ -147,7 +147,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_search_customer(@string)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();
@@ -174,7 +174,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_search_customer_by_dob(@fromdate, @todate)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();

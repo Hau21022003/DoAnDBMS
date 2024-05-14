@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ug7ihGakTgU3VB5IGuaIeXPgqgreUyqsZrLJg5C35Ms0Q5xmwj8aB6MnOpegmWzU8gd+1o5wf+BVC1+LwdIBJw==",
+  "dgSpecHash": "rGSS24kewA1jp4j7CwTxZAl74iBeQ5DzfbSvbH9+FRokin8m7Lr9fJJcfz27+sg8xSx6238X7NvAR3MAba/yZA==",
   "success": true,
-  "projectFilePath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
+  "projectFilePath": "D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnQLPMHDT\\QuanLiKhachSan\\QuanLiKhachSan.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phung\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
     "C:\\Users\\phung\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
@@ -17,12 +17,6 @@
     "C:\\Users\\phung\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\School\\HK2-2023\\OOP-project-design\\project\\DoAnDBMS\\QuanLiKhachSan\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",

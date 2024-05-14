@@ -25,7 +25,7 @@ namespace QuanLiKhachSan.Class
             this.TenPhong = tenPhong;
         }
 
-        public Boolean kiemTraPhongTrong()
+        public Boolean KiemTraPhongTrong()
         {
             try
             {

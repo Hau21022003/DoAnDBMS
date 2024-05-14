@@ -18,7 +18,7 @@ namespace QuanLiKhachSan.DAO
         public void LayDoanhThu(ThongKe thongKe)
         {
             string sql = "select* from f_Calculate_Revenue(@StartDay, @EndDay)";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 if (conn.State == ConnectionState.Closed)
@@ -73,7 +73,7 @@ namespace QuanLiKhachSan.DAO
         public void LayTongDoanhThu(ThongKe thongKe)
         {
             string sql = "SELECT dbo.f_Calculate_Total_Revenue (@StartDay, @EndDay)";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
