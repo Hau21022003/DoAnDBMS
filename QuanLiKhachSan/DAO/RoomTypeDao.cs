@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,23 +12,11 @@ namespace QuanLiKhachSan.DAO
 {
     class RoomTypeDao
     {
+        DBConnection dBConnection = new DBConnection();
+
         public DataTable LayDanhSach()
         {
-            SqlConnection conn = DBConnection.conn;
-            DataTable dt = new DataTable();
-            try
-            {
-                conn.Open();
-                String sql = "Select* from View_Room_Type";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("Select * from View_Room_Type");
         }
 
         public void Them(string room_type_name, float price, float discount_room)

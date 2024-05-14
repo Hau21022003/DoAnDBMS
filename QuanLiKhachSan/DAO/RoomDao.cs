@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,23 +13,11 @@ namespace QuanLiKhachSan.DAO
 {
     class RoomDao
     {
+        DBConnection dBConnection = new DBConnection();
         public DataTable LayDanhSach()
         {
-            DataTable dt = new DataTable();
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                string sql = "select* from View_Room";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql,conn);
-                adapter.Fill(dt);
-            }
-            catch(Exception ex) 
-            { 
-                MessageBox.Show(ex.Message); 
-            }
-            finally { conn.Close(); }
-            return dt;
+
+            return dBConnection.LayDanhSach("select * from View_Room");
         }
         /*
         public void Them(string tenPhong, int sucChua, string trangThai, string moTa, string anh, int loaiPhong)
@@ -58,24 +47,7 @@ namespace QuanLiKhachSan.DAO
         */
         public DataTable LayDanhSachTenPhong()
         {
-            DataTable dt = new DataTable() ;
-            string sql = "select* from View_Room_Name";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql,conn);
-                adapter.Fill(dt);
-            }
-            catch ( Exception ex )
-            {
-                MessageBox.Show(ex.Message );
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return dt;
+            return dBConnection.LayDanhSach("select* from View_Room_Name");
         }
         public void Them(string roomName, int roomCapacity, string roomStatus, string roomDescription,
             byte[] roomImage, int roomTypeId)

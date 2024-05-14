@@ -11,41 +11,15 @@ namespace QuanLiKhachSan.DAO
 {
     class ServiceRoomDao
     {
+        DBConnection dBConnection = new DBConnection();
         public DataTable LayDanhSach()
         {
-            DataTable dt = new DataTable();
-            string sql = "select* from View_Service";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("select * from View_Service");
+           
         }
         public DataTable LayDanhSachTenDichVu()
         {
-            DataTable dt = new DataTable();
-            string sql = "select* from View_Service_Name";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("select* from View_Service_Name");
         }
 
         public void Them(string serviceRoomName, float serviceRoomPrice, float discountService)

@@ -12,41 +12,17 @@ namespace QuanLiKhachSan.DAO
 {
     class CustomerDao
     {
+        DBConnection dBConnection = new DBConnection();
         public DataTable LayDanhSach()
         {
-            DataTable dt = new DataTable();
-            string sql = "select* from View_Customer";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("select* from View_Customer");
+            
         }
         public DataTable LayDanhSachTenKhach()
         {
-            DataTable dt = new DataTable();
-            string sql = "select* from View_Customer_Name";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+
+            return dBConnection.LayDanhSach("select* from View_Customer_Name");
+           
         }
         public void Them(string customerName, string gender, DateTime? birthday, string identifyCard, string phoneNumber, string email, string address, bool status)
         {

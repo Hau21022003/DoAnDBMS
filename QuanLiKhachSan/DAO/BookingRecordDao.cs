@@ -15,21 +15,7 @@ namespace QuanLiKhachSan.DAO
         DBConnection dbConnection = new DBConnection();
         public DataTable layDanhSach()
         {
-            DataTable dt = new DataTable();
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                String sql = "Select* from View_Booking_Record";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dbConnection.LayDanhSach("Select* from View_Booking_Record");
         }
         public DataTable LayDsHoSoDaCheckin()
         {

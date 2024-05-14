@@ -11,23 +11,11 @@ namespace QuanLiKhachSan.DAO
 {
     class CustomerOfBookingRecordDao
     {
+        DBConnection dBConnection = new DBConnection();
         public DataTable LayDanhSach()
         {
-            DataTable dt = new DataTable();
-            String sql = "Select* from View_Customer_Of_Booking_Record";
-            SqlConnection conn = DBConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("Select* from View_Customer_Of_Booking_Record");
+            
         }
         public void Them(int customerId, int bookingRecordId)
         {
