@@ -21,9 +21,9 @@ using System.Windows.Shapes;
 namespace QuanLiKhachSan
 {
     /// <summary>
-    /// Interaction logic for UcPhong.xaml
+    /// Interaction logic for FPhong.xaml
     /// </summary>
-    public partial class UcPhong : UserControl
+    public partial class FPhong : UserControl
     {
         HinhAnhModel hinhAnh = new HinhAnhModel();
         RoomDao roomDao = new RoomDao();
@@ -32,7 +32,7 @@ namespace QuanLiKhachSan
         CustomerOfBookingRecordDao customerBookingDao = new CustomerOfBookingRecordDao();
         CustomerDao customerDao = new CustomerDao();
         ServiceRoomDao serviceRoomDao = new ServiceRoomDao();
-        public UcPhong()
+        public FPhong()
         {
             InitializeComponent();
             this.DataContext = hinhAnh;

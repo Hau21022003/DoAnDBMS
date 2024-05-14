@@ -18,13 +18,13 @@ using System.Windows.Shapes;
 namespace QuanLiKhachSan
 {
     /// <summary>
-    /// Interaction logic for UcKhachHang.xaml
+    /// Interaction logic for FKhachHang.xaml
     /// </summary>
-    public partial class UcKhachHang : UserControl
+    public partial class FKhachHang : UserControl
     {
         CustomerDao customerDao = new CustomerDao();
         PhoneNumberOfCustomerDao phoneDao = new PhoneNumberOfCustomerDao();
-        public UcKhachHang()
+        public FKhachHang()
         {
             InitializeComponent();
         }

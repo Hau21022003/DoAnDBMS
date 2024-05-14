@@ -233,9 +233,6 @@ namespace QuanLiKhachSan.DAO
                     @room_id = @room_id;
                 ";
 
-            MessageBox.Show(sqlQuery);
-            Console.WriteLine(sqlQuery);
-
             dbConnection.ThucThi(sqlQuery);
 
         }
