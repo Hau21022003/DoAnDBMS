@@ -8,8 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = QuanLiKhachSan
-<<<<<<< Updated upstream
-build_property.ProjectDir = D:\SEM1-Y3\DBMS\Project\DoAnDBMS\QuanLiKhachSan\
-=======
-build_property.ProjectDir = D:\Nam-2\LTWeb\FInal_Project\AI-final-project\DoAnDBMS\QuanLiKhachSan\
->>>>>>> Stashed changes
+build_property.ProjectDir = D:\School\HK2-2023\OOP-project-design\project\DoAnDBMS\QuanLiKhachSan\

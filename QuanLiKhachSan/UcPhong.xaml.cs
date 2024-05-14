@@ -31,6 +31,7 @@ namespace QuanLiKhachSan
         RoomTypeDao roomTypeDao = new RoomTypeDao();
         CustomerOfBookingRecordDao customerBookingDao = new CustomerOfBookingRecordDao();
         CustomerDao customerDao = new CustomerDao();
+        ServiceRoomDao serviceRoomDao = new ServiceRoomDao();
         public UcPhong()
         {
             InitializeComponent();
@@ -48,6 +49,9 @@ namespace QuanLiKhachSan
             cbLoaiPhongCuaPhong.ItemsSource = roomTypeDao.LayDanhSach().AsEnumerable()
                 .Select(x => x.Field<int>("room_type_id").ToString() + "|" + x.Field<string>("room_type_name"))
                 .ToList<string>();
+            cbDichVu.ItemsSource = serviceRoomDao.LayDanhSach().AsEnumerable()
+                .Select(x => x.Field<int>("service_room_id").ToString() + "|" + x.Field<string>("service_room_name"))
+                .ToList<string>();
             List<string> danhSachTenKhachHang = customerDao.LayDanhSachTenKhach().AsEnumerable()
                 .Select(x => x.Field<int>("customer_id").ToString() + "|" + x.Field<string>("customer_name"))
                 .ToList<string>();
@@ -55,27 +59,190 @@ namespace QuanLiKhachSan
             cbNguoiDaiDienDatPhong.ItemsSource = danhSachTenKhachHang;
         }
 
-        private void btnThemDatPhong_Click(object sender, RoutedEventArgs e)
+        private void them_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (!kiemTraPhuPhi())
+                {
+                    MessageBox.Show("Phụ phí phải là số và là số nguyên dương");
+                    return;
+                }
+                if (!kiemTraTienCoc())
+                {
+                    MessageBox.Show("Tiền cọc phải là số và là số nguyên dương");
+                    return;
+                }
+                if (!kiemTraGhiChu())
+                {
+                    MessageBox.Show("Ghi chú phải ít hơn 1000 ký tự");
+                    return;
+                }
+                if (!kiemTraThoiGianCheckOut())
+                {
+                    MessageBox.Show("Thời gian check out không đúng định dạng ngày và là ngày trong quá khứ");
+                    return;
+                }
+                if (!kiemTraThoiGianCheckIn())
+                {
+                    MessageBox.Show("Thời gian check in không đúng định dạng ngày và là ngày trong quá khứ");
+                    return;
+                }
                 DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
                 DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
-                DateTime? actualCheckinDate = dtpNgayCheckinThucTe.SelectedDate;
-                DateTime? actualCheckoutDate = dtpNgayCheckoutThucTe.SelectedDate;
-                float deposit = float.Parse(txtTienCoc.Text);
-                float surcharge = float.Parse(txtPhuPhi.Text);
                 string note = txtGhiChu.Text;
                 string status = cbTrangThaiDatPhong.Text;
-                int representativeId = int.Parse(cbNguoiDaiDienDatPhong.Text.Split("|")[0]);
-                int roomId = int.Parse(cbPhongCuaDatPhong.Text.Split("|")[0]);
-                bookingDao.Insert(expectedCheckinDate, expectedCheckoutDate, actualCheckinDate, actualCheckoutDate, deposit, surcharge,
-                    note, status, representativeId, roomId);
+                int representativeId = 0, roomId = 0;
+                float deposit = 0, surcharge = 0;
+                string roomName = "", representativeName = "";
+
+                if (cbNguoiDaiDienDatPhong.Text.Length > 0)
+                {
+                    representativeId = int.Parse(cbNguoiDaiDienDatPhong.Text.Split("|")[0]);
+                    representativeName = cbNguoiDaiDienDatPhong.Text.Split("|")[1];
+                }
+                if (cbPhongCuaDatPhong.Text.Length > 0)
+                {
+                    roomId = int.Parse(cbPhongCuaDatPhong.Text.Split("|")[0]);
+                    roomName = cbPhongCuaDatPhong.Text.Split("|")[1];
+                }
+                if (txtTienCoc.Text != "") {
+                    deposit = float.Parse(txtTienCoc.Text);
+                }
+                if (txtPhuPhi.Text != "")
+                {
+                    surcharge = float.Parse(txtPhuPhi.Text);
+                }
+
+                //*TODO: Update diagram 
+                Phong phong = new Phong(roomId, roomName);
+                if (!phong.kiemTraPhongTrong())
+                {
+                    MessageBox.Show("Phòng đã được thuê hoặc không còn trống");
+                    return;
+                }
+
+                KhachHang khachHang = new KhachHang(representativeId, representativeName);
+                if (!khachHang.kiemTraKhachHang())
+                {
+                    MessageBox.Show("Không được để trống khách hàng");
+                    return;
+                }
+
+                DichVu? dichVu = null;
+                if (cbDichVu.Text.Contains("|"))
+                {
+                    int maDV = int.Parse(cbDichVu.Text.Split("|")[0]);
+                    string tenDV = cbDichVu.Text.Split("|")[1];
+                    dichVu = new DichVu(maDV, tenDV);
+
+                    if (!dichVu.kiemTraDichVu())
+                    {
+                        MessageBox.Show("Dịch vụ đã hết");
+                        return;
+                    }
+                }
+
+                MessageBox.Show("Phòng OKE");
+                PhongThue phongThue = new PhongThue((DateTime)expectedCheckinDate, (DateTime)expectedCheckoutDate, surcharge, deposit, note, new DateTime());
+                phongThue.thuePhong(phong, khachHang, dichVu);
+                
                 LayDanhSach();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private Boolean kiemTraPhuPhi()
+        {
+            try
+            {
+                string phuPhiString = txtPhuPhi.Text;
+                if (phuPhiString != "")
+                {
+                    float surcharge = float.Parse(txtPhuPhi.Text);
+                    if (surcharge < 0)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private Boolean kiemTraTienCoc()
+        {
+            try
+            {
+                string tienCocString = txtTienCoc.Text;
+                if (tienCocString != "")
+                {
+                    float deposit = float.Parse(txtTienCoc.Text);
+                    if (deposit < 0)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private Boolean kiemTraGhiChu()
+        {
+            string note = txtGhiChu.Text;
+            if (note.Length > 1000)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        private Boolean kiemTraThoiGianCheckOut()
+        {
+            try
+            {
+                DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
+                if (!expectedCheckoutDate.HasValue || expectedCheckoutDate < DateTime.Today)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private Boolean kiemTraThoiGianCheckIn()
+        {
+            try
+            {
+                DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
+                if (!expectedCheckinDate.HasValue || expectedCheckinDate < DateTime.Today)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
@@ -86,8 +253,8 @@ namespace QuanLiKhachSan
                 int bookingRecordId = int.Parse((string)lbMaDatPhong.Content);
                 DateTime? expectedCheckinDate = dtpNgayCheckinDuKien.SelectedDate;
                 DateTime? expectedCheckoutDate = dtpNgayCheckoutDuKien.SelectedDate;
-                DateTime? actualCheckinDate = dtpNgayCheckinThucTe.SelectedDate;
-                DateTime? actualCheckoutDate = dtpNgayCheckoutThucTe.SelectedDate;
+                DateTime? actualCheckinDate = new DateTime();
+                DateTime? actualCheckoutDate = new DateTime();
                 float deposit = float.Parse(txtTienCoc.Text);
                 float surcharge = float.Parse(txtPhuPhi.Text);
                 string note = txtGhiChu.Text;
@@ -115,16 +282,16 @@ namespace QuanLiKhachSan
                 dtpNgayCheckoutDuKien.SelectedDate = (DateTime)drv["expected_checkout_date"];
                 if (drv["actual_checkin_date"] != DBNull.Value)
                 {
-                    dtpNgayCheckinThucTe.SelectedDate = (DateTime)drv["actual_checkin_date"];
+                   // dtpNgayCheckinThucTe.SelectedDate = (DateTime)drv["actual_checkin_date"];
                 }
                 else
                 {
-                    dtpNgayCheckinThucTe.SelectedDate = null;
+                   // dtpNgayCheckinThucTe.SelectedDate = null;
                 }
-                if (drv["actual_checkout_date"] != DBNull.Value)
+               /* if (drv["actual_checkout_date"] != DBNull.Value)
                     dtpNgayCheckoutThucTe.SelectedDate = (DateTime)drv["actual_checkout_date"];
                 else
-                    dtpNgayCheckoutThucTe.SelectedDate = null;
+                    dtpNgayCheckoutThucTe.SelectedDate = null;*/
                 txtTienCoc.Text = drv["deposit"].ToString();
                 txtPhuPhi.Text = drv["surcharge"].ToString();
                 txtGhiChu.Text = drv["note"].ToString();

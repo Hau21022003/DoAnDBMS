@@ -61,10 +61,10 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
-                        <Label Content="Checkin dự kiến"/>
-                        <Label Content="Checkin thực tế"/>
+                        <Label Content="Thời gian checkin"/>
                         <Label Content="Ghi chú"/>
-                        <Label Content="Người đại diện"/>
+                        <Label Content="Khách hàng"/>
+                        <Label Content="Loại dịch vụ"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
@@ -72,17 +72,13 @@
                             <DatePicker x:Name="dtpNgayCheckinDuKien"
                                 Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
                         </Border>
-                        <Border Grid.Column="1" Background="White" BorderThickness="1" 
-                                BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
-                            <DatePicker x:Name="dtpNgayCheckinThucTe"
-                                Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
-                        </Border>
+                        
                         <TextBox x:Name="txtGhiChu" Style="{StaticResource tbxNoiDung}"/>
                         <ComboBox x:Name="cbNguoiDaiDienDatPhong" Style="{StaticResource cbLuaChon}"/>
+                        <ComboBox x:Name="cbDichVu" Style="{StaticResource cbLuaChon}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="4">
-                        <Label Content="Checkout dự kiến"/>
-                        <Label Content="Checkout thực tế"/>
+                        <Label Content="Thời gian checkout"/>
                         <Label Content="Ngày đặt phòng"/>
                         <Label Content="Phòng"/>
                     </StackPanel>
@@ -90,11 +86,6 @@
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
                                 BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
                             <DatePicker x:Name="dtpNgayCheckoutDuKien"
-                                Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
-                        </Border>
-                        <Border Grid.Column="1" Background="White" BorderThickness="1" 
-                                BorderBrush="#FF959595" CornerRadius="10" Margin="20 5 20 5">
-                            <DatePicker x:Name="dtpNgayCheckoutThucTe"
                                 Margin="0" Height="30" Background="Transparent" BorderBrush="Transparent"/>
                         </Border>
                         <Border Grid.Column="1" Background="White" BorderThickness="1" 
@@ -110,7 +101,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="btnThemDatPhong" Click="btnThemDatPhong_Click"  
+                    <Button x:Name="btnThemDatPhong" Click="them_Click"  
                             Style="{StaticResource btnThem}"/>
                     <Button x:Name="btnSuaDatPhong" Click="btnSuaDatPhong_Click"  
                             Grid.Column="1" Style="{StaticResource btnSua}"/>

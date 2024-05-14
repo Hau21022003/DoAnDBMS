@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLiKhachSan.Class;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -160,6 +161,36 @@ namespace QuanLiKhachSan.DAO
             {
                 conn.Close();
             }
+        }
+
+        public Phong GetPhongById(int roomId)
+        {
+            Phong phong = null;
+            string sql = "select * from Room Where room_id = @roomId";
+            SqlConnection conn = DbConnection.conn;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@roomId", roomId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    phong = new Phong();
+                    phong.MaPhong = Convert.ToInt32(reader["room_id"]);
+                    phong.TenPhong = reader["room_name"].ToString();
+                    phong.Status = reader["room_status"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return phong;
         }
     }
 }

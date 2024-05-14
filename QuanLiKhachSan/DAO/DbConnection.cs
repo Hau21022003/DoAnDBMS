@@ -10,7 +10,7 @@ namespace QuanLiKhachSan.DAO
     class DbConnection
     {
         public static SqlConnection conn;
-        public static SqlConnection connAdmin = new SqlConnection(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=HotelManagementSystem;Integrated Security=True");
+        public static SqlConnection connAdmin = new SqlConnection(@"Data Source=MONEY;Initial Catalog=HotelManagementSystem3;Integrated Security=True");
 
     }
 }
