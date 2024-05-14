@@ -26,6 +26,9 @@ namespace QuanLiKhachSan.Class
             this.Ten = ten;
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         public Boolean KiemTraKhachHang()
         {
             try

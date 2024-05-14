@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLiKhachSan.Class;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,8 +12,12 @@ using System.Windows;
 
 namespace QuanLiKhachSan.DAO
 {
-    class EmployeeDao
+    class NhanVienDAO
     {
+        public NhanVienDAO()
+        {
+        }
+
         public DataTable LayDanhSach()
         {
             string sql = "select* from View_Front_Desk_Employee";
@@ -154,6 +159,24 @@ namespace QuanLiKhachSan.DAO
             }
             finally { conn.Close(); }
             return dt;
+        }
+
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachNhanVien()
+        {
+            // TODO implement here
+            return null;
+        }
+
+        /// <summary>
+        /// @param nhanVien
+        /// </summary>
+        public void TaoNhanVien(NhanVien nhanVien)
+        {
+            // TODO implement here
         }
     }
 }

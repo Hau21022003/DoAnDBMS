@@ -101,7 +101,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="btnThemDatPhong" Click="them_Click"  
+                    <Button x:Name="btnThemDatPhong" Click="Them_Click"  
                             Style="{StaticResource btnThem}"/>
                     <Button x:Name="btnSuaDatPhong" Click="btnSuaDatPhong_Click"  
                             Grid.Column="1" Style="{StaticResource btnSua}"/>

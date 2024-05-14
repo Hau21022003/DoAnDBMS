@@ -45,11 +45,14 @@ namespace QuanLiKhachSan.Class
             this.MaKhachHang = maKhachHang;
         }
 
+        /// <summary>
+        /// @param phongThue
+        /// </summary>
         public void ThuePhong()
         {
             try
             {
-                BookingRecordDao phongThueDAO = new BookingRecordDao();
+                PhongThueDAO phongThueDAO = new PhongThueDAO();
                 phongThueDAO.TaoPhongThue(this);
 
             }catch(Exception ex)

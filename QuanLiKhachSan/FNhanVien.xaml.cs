@@ -23,7 +23,7 @@ namespace QuanLiKhachSan
     /// </summary>
     public partial class UcNhanVien : UserControl
     {
-        EmployeeDao employeeDao = new EmployeeDao();
+        NhanVienDAO employeeDao = new NhanVienDAO();
         AccountDao accountDao = new AccountDao();
         PhoneNumberOfEmployeeDao phoneDao = new PhoneNumberOfEmployeeDao(); 
         public UcNhanVien()
@@ -33,7 +33,7 @@ namespace QuanLiKhachSan
 
         public void LayDanhSach()
         {
-            dtgDanhSachNhanVien.ItemsSource = employeeDao.LayDanhSach().DefaultView;
+            dtgDanhSachNhanVien.ItemsSource = this.LayDanhSachNhanVien().DefaultView;
             dtgDanhSachTaiKhoan.ItemsSource = accountDao.LayDanhSach().DefaultView;
             dtgDanhSachSdtCuaNhanVien.ItemsSource = phoneDao.LayDanhSach().DefaultView;
             DataTable tb = employeeDao.LayDanhSachTenNhanVien();
@@ -42,6 +42,15 @@ namespace QuanLiKhachSan
                                   .ToList<string>();
             cbNhanVienCuaSDT.ItemsSource = list;
             cbNhanVienCuaTaiKhoan.ItemsSource = list;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachNhanVien()
+        {
+            // TODO implement here
+            return employeeDao.LayDanhSach();
         }
 
         private void btnThongTinNhanVien_Click(object sender, RoutedEventArgs e)
@@ -214,6 +223,60 @@ namespace QuanLiKhachSan
         {
             string employeeName = txtLocSdtTheoTenNhanVien.Text;
             dtgDanhSachSdtCuaNhanVien.ItemsSource = phoneDao.SearchByEmployeeName(employeeName).DefaultView;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraTen()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraNgaySinh()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraGioiTinh()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraDiaChi()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraCCCD()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraEmail()
+        {
+            // TODO implement here
+            return false;
         }
     }
 }

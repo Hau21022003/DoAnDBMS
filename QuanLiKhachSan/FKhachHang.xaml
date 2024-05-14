@@ -76,8 +76,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="btnThemKhachHang" Style="{StaticResource btnThem}" Click="btnThemKhachHang_Click"/>
-                    <Button x:Name="btnSuaKhachHang" Style="{StaticResource btnSua}" Click="btnSuaKhachHang_Click"  Grid.Column="1"/>
+                    <Button x:Name="btnThemKhachHang" Style="{StaticResource btnThem}" Click="BtnThemKhachHang_Click"/>
+                    <Button x:Name="btnSuaKhachHang" Style="{StaticResource btnSua}" Click="BtnSuaKhachHang_Click"  Grid.Column="1"/>
                 </Grid>
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">
@@ -124,10 +124,10 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Button x:Name="btnThongTinKhachHang" 
-                                                Click="btnThongTinKhachHang_Click"
+                                                Click="BtnThongTinKhachHang_Click"
                                                 Style="{StaticResource btnChinhSua}"/>
                                         <Button x:Name="btnXoaKhachHang" 
-                                                Click="btnXoaKhachHang_Click"
+                                                Click="BtnXoaKhachHang_Click"
                                                 Style="{StaticResource btnXoa}"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -189,7 +189,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnThemSdtKhach" Style="{StaticResource btnThem}" Click="btnThemSdtKhach_Click"/>
-                    <Button x:Name="btnSuaSdtKhach" Style="{StaticResource btnSua}" Click="btnSuaSdtKhach_Click"  Grid.Column="1" IsEnabled="False"/>
+                    <Button x:Name="btnSuaSdtKhach" Style="{StaticResource btnSua}" Click="BtnSuaSdtKhach_Click"  Grid.Column="1" IsEnabled="False"/>
                 </Grid>
                 <Border Grid.Row="2" Style="{StaticResource BorderPhanDoan}"/>
                 <Grid Grid.Row="3">

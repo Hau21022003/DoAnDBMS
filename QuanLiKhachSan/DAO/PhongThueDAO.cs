@@ -10,13 +10,27 @@ using System.Windows;
 
 namespace QuanLiKhachSan.DAO
 {
-    class BookingRecordDao
+    class PhongThueDAO
     {
         DBConnection dbConnection = new DBConnection();
+
+        public PhongThueDAO()
+        {
+        }
+
         public DataTable layDanhSach()
         {
             return dbConnection.LayDanhSach("Select* from View_Booking_Record");
         }
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachPhongThue()
+        {
+            // TODO implement here
+            return dbConnection.LayDanhSach("Select* from View_Booking_Record");
+        }
+
         public DataTable LayDsHoSoDaCheckin()
         {
             DataTable dt = new DataTable();
@@ -206,6 +220,9 @@ namespace QuanLiKhachSan.DAO
 
         }
 
+        /// <summary>
+        /// @param phongThue
+        /// </summary>
         public void TaoPhongThue(PhongThue phongThue)
         {
             string sqlQuery = $@"

@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace QuanLiKhachSan
 {
@@ -26,11 +27,11 @@ namespace QuanLiKhachSan
     public partial class FPhong : UserControl
     {
         HinhAnhModel hinhAnh = new HinhAnhModel();
-        RoomDao roomDao = new RoomDao();
-        BookingRecordDao bookingDao = new BookingRecordDao();
+        PhongDAO roomDao = new PhongDAO();
+        PhongThueDAO bookingDao = new PhongThueDAO();
         RoomTypeDao roomTypeDao = new RoomTypeDao();
         CustomerOfBookingRecordDao customerBookingDao = new CustomerOfBookingRecordDao();
-        CustomerDao customerDao = new CustomerDao();
+        KhachHangDAO customerDao = new KhachHangDAO();
         ServiceRoomDao serviceRoomDao = new ServiceRoomDao();
         public FPhong()
         {
@@ -59,7 +60,16 @@ namespace QuanLiKhachSan
             cbNguoiDaiDienDatPhong.ItemsSource = danhSachTenKhachHang;
         }
 
-        private void them_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LoadDanhSachPhong()
+        {
+            // TODO implement here
+            return bookingDao.LayDanhSachPhongThue();
+        }
+
+        private void Them_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -143,7 +153,6 @@ namespace QuanLiKhachSan
                     }
                 }
 
-                MessageBox.Show("Phòng OKE");
                 PhongThue phongThue = new PhongThue((DateTime)expectedCheckinDate, (DateTime)expectedCheckoutDate, surcharge, deposit, note, DateTime.Now, phong.MaPhong, khachHang.MaKhachHang);
                 phongThue.ThuePhong();
                 
@@ -155,6 +164,9 @@ namespace QuanLiKhachSan
             }
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         private Boolean KiemTraPhuPhi()
         {
             try
@@ -177,6 +189,9 @@ namespace QuanLiKhachSan
             }
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         private Boolean KiemTraTienCoc()
         {
             try
@@ -199,6 +214,9 @@ namespace QuanLiKhachSan
             }
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         private Boolean KiemTraGhiChu()
         {
             string note = txtGhiChu.Text;
@@ -210,6 +228,9 @@ namespace QuanLiKhachSan
         }
 
 
+        /// <summary>
+        /// @return
+        /// </summary>
         private Boolean KiemTraThoiGianCheckOut()
         {
             try
@@ -228,6 +249,9 @@ namespace QuanLiKhachSan
             }
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         private Boolean KiemTraThoiGianCheckIn()
         {
             try
@@ -244,6 +268,42 @@ namespace QuanLiKhachSan
                 Console.WriteLine(ex.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraTenPhong()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraSucChua()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraMoTa()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraTrangThai()
+        {
+            // TODO implement here
+            return false;
         }
 
         private void btnSuaDatPhong_Click(object sender, RoutedEventArgs e)

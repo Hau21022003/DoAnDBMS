@@ -22,23 +22,31 @@ namespace QuanLiKhachSan
     /// </summary>
     public partial class FKhachHang : UserControl
     {
-        CustomerDao customerDao = new CustomerDao();
+        KhachHangDAO customerDao = new KhachHangDAO();
         PhoneNumberOfCustomerDao phoneDao = new PhoneNumberOfCustomerDao();
         public FKhachHang()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// @return
+        /// </summary>
         public void LayDanhSach()
         {
-            dtgDanhSachKhachHang.ItemsSource = customerDao.LayDanhSach().DefaultView;
+            dtgDanhSachKhachHang.ItemsSource = this.LayDanhSachKhachHang().DefaultView;
             dtgDanhSachSdtCuaKhach.ItemsSource = phoneDao.LayDanhSach().DefaultView;
             cbKhachHangCuaSDT.ItemsSource = customerDao.LayDanhSachTenKhach().AsEnumerable()
                 .Select(x => x.Field<int>("customer_id").ToString() + "|" + x.Field<string>("customer_name"))
                 .ToList<string>();
         }
 
-        private void btnThemKhachHang_Click(object sender, RoutedEventArgs e)
+        public DataTable LayDanhSachKhachHang()
+        {
+            return customerDao.LayDanhSach();
+        }
+
+        private void BtnThemKhachHang_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -51,7 +59,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private void btnSuaKhachHang_Click(object sender, RoutedEventArgs e)
+        private void BtnSuaKhachHang_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -64,7 +72,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private void btnThongTinKhachHang_Click(object sender, RoutedEventArgs e)
+        private void BtnThongTinKhachHang_Click(object sender, RoutedEventArgs e)
         {
             DataRowView drv = (DataRowView)dtgDanhSachKhachHang.SelectedValue;
             try
@@ -84,7 +92,7 @@ namespace QuanLiKhachSan
             }
         }
 
-        private void btnXoaKhachHang_Click(object sender, RoutedEventArgs e)
+        private void BtnXoaKhachHang_Click(object sender, RoutedEventArgs e)
         {
 
             DataRowView drv = (DataRowView)dtgDanhSachKhachHang.SelectedValue;
@@ -100,7 +108,7 @@ namespace QuanLiKhachSan
 
         }
 
-        private void btnSuaSdtKhach_Click(object sender, RoutedEventArgs e)
+        private void BtnSuaSdtKhach_Click(object sender, RoutedEventArgs e)
         {
         }
 
@@ -167,6 +175,57 @@ namespace QuanLiKhachSan
                 DateTime toDate = dtpToDoB.SelectedDate.Value;
                 dtgDanhSachKhachHang.ItemsSource = customerDao.TimKiemTheoNgaySinh(fromDate, toDate).DefaultView;
             }
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraTenKhachHang()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// @param
+        /// </summary>
+        public Boolean KiemTraNgaySinh()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraDiaChi()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraSoCCCD()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraEmail()
+        {
+            // TODO implement here
+            return false;
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public Boolean KiemTraSDT()
+        {
+            // TODO implement here
+            return false;
         }
     }
 }

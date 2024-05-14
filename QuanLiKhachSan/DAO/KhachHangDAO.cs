@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLiKhachSan.Class;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,9 +11,14 @@ using System.Windows;
 
 namespace QuanLiKhachSan.DAO
 {
-    class CustomerDao
+    class KhachHangDAO
     {
         DBConnection dBConnection = new DBConnection();
+
+        public KhachHangDAO()
+        {
+        }
+
         public DataTable LayDanhSach()
         {
             return dBConnection.LayDanhSach("select* from View_Customer");
@@ -169,5 +175,39 @@ namespace QuanLiKhachSan.DAO
                 return dt;
             }
         }
+
+        /// <summary>
+        /// @param khachHang
+        /// </summary>
+        public void ThemKhachHang(KhachHang khachHang)
+        {
+            // TODO implement here
+        }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachKhachHang()
+        {
+            // TODO implement here
+            return null;
+        }
+
+        /// <summary>
+        /// @param khachHang
+        /// </summary>
+        public void CapNhat(KhachHang khachHang)
+        {
+            // TODO implement here
+        }
+
+        /// <summary>
+        /// @param khachHang
+        /// </summary>
+        public void XoaKhachHang(KhachHang khachHang)
+        {
+            // TODO implement here
+        }
+
     }
 }

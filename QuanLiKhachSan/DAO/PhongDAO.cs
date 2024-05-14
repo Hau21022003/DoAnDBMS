@@ -11,9 +11,13 @@ using System.Windows;
 
 namespace QuanLiKhachSan.DAO
 {
-    class RoomDao
+    class PhongDAO
     {
         DBConnection dBConnection = new DBConnection();
+
+        public PhongDAO()
+        {
+        }
         public DataTable LayDanhSach()
         {
 
@@ -151,7 +155,7 @@ namespace QuanLiKhachSan.DAO
                     phong = new Phong();
                     phong.MaPhong = Convert.ToInt32(reader["room_id"]);
                     phong.TenPhong = reader["room_name"].ToString();
-                    phong.Status = reader["room_status"].ToString();
+                    phong.TrangThai = reader["room_status"].ToString();
                 }
             }
             catch (Exception ex)
@@ -164,5 +168,32 @@ namespace QuanLiKhachSan.DAO
             }
             return phong;
         }
+
+        /// <summary>
+        /// @return
+        /// </summary>
+        public DataTable LayDanhSachPhong()
+        {
+            // TODO implement here
+            return null;
+        }
+
+        /// <summary>
+        /// @param phong
+        /// </summary>
+        public void ThemPhong(Phong phong)
+        {
+            // TODO implement here
+        }
+
+        /// <summary>
+        /// @param phong
+        /// </summary>
+        public void CapNhat(Phong phong)
+        {
+            // TODO implement here
+        }
+
+
     }
 }

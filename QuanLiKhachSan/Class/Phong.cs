@@ -12,10 +12,10 @@ namespace QuanLiKhachSan.Class
     {
         private int maPhong;
         private string tenPhong;
-        private string status;
+        private string trangThai;
         private int sucChua;
         private string moTa;
-        private int loaiPhongId;
+        private int maLoaiPhong;
 
 
         public Phong() { }
@@ -29,10 +29,10 @@ namespace QuanLiKhachSan.Class
         {
             try
             {
-                RoomDao roomDao = new RoomDao();
+                PhongDAO roomDao = new PhongDAO();
                 Phong foundPhong = roomDao.GetPhongById(this.MaPhong);
 
-                if (foundPhong == null || foundPhong.Status != "Trống")
+                if (foundPhong == null || foundPhong.TrangThai != "Trống")
                 {
                     return false;
                 }
@@ -47,9 +47,9 @@ namespace QuanLiKhachSan.Class
 
         public int MaPhong { get => maPhong; set => maPhong = value; }
         public string TenPhong { get => tenPhong; set => tenPhong = value; }
-        public string Status { get => status; set => status = value; }
+        public string TrangThai { get => trangThai; set => trangThai = value; }
         public int SucChua { get => sucChua; set => sucChua = value; }
         public string MoTa { get => moTa; set => moTa = value; }
-        public int LoaiPhongId { get => loaiPhongId; set => loaiPhongId = value; }
+        public int MaLoaiPhong { get => maLoaiPhong; set => maLoaiPhong = value; }
     }
 }
