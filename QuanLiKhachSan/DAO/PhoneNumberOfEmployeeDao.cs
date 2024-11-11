@@ -14,7 +14,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable LayDanhSach()
         {
             string sql = "select* from View_Employee_Phone";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             DataTable dt = new DataTable();
             try
             {
@@ -32,7 +32,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Insert(string phoneNumber, int employeeId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -57,7 +57,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Delete(string phoneNumber, int employeeId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 SqlCommand cmd = conn.CreateCommand();
@@ -84,7 +84,7 @@ namespace QuanLiKhachSan.DAO
         public DataTable SearchByEmployeeName(string employeeName)
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             string sql = "select* from f_search_phone_employee_by_employee_name(@employee_name)";
             try
             {

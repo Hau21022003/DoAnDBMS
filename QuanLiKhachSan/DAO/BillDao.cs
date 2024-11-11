@@ -18,7 +18,7 @@ namespace QuanLiKhachSan.DAO
         {
             DataTable dt = new DataTable();
             string sql = "select* from View_Bill";
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -35,7 +35,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Them(float costs_incurred, string content_incurred, float total_cost, string payment_method, DateTime? pay_time, int booking_record_id, int employee_id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_add_new_bill"; 
@@ -67,7 +67,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Sua(int id, float costs_incurred, string content_incurred, float total_cost, string payment_method, DateTime? pay_time)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_update_bill";
@@ -98,7 +98,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Xoa(int id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_delete_bill";
@@ -126,7 +126,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "SELECT * FROM func_search_bill(@string)";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -148,7 +148,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "SELECT * FROM func_search_bill_by_status(@string)";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();

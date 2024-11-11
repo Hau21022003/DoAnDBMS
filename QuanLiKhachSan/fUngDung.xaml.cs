@@ -19,10 +19,10 @@ namespace QuanLiKhachSan
     /// </summary>
     public partial class fUngDung : Window
     {
-        private UcPhong ucPhong = new UcPhong();
+        private FPhong ucPhong = new FPhong();
         private UcNhanVien ucNhanVien = new UcNhanVien();
         UcDichVu ucDichVu = new UcDichVu();
-        UcKhachHang ucKhachHang = new UcKhachHang();
+        FKhachHang ucKhachHang = new FKhachHang();
         UcThanhToan ucThanhToan = new UcThanhToan();
         UcDoanhThu ucDoanhThu = new UcDoanhThu();
         public fUngDung()

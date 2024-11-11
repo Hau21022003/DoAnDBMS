@@ -15,7 +15,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "select* from View_Service_Usage_Info";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -31,7 +31,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Them(int numberOfService, float totalFee, int bookingRecordId, int serviceRoomId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_insertServiceUsageInfor";
@@ -59,7 +59,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Sua(int id, int numberOfService, float totalFee, int bookingRecordId, int serviceRoomId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_updateServiceUsageInfor";
@@ -89,7 +89,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Xoa(int id)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_deleteServiceUsageInfor";
@@ -122,7 +122,7 @@ namespace QuanLiKhachSan.DAO
             {
                 string sql = "SELECT * FROM func_searchServiceUsageInforByMonth(@month)";
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();
@@ -149,7 +149,7 @@ namespace QuanLiKhachSan.DAO
             else
             {
                 DataTable dt = new DataTable();
-                SqlConnection conn = DbConnection.conn;
+                SqlConnection conn = DBConnection.conn;
                 try
                 {
                     conn.Open();

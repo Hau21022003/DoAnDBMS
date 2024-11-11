@@ -15,7 +15,7 @@ namespace QuanLiKhachSan.DAO
         {
             string sql = "Select* from View_Front_Desk_Account";
             DataTable dt = new DataTable();
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             try
             {
                 conn.Open();
@@ -34,7 +34,7 @@ namespace QuanLiKhachSan.DAO
         {
             bool isSuccess = false;
             string sql = "SELECT dbo.Login(@username,@password)";
-            SqlConnection connAdmin = DbConnection.connAdmin;
+            SqlConnection connAdmin = DBConnection.connAdmin;
             try
             {
                 connAdmin.Open();
@@ -48,7 +48,7 @@ namespace QuanLiKhachSan.DAO
                 {
                     isSuccess = true;
                     string connStr = dataTable.Rows[0][0].ToString();
-                    DbConnection.conn = new SqlConnection(connStr);
+                    DBConnection.conn = new SqlConnection(connStr);
                 }
             }
             catch (Exception ex)
@@ -59,16 +59,14 @@ namespace QuanLiKhachSan.DAO
             return isSuccess;
         }
 
-        public void Update(int accountId, string username, string password, int employeeId)
+        public void Update(string username, string password)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_updateAccount";
-            cmd.Parameters.Add("@account_id",SqlDbType.Int).Value = accountId;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
             cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = password;
-            cmd.Parameters.Add("@employee_id", SqlDbType.Int).Value = employeeId;
             try
             {
                 conn.Open();
@@ -88,7 +86,7 @@ namespace QuanLiKhachSan.DAO
         }
         public void Insert(string username, string password, int employeeId, string roles)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_insertAccount";

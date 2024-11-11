@@ -11,27 +11,15 @@ namespace QuanLiKhachSan.DAO
 {
     class CustomerOfBookingRecordDao
     {
+        DBConnection dBConnection = new DBConnection();
         public DataTable LayDanhSach()
         {
-            DataTable dt = new DataTable();
-            String sql = "Select* from View_Customer_Of_Booking_Record";
-            SqlConnection conn = DbConnection.conn;
-            try
-            {
-                conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally { conn.Close(); }
-            return dt;
+            return dBConnection.LayDanhSach("Select* from View_Customer_Of_Booking_Record");
+            
         }
         public void Them(int customerId, int bookingRecordId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_add_customer_of_booking_record";
@@ -58,7 +46,7 @@ namespace QuanLiKhachSan.DAO
 
         public void Xoa(int customerId, int bookingRecordId)
         {
-            SqlConnection conn = DbConnection.conn;
+            SqlConnection conn = DBConnection.conn;
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "proc_delete_customer_of_booking_record";

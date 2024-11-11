@@ -19,13 +19,13 @@
     <Compile Update="UcDoanhThu.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UcKhachHang.xaml.cs">
+    <Compile Update="FKhachHang.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UcNhanVien.xaml.cs">
+    <Compile Update="FNhanVien.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UcPhong.xaml.cs">
+    <Compile Update="FPhong.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UcThanhToan.xaml.cs">
@@ -48,13 +48,13 @@
     <Page Update="UcDoanhThu.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UcKhachHang.xaml">
+    <Page Update="FKhachHang.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UcNhanVien.xaml">
+    <Page Update="FNhanVien.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UcPhong.xaml">
+    <Page Update="FPhong.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UcThanhToan.xaml">
